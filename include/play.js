@@ -39,7 +39,7 @@ module.exports = {
       if (song.url.includes("youtube.com")) {
         stream = await ytdlDiscord(song.url, { 
           format: 'mp3',
-          quality: "Highest audio",
+          quality: "highestaudio",
           highWaterMark: 1<<25 
         });
       } else if (song.url.includes(".mp3") || song.url.includes("baseradiode")) {
