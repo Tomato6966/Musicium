@@ -38,6 +38,10 @@ You can always [invite](https://bit.ly/Musicium) the Bot to your Server if you w
 
 It is important that you fill in every item of the JSON FILE! every emoji used in this BOT is a custom emoji, the emojis are listed down below as images, which you can download and upload to your server to use them. NOTE: you gotta change emoji.id to emoji.name if you use discord / unicode emojis!
 
+## **Video:**
+
+[![](http://img.youtube.com/vi/AgmaTBGnfYw/0.jpg)](http://www.youtube.com/watch?v=AgmaTBGnfYw "")
+
 
 ## **NOTE:**
 
