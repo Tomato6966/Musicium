@@ -26,7 +26,7 @@ async execute(message,args,client) {
   //if not a valid channel
   if (!channel) return attentionembed(message, "Please join a Voice Channel first");  
   //If not in the same channel return error
-  if (serverQueue && channel !== message.guild.me.voice.channel)
+  if (queue && channel !== message.guild.me.voice.channel)
   return attentionembed(message, `You must be in the same Voice Channel as me`);
   //if no Queue return error
   if (!queue)
