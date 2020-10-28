@@ -20,8 +20,14 @@ async execute(message,args,client) {
   if (!message.guild) return;
   //react with approve emoji
   message.react(approveemoji).catch(console.error);
-  //get the queue
+  const { channel } = message.member.voice;
+  //get the serverQueue
   const queue = message.client.queue.get(message.guild.id);
+  //if not a valid channel
+  if (!channel) return attentionembed(message, "Please join a Voice Channel first");  
+  //If not in the same channel return error
+  if (serverQueue && channel !== message.guild.me.voice.channel)
+  return attentionembed(message, `You must be in the same Voice Channel as me`);
   //if no Queue return error
   if (!queue)
     return attentionembed(message, "There is nothing you can skip!");
