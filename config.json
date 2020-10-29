@@ -1,13 +1,10 @@
 {
-   "_comment": "The Data in here is just an example on how it could look like when its filled! please use your OWN stuff!",
-
-
-  "TOKEN": "NzY5NjQyOTk5MjI3MzUxMDcw.X5R_5g.Knst61ny70_nXv8LwShliY4WhJ8",
+  "TOKEN": "",
   "YOUTUBE_API_KEY": "",
   "SOUNDCLOUD_CLIENT_ID": "",
   "MAX_PLAYLIST_SIZE": 15,
   "PREFIX": "+",
-  "approveemoji": "769665713124016128",
-  "denyemoji": "770326304473350145",
-  "erroremoji": "768460113622859788"
+  "approveemoji": "",
+  "denyemoji": "",
+  "erroremoji": ""
 }
