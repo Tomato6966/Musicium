@@ -27,7 +27,7 @@ You can always [invite](https://bit.ly/Musicium) the Bot to your Server if you w
 
 ```json
 {
- "TOKEN": "",
+  "TOKEN": "",
   "PREFIX": "+",
   "approveemoji": "EMOJIID",
   "denyemoji": "EMOJIID",
