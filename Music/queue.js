@@ -26,7 +26,11 @@ module.exports = {
     //if no queue aka nothing playing error
     if (!queue) return attentionembed(message, "There is nothing playing.").catch(console.error);
     //set description
-    const description = queue.songs.map((song, index) => `${index}. ${escapeMarkdown(song.title)}`);
+    console.log(queue.songs);
+    let description = "";
+    for(let i = 0; i < queue.songs.length; i++){
+      description += `**${i}.** [${queue.songs[i].title.substring(0,40)}](${queue.songs[i].url}) | \`${queue.songs[i].duration}\`\n`
+    }
     //define queueembed
     let queueEmbed = new MessageEmbed()
       .setTitle("Music Queue")
