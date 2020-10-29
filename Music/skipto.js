@@ -40,12 +40,12 @@ execute(message, args) {
     //if the queue is loop 
     if (queue.loop) {
       //make a loop for all songs to skip and add them at the end again
-      for (let i = 0; i < args[0] - 2; i++) 
+      for (let i = 0; i < args[0] - 1; i++) 
         queue.songs.push(queue.songs.shift());
     //if not a loop
     } else {
       //remove all songs including the args 
-      queue.songs = queue.songs.slice(args[0] - 2);
+      queue.songs = queue.songs.slice(args[0] - 1);
     }
     //end current song
     queue.connection.dispatcher.end();
@@ -53,7 +53,7 @@ execute(message, args) {
     queue.textChannel.send(
       new MessageEmbed()
         .setColor("#c219d8")
-        .setAuthor(`${message.author.username}#${message.author.discriminator} skipped ${args[0] - 1} songs`, "https://cdn.discordapp.com/emojis/769915194444480542.png")
+        .setAuthor(`${message.author.username}#${message.author.discriminator} skipped ${args[0]} songs`, "https://cdn.discordapp.com/emojis/769915194444480542.png")
     ).catch(console.error);
   }
 };
