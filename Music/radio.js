@@ -186,6 +186,14 @@ const song = {
   thumbnail: "https://cdn.discordapp.com/attachments/748095614017077318/769672148524335114/unknown.png",
   duration: 10000,
 };
+let a, b;
+if(!serverQueue){
+  a=[];
+  b=0;
+}else{
+  a = serverQueue.filters;
+  b = serverQueue.realseek;
+}
 //change volume to 25
 const queueConstruct = {
   textChannel: message.channel,
@@ -194,6 +202,8 @@ const queueConstruct = {
   songs: [],
   loop: false,
   volume: 25,
+  filters: a,
+  realseek: b,
   playing: true
 };
 //try to join the Channel
