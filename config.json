@@ -1,6 +1,9 @@
 {
+   "_comment": "The Data in here is just an example on how it could look like when its filled! please use your OWN stuff!",
+
+
   "TOKEN": "NzY5NjQyOTk5MjI3MzUxMDcw.X5R_5g.Knst61ny70_nXv8LwShliY4WhJ8",
-  "YOUTUBE_API_KEY": "AIzaSyA2646zSmqonw_QhSwLntOyj4i_aLH1KK4",
+  "YOUTUBE_API_KEY": "",
   "SOUNDCLOUD_CLIENT_ID": "",
   "MAX_PLAYLIST_SIZE": 15,
   "PREFIX": "+",
