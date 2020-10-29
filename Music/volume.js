@@ -45,7 +45,7 @@ execute(message, args) {
     const volinfosetembed = new MessageEmbed()   
     .setColor("#c219d8")
     .setTitle(`🔊 Volume changed to: \`${args[0]}%\`!`)  
-    //send approve message
+    //Send approve message
     return queue.textChannel.send(volinfosetembed).catch(console.error);
   }
 };
