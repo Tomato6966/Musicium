@@ -2,14 +2,6 @@
 //////CONFIG LOAD///////////
 ////////////////////////////
 const { play } = require("../include/play");
-const { YOUTUBE_API_KEY, 
-  SOUNDCLOUD_CLIENT_ID,
- } = require("../config.json");
-const ytdl = require("ytdl-core");
-const fs = require('fs')
-const YouTubeAPI = require("simple-youtube-api");
-const youtube = new YouTubeAPI(YOUTUBE_API_KEY);
-const scdl = require("soundcloud-downloader");
 const { Client, Collection, MessageEmbed } = require("discord.js");
 const { attentionembed } = require("../util/attentionembed");
 const {
@@ -17,6 +9,8 @@ const {
   denyemoji,
   PREFIX,
 } = require(`../config.json`);
+const ytsr = require("youtube-sr")
+
 ////////////////////////////
 //////COMMAND BEGIN/////////
 ////////////////////////////
@@ -50,18 +44,12 @@ async execute(message, args, client) {
       return attentionembed(message, "I need permissions to join your channel!");
     if (!permissions.has("SPEAK"))
       return attentionembed(message, "I need permissions to speak in your channel");
+
     //define some url patterns
     const search = args.join(" ");
     const videoPattern = /^(https?:\/\/)?(www\.)?(m\.)?(youtube\.com|youtu\.?be)\/.+$/gi;
-    const playlistPattern = /^.*(list=)([^#\&\?]*).*/gi;
-    const scRegex = /^https?:\/\/(soundcloud\.com)\/(.*)$/;
-               //https://open.spotify.com/track/4gXX2ayvtMf4Tc5DCSHFTH?si=8iIK5KVaR2SbCiolD5IirA
-    const url = args[0];
     const urlValid = videoPattern.test(args[0]);
-    //If its a playlist send it to playlist command and then back again
-    if (!videoPattern.test(args[0]) && playlistPattern.test(args[0])) {
-      return message.client.commands.get("playlist").execute(message, args);
-    }
+   
     //define Queue Construct
     const queueConstruct = {
       textChannel: message.channel,
@@ -69,7 +57,9 @@ async execute(message, args, client) {
       connection: null,
       songs: [],
       loop: false,
-      volume: 50,
+      volume: 69,
+      filters: [],
+      realseek: 0,
       playing: true
     };
     //get song infos to null
@@ -93,7 +83,7 @@ async execute(message, args, client) {
         queueConstruct.connection = await channel.join();
         //send join message
         message.channel.send(new MessageEmbed().setColor("#c219d8")
-          .setDescription(`**👍 Joined \`${channel.name}\` 📄 bouned \`#${message.channel.name}\`**`)
+          .setDescription(`**👍 Joined \`${channel.name}\` 📄 bound \`#${message.channel.name}\`**`)
           .setFooter(`By: ${message.author.username}#${message.author.discriminator}`))
         //if its an url
         if (urlValid) { //send searching link
@@ -114,16 +104,13 @@ async execute(message, args, client) {
     //if its a valdi youtube link
     if (urlValid) {
       try {
-        songInfo = await ytdl.getInfo(url);
+        songInfo = await ytsr.searchOne(search) ;
         song = {
-          title: songInfo.videoDetails.title,
-          url: songInfo.videoDetails.video_url,
-          subs: songInfo.videoDetails.author.subscriber_count,
-          thumbnail: songInfo.videoDetails.thumbnail.thumbnails[4],
-          duration: songInfo.videoDetails.lengthSeconds,
-          author: songInfo.videoDetails.author.name,
-          authorurl: songInfo.videoDetails.author.user_url,
-        };
+          title: songInfo.title,
+          url: songInfo.url,
+          thumbnail: songInfo.thumbnail,
+          duration: songInfo.durationFormatted,
+       };
       } catch (error) {
         if (error.statusCode === 403) return attentionembed(message, "Max. uses of api Key, please refresh!");
         console.error(error);
@@ -131,38 +118,16 @@ async execute(message, args, client) {
       }
     } 
     //if its a valid soundcloud link
-    else if (scRegex.test(url)) {
-      try {
-        const trackInfo = await scdl.getInfo(url, SOUNDCLOUD_CLIENT_ID);
-        song = {
-          title: trackInfo.title,
-          url: trackInfo.permalink_url,
-          duration: trackInfo.duration / 1000
-        };
-      } catch (error) {
-        if (error.statusCode === 404)
-          return attentionembed(message, "Couldn't find Soundcloud Title");
-        return attentionembed(message, "An Error occured playing the soundcloud Titel");
-      }
-    
-    }
-    else if(url.includes("spotify")){
-      return attentionembed(message, "Spotify not supported!");
-    }
     else {
       try {
-        const results = await youtube.searchVideos(search, 1);
        //get the result 
-        songInfo = await ytdl.getInfo(results[0].url);
+        songInfo = await ytsr.searchOne(search) ;
         song = {
-          title: songInfo.videoDetails.title,
-          url: songInfo.videoDetails.video_url,
-          subs: songInfo.videoDetails.author.subscriber_count,
-          thumbnail: songInfo.videoDetails.thumbnail.thumbnails[4],
-          duration: songInfo.videoDetails.lengthSeconds,
-          author: songInfo.videoDetails.author.name,
-          authorurl: songInfo.videoDetails.author.user_url,
-        };
+          title: songInfo.title,
+          url: songInfo.url,
+          thumbnail: songInfo.thumbnail,
+          duration: songInfo.durationFormatted,
+       };
       } catch (error) {
         console.error(error);
         return attentionembed(message, error);
@@ -177,7 +142,9 @@ async execute(message, args, client) {
       //Calculate the estimated Time
       let estimatedtime = Number(0);
       for (let i = 0; i < serverQueue.songs.length; i++) {
-        estimatedtime += Number(serverQueue.songs[i].duration);
+        let minutes = serverQueue.songs[i].duration.split(":")[0];   
+        let seconds = serverQueue.songs[i].duration.split(":")[1];    
+        estimatedtime += (Number(minutes)*60+Number(seconds));   
       }
       if (estimatedtime > 60) {
         estimatedtime = Math.round(estimatedtime / 60 * 100) / 100;
@@ -214,6 +181,7 @@ async execute(message, args, client) {
     message.client.queue.set(message.guild.id, queueConstruct);
     //playing with catching errors
     try {
+    
       //try to play the song
       play(queueConstruct.songs[0], message, client);
     } catch (error) {
