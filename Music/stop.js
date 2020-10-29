@@ -34,7 +34,7 @@ async execute(message,args,client) {
   //if not in the same channel return
   if (!canModifyQueue(message.member)) return;
   //Leave the channel
-  await voiceChannel.leave();
+  await channel.leave();
   //send the approve message    
   message.channel.send(new MessageEmbed()
   .setColor("#c219d8")
