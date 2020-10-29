@@ -24,57 +24,59 @@ module.exports = {
       let ifargstruedothis = -1;
       
       switch(args[0]){
-
-         case "loop":
-            ifargstruedothis=0;
+          case "filter":
+           ifargstruedothis=0;
+          break;
+          case "loop":
+            ifargstruedothis=1;
           break;
           case "lyrics":
-            ifargstruedothis=1
-          break;
-          case "nowplaying":
             ifargstruedothis=2
           break;
-          case "pause":
+          case "nowplaying":
             ifargstruedothis=3
           break;
-          case "play":
+          case "pause":
             ifargstruedothis=4
           break;
-          case "playlist":
+          case "play":
             ifargstruedothis=5
           break;
-          case "queue":
+          case "playlist":
             ifargstruedothis=6
           break;
-          case "radio":
+          case "queue":
             ifargstruedothis=7
           break;
-          case "remove":
+          case "radio":
             ifargstruedothis=8
           break;
-          case "resume":
+          case "remove":
             ifargstruedothis=9
           break;
-          case "search":
+          case "resume":
             ifargstruedothis=10
           break;
-          case "shuffle":
+          case "search":
             ifargstruedothis=11
           break;
-          case "skip":
+          case "shuffle":
             ifargstruedothis=12
           break;
-          case "skipto":
+          case "skip":
             ifargstruedothis=13
           break;
-          case "stop":
+          case "skipto":
             ifargstruedothis=14
           break;
-          case "volume":
+          case "stop":
             ifargstruedothis=15
           break;
-          case "help":
+          case "volume":
             ifargstruedothis=16
+          break;
+          case "help":
+            ifargstruedothis=17
           break;
           default:        
             commands.forEach((cmd) => {
