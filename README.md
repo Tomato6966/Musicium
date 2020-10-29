@@ -5,7 +5,7 @@
 [![Ask Me Anything !](https://img.shields.io/badge/Ask%20me-anything-1abc9c.svg)](https://GitHub.com/Tomato6966/Ask-Me-Anything)
 [![Support Server](https://img.shields.io/discord/591914197219016707.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/fS6qBSm)
 
-An advanced Music Bot, with 30+ Radio Stations, Playlist support and reaction interactivity, based on ytdl-core and discord.js GUIDE with ideas from eritislami 
+An advanced Music Bot, with 30+ Radio Stations, with capability of filters, like Bassboost, Nightcore, etc. and reaction interactivity. Based on ytdl-core with discord.js Guide Handler. With ideas from eritislami 
 
 You can always [invite](https://bit.ly/Musicium) the Bot to your Server if you wish, its public and you can use it!
 
@@ -17,7 +17,7 @@ You can always [invite](https://bit.ly/Musicium) the Bot to your Server if you w
 
  **3.** Download this repo and unzip it    |    or git clone it
  
- **4.** Install all of the packages with **`npm install`**     |  the packages are   **`npm install node.js @discordjs/opus discord.js ffmpeg-static figlet lyrics-finder simple-youtube-api soundcloud-downloader string-progressbar ytdl-core ytdl-core-discord`**
+ **4.** Install all of the packages with **`npm install`**     |  the packages are   **`npm install node.js @discordjs/opus discord.js ffmpeg-static figlet lyrics-finder string-progressbar ytdl-core discord-ytdl-core youtube-sr`**
  
  **5.** start the bot with **`node index.js`**
 
@@ -25,10 +25,7 @@ You can always [invite](https://bit.ly/Musicium) the Bot to your Server if you w
 
 ```json
 {
-  "TOKEN": "",
-  "YOUTUBE_API_KEY": "",
-  "SOUNDCLOUD_CLIENT_ID": "",
-  "MAX_PLAYLIST_SIZE": 15,
+ "TOKEN": "",
   "PREFIX": "+",
   "approveemoji": "EMOJIID",
   "denyemoji": "EMOJIID",
@@ -36,7 +33,7 @@ You can always [invite](https://bit.ly/Musicium) the Bot to your Server if you w
 }
 ```
 
-It is important that you fill in every item of the JSON FILE! every emoji used in this BOT is a custom emoji, the emojis are listed down below as images, which you can download and upload to your server to use them. NOTE: you gotta change emoji.id to emoji.name if you use discord / unicode emojis!
+It is important that you fill in every item of the JSON FILE! every emoji used in this BOT is a custom emoji, the emojis are listed down below as images, which you can download and upload to your server to use them. NOTE: you gotta change emoji.id to emoji.name if you use discord / unicode emojis! Soon a new Repo with standard emojis will be awailable for easy usages!
 
 ## **Video:**
 
@@ -45,7 +42,7 @@ It is important that you fill in every item of the JSON FILE! every emoji used i
 
 ## **NOTE:**
 
-*Make sure that you have install [FFmpeg](https://ffmpeg.org), and added it to Systemenvironment variables (PATH)*
+*Make sure that you have installed [FFmpeg](https://ffmpeg.org), and added it to Systemenvironment variables (PATH)*
 
 *If you are having errors/problems with starting delete the package.json file and do, before you install the packages `npm init`*
 
