@@ -1,7 +1,7 @@
 ////////////////////////////
 //////CONFIG LOAD///////////
 ////////////////////////////
-const ytdlDiscord = require("ytdl-core-discord");
+const ytdl = require("discord-ytdl-core");
 const scdl = require("soundcloud-downloader");
 const { canModifyQueue } = require("../util/MilratoUtil");
 const { Client, Collection, MessageEmbed, splitMessage, escapeMarkdown,MessageAttachment } = require("discord.js");
@@ -17,7 +17,7 @@ const {
 //////COMMAND BEGIN/////////
 ////////////////////////////
 module.exports = {
-  async play(song, message, client) {
+  async play(song, message, client, filters) {
     //VERY MESSY CODE WILL BE CLEANED SOON!
     const { PRUNING, SOUNDCLOUD_CLIENT_ID } = require("../config.json");
 
@@ -33,15 +33,39 @@ module.exports = {
 
     let stream = null;
     let streamType = song.url.includes("youtube.com") ? "opus" : "ogg/opus";
-    let isnotayoutube=false;
-    try {
+    let isnotayoutube=false;        
+    let seekTime = 0;
+    let oldSeekTime = queue.realseek;
+    let encoderArgstoset;
+    if (filters === "remove") {
+      queue.filters = ['-af','dynaudnorm=f=200'];
+        encoderArgstoset = queue.filters;
+    } else if (filters)
+    {
+      try{
+        seekTime = (queue.connection.dispatcher.streamTime - queue.connection.dispatcher.pausedTime) / 1000 + oldSeekTime;
+      } catch{
+        seekTime = 0;
+      } 
+      queue.realseek = seekTime;
+        queue.filters.push(filters)
+        encoderArgstoset = ['-af', queue.filters]
+    }
  
+
+    try {
       if (song.url.includes("youtube.com")) {
-        stream = await ytdlDiscord(song.url, { 
-          format: 'mp3',
+         stream = ytdl(song.url, {
+          filter: "audioonly",
+          opusEncoded: true,
+          encoderArgs: encoderArgstoset,
+          bitrate: 320,
+          seek: seekTime, 
           quality: "highestaudio",
-          highWaterMark: 1<<25 
-        });
+          liveBuffer: 40000,
+          highWaterMark: 1 << 25, 
+  
+      });
       } else if (song.url.includes(".mp3") || song.url.includes("baseradiode")) {
         stream = song.url;
         isnotayoutube = true;
@@ -121,7 +145,7 @@ module.exports = {
         .setColor("#c219d8")
         .setThumbnail(thumb)
         .setFooter(`Requested by: ${message.author.username}#${message.author.discriminator}`, message.member.user.displayAvatarURL({ dynamic: true }))
-        .addField("Duration:", `\`${Math.round(song.duration / 60 * 100) / 100} Minutes\``, true)
+        .addField("Duration:", `\`${song.duration} Minutes\``, true)
 
       var playingMessage = await queue.textChannel.send(newsong);
       
@@ -178,32 +202,37 @@ module.exports = {
         case "769940554481532938":
         reaction.users.remove(user).catch(console.error);
         const song = queue.songs[0];
+        //get current song duration in s
+        let minutes = song.duration.split(":")[0];   
+        let seconds = song.duration.split(":")[1];    
+        let ms = (Number(minutes)*60+Number(seconds));   
+        //get thumbnail
+        let thumb;
+        if (song.thumbnail === undefined) thumb = "https://cdn.discordapp.com/attachments/748095614017077318/769672148524335114/unknown.png";
+        else thumb = song.thumbnail.url;
+        //define current time
         const seek = (queue.connection.dispatcher.streamTime - queue.connection.dispatcher.pausedTime) / 1000;
-        const left = song.duration - seek;
+        //define left duration
+        const left = ms - seek;
+        //define embed
         let nowPlaying = new MessageEmbed()
           .setTitle("Now playing")
-          .setThumbnail("https://cdn.discordapp.com/attachments/748095614017077318/769672148524335114/unknown.png")
           .setDescription(`[**${song.title}**](${song.url})`)
+          .setThumbnail(song.thumbnail.url)
           .setColor("#c219d8")
-          if(song.duration >= 10000) {
+          .setFooter("Time Remaining: " + new Date(left * 1000).toISOString().substr(11, 8));
+          //if its a stream
+          if(ms >= 10000) {
             nowPlaying.addField("\u200b", "🔴 LIVE", false);
-            nowPlaying.setFooter("Time Remaining: " + new Date(left * 1000).toISOString().substr(11, 8));
-            message.react(approveemoji)
+            //send approve msg
             return message.channel.send(nowPlaying);
           }
-          if (song.duration > 0&&song.duration<10000) {
-            nowPlaying.addField("\u200b", new Date(seek * 1000).toISOString().substr(11, 8) + "[" + createBar((song.duration == 0 ? seek : song.duration), seek, 20, "▬", "<:currentposition:770098066552258611>")[0] + "]" + (song.duration == 0 ? " ◉ LIVE" : new Date(song.duration * 1000).toISOString().substr(11, 8)), false);
-            nowPlaying.setFooter("Time Remaining: " + new Date(left * 1000).toISOString().substr(11, 8));
-            message.react(approveemoji)
+          //If its not a stream 
+          if (ms > 0 && ms<10000) {
+            nowPlaying.addField("\u200b", "**[" + createBar((ms == 0 ? seek : ms), seek, 25, "▬", "<:currentposition:770098066552258611>")[0] + "]**\n**" + new Date(seek * 1000).toISOString().substr(11, 8) + " / " + (ms == 0 ? " ◉ LIVE" : new Date(ms * 1000).toISOString().substr(11, 8))+ "**" , false );
+            //send approve msg
             return message.channel.send(nowPlaying);
           }
-          else{
-            nowPlaying.addField("\u200b", "🔴 ERROR COUNTING TIME", false);
-            nowPlaying.setFooter("Time Remaining: " + new Date(left * 1000).toISOString().substr(11, 8));
-            message.react(approveemoji)
-            return message.channel.send(nowPlaying);
-          }
-        
         
         break;
         //skip
