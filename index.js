@@ -15,26 +15,26 @@ const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, `\\$&`);
 //this fires when the BOT STARTS DO NOT TOUCH
 client.on(`ready`, () => {	
 
-    client.user.setActivity(`Type: ${PREFIX}help`, { type: "PLAYING"});
-    ///////////////////////////////
+  
+   ///////////////////////////////
     ////////////IFCHEMPTY//////////
-                 //remove everything in between those 2 big comments if you want to disable that the bot leaves when ch. or queue gets empty!
-    setInterval(() => { 
+        //remove everything in between those 2 big comments if you want to disable that the bot leaves when ch. or queue gets empty!
+        setInterval(() => { 
         let member;
       client.guilds.cache.forEach(async guild =>{
       await delay(15);
-       member = await client.guilds.cache.get(guild.id).members.cache.get(client.user.id)
-     //if not connected
-       if(!member.voice.channel)
+        member = await client.guilds.cache.get(guild.id).members.cache.get(client.user.id)
+      //if not connected
+        if(!member.voice.channel)
         return;
-       //if connected but not speaking
-   if(!member.speaking&&!client.queue)
+        //if connected but not speaking
+    if(!member.speaking&&!client.queue)
     { return member.voice.channel.leave(); } 
       //if alone 
-     if (member.voice.channel.members.size === 1) 
+      if (member.voice.channel.members.size === 1) 
       { return member.voice.channel.leave(); }
     });
- 
+  
     }, (5000));
     ////////////////////////////////
     ////////////////////////////////
@@ -70,8 +70,19 @@ for (const file of commandFiles) {
 client.on(`message`, async (message) => {
   if (message.author.bot) return;
   
+  if(message.content === `${PREFIX}ping`)
+  return message.reply(":ping_pong: `" + client.ws.ping + "ms`")
+
+  if (message.content.toLowerCase() === "//uptime") {
+    let days = Math.floor(client.uptime / 86400000);
+    let hours = Math.floor(client.uptime / 3600000) % 24;
+    let minutes = Math.floor(client.uptime / 60000) % 60;
+    let seconds = Math.floor(client.uptime / 1000) % 60;
+   return message.channel.send(`***__Music-Bot-Uptime:__***\n\`\`\`fix\n${days}d ${hours}h ${minutes}m ${seconds}s\n\`\`\``);
+}
+
   if(message.content.includes(client.user.id)) {
-    message.reply(new Discord.MessageEmbed().setColor("#c219d8").setAuthor(`${message.author.username}, My Prefix is ${PREFIX}, to get started; type ${PREFIX}help`, message.author.displayAvatarURL({dynamic:true})));
+    message.reply(new Discord.MessageEmbed().setColor("#00ebaa").setAuthor(`${message.author.username}, My Prefix is ${PREFIX}, to get started; type ${PREFIX}help`, message.author.displayAvatarURL({dynamic:true})));
   } 
 //command Handler DO NOT TOUCH
  const prefixRegex = new RegExp(`^(<@!?${client.user.id}>|${escapeRegex(PREFIX)})\\s*`);
@@ -94,7 +105,7 @@ client.on(`message`, async (message) => {
    if (now < expirationTime) {
      const timeLeft = (expirationTime - now) / 1000;
      return message.reply(
-      new MessageEmbed().setColor("#c219d8")
+      new MessageEmbed().setColor("#30ff91")
       .setTitle(`<:no:770326304473350145> Please wait \`${timeLeft.toFixed(1)} seconds\` before reusing the \`${PREFIX}${command.name}\`!`)    
      );
    }
