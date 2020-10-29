@@ -30,7 +30,7 @@ async execute(message,args,client) {
   return attentionembed(message, `You must be in the same Voice Channel as me`);
   //if no Queue return error
   if (!queue)
-    return attentionembed(message, "There is nothing you can skip!");
+    return attentionembed(message, "There is nothing you can stop!");
   //if not in the same channel return
   if (!canModifyQueue(message.member)) return;
   //Leave the channel
