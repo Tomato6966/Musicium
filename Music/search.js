@@ -22,6 +22,10 @@ async execute(message,args,client) {
     if(!message.guild) return;
     //react with approve emoji
     message.react(approveemoji).catch(console.error);
+    //define channel
+    const { channel } = message.member.voice;
+    //get serverqueue
+    const serverQueue = message.client.queue.get(message.guild.id);
     //if the argslength is null return error
     if (!args.length)
       return attentionembed(message,`Usage: ${message.client.prefix}${module.exports.name} <Video Name>`)
