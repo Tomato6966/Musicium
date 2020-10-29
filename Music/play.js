@@ -117,7 +117,7 @@ async execute(message, args, client) {
         return attentionembed(message, error.message);
       }
     } 
-    //if its a valid soundcloud link
+    //else try to find the song via ytsr 
     else {
       try {
        //get the result 
@@ -130,8 +130,8 @@ async execute(message, args, client) {
        };
       } catch (error) {
         console.error(error);
-        return attentionembed(message, error);
-      }
+        return attentionembed(message, error);        
+      }                                                               
     }
     //get the thumbnail
     let thumb = "https://cdn.discordapp.com/attachments/748095614017077318/769672148524335114/unknown.png"
