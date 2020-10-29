@@ -38,8 +38,14 @@ module.exports = {
     let oldSeekTime = queue.realseek;
     let encoderArgstoset;
     if (filters === "remove") {
-      queue.filters = ['-af','dynaudnorm=f=200'];
+        queue.filters = ['-af','dynaudnorm=f=200'];
         encoderArgstoset = queue.filters;
+        try{
+          seekTime = (queue.connection.dispatcher.streamTime - queue.connection.dispatcher.pausedTime) / 1000 + oldSeekTime;
+        } catch{
+          seekTime = 0;
+        } 
+          queue.realseek = seekTime;
     } else if (filters)
     {
       try{
@@ -47,7 +53,7 @@ module.exports = {
       } catch{
         seekTime = 0;
       } 
-      queue.realseek = seekTime;
+        queue.realseek = seekTime;
         queue.filters.push(filters)
         encoderArgstoset = ['-af', queue.filters]
     }
