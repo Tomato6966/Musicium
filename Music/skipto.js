@@ -49,7 +49,7 @@ execute(message, args) {
     }
     //end current song
     queue.connection.dispatcher.end();
-    //send approve
+    //Send approve
     queue.textChannel.send(
       new MessageEmbed()
         .setColor("#c219d8")
