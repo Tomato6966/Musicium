@@ -18,6 +18,7 @@ client.on(`ready`, () => {
     client.user.setActivity(`Type: ${PREFIX}help`, { type: "PLAYING"});
     ///////////////////////////////
     ////////////IFCHEMPTY//////////
+                 //remove everything in between those 2 big comments if you want to disable that the bot leaves when ch. or queue gets empty!
     setInterval(() => { 
         let member;
       client.guilds.cache.forEach(async guild =>{
@@ -35,6 +36,8 @@ client.on(`ready`, () => {
     });
  
     }, (5000));
+    ////////////////////////////////
+    ////////////////////////////////
     figlet.text(`${client.user.username} ready!`, function (err, data) {
       if (err) {
           console.log('Something went wrong');
