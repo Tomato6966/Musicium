@@ -9,6 +9,8 @@ An advanced Music Bot, with 30+ Radio Stations, with capability of filters, like
 
 You can always [invite](https://bit.ly/Musicium) the Bot to your Server if you wish, its public and you can use it!
 
+**NO API-KEY NEEDED!** That's because it uses a scraper (`youtube-sr`)!
+
 ## Installation | How to use the Bot
 
  **1.** Install [node.js v12](https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode) or higher
