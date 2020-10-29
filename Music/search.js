@@ -1,9 +1,7 @@
 ////////////////////////////
 //////CONFIG LOAD///////////
 ////////////////////////////
-const { YOUTUBE_API_KEY } = require("../config.json");
-const YouTubeAPI = require("simple-youtube-api");
-const youtube = new YouTubeAPI(YOUTUBE_API_KEY);
+const ytsr = require("youtube-sr")
 const { Client, Collection, MessageEmbed } = require("discord.js");
 const { attentionembed } = require("../util/attentionembed"); 
 const { approveemoji,  denyemoji,  PREFIX,} = require(`../config.json`);
@@ -20,12 +18,12 @@ module.exports = {
 async execute(message,args,client) {
     //if its not in a guild return
     if(!message.guild) return;
+     //define channel
+     const { channel } = message.member.voice;
+     //get serverqueue
+     const serverQueue = message.client.queue.get(message.guild.id);
     //react with approve emoji
     message.react(approveemoji).catch(console.error);
-    //define channel
-    const { channel } = message.member.voice;
-    //get serverqueue
-    const serverQueue = message.client.queue.get(message.guild.id);
     //if the argslength is null return error
     if (!args.length)
       return attentionembed(message,`Usage: ${message.client.prefix}${module.exports.name} <Video Name>`)
@@ -53,9 +51,9 @@ async execute(message,args,client) {
     //try to find top 5 results
     try {
       //find them
-      const results = await youtube.searchVideos(search, 5);
+      const results = await ytsr.search(search, { limit: 5 });
       //map them and sort them and add a Field to the ResultEmbed
-      results.map((video, index) => resultsEmbed.addField(video.shortURL, `${index + 1}. ${video.title}`));
+      results.map((video, index) => resultsEmbed.addField(video.url, `${index + 1}. ${video.title}`));
       // send the temporary embed
       const resultsMessage = await message.channel.send(temEmbed)
       //react with 5 Numbers
