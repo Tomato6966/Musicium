@@ -1,345 +1,213 @@
 ////////////////////////////
 //////CONFIG LOAD///////////
 ////////////////////////////
-const scdl = require("soundcloud-scraper");
-const ytdl = require("discord-ytdl-core");
-const { canModifyQueue } = require("../util/MilratoUtil");
-const { Client, Collection, MessageEmbed, splitMessage, escapeMarkdown,MessageAttachment } = require("discord.js");
-const { attentionembed } = require("../util/attentionembed"); 
-const createBar = require("string-progressbar");
-const lyricsFinder = require("lyrics-finder");
+const { play } = require("../include/play");
+const { Client, Collection, MessageEmbed } = require("discord.js");
+const { attentionembed } = require("../util/attentionembed");
 const {
   approveemoji,
   denyemoji,
-  BOTNAME,
+  PREFIX,
 } = require(`../config.json`);
+const ytsr = require("youtube-sr")
+
 ////////////////////////////
 //////COMMAND BEGIN/////////
 ////////////////////////////
 module.exports = {
-  async play(song, message, client, filters) {
-    //VERY MESSY CODE WILL BE CLEANED SOON!
-    const { PRUNING, SOUNDCLOUD_CLIENT_ID } = require("../config.json");
+  name: "play",
+  aliases: ["p"],
+  description: "Plays song from YouTube/Stream",
+  cooldown: 1.5,
+  edesc: `Type this command to play some music.\nUsage: ${PREFIX}play <TITLE | URL>`,
+  
+async execute(message, args, client) {
+    //If not in a guild return
+    if (!message.guild) return;
+    //define channel
+    const { channel } = message.member.voice;
+    //get serverqueue
+    const serverQueue = message.client.queue.get(message.guild.id);
+    //If not in a channel return error
+    if (!channel) return attentionembed(message, "Please join a Voice Channel first");
+    //If not in the same channel return error
+    if (serverQueue && channel !== message.guild.me.voice.channel)
+      return attentionembed(message, `You must be in the same Voice Channel as me`);
+    //If no args return
+    if (!args.length)
+      return attentionembed(message, `Usage: ${message.client.prefix}play <YouTube URL | Video Name | Soundcloud URL>`);
+    //react with approve emoji
+    message.react(approveemoji).catch(console.error);
+    //get permissions and send error if bot doesnt have enough
+    const permissions = channel.permissionsFor(message.client.user);
+    if (!permissions.has("CONNECT"))
+      return attentionembed(message, "I need permissions to join your channel!");
+    if (!permissions.has("SPEAK"))
+      return attentionembed(message, "I need permissions to speak in your channel");
 
-    const queue = message.client.queue.get(message.guild.id);
-    
-    if (!song) {
-      queue.channel.leave();
-      message.client.queue.delete(message.guild.id);
-      const endembed = new MessageEmbed().setColor("#c219d8")
-        .setAuthor(`Music Queue ended.`, "https://cdn.discordapp.com/emojis/769915194066862080.png")
-      return queue.textChannel.send(endembed).catch(console.error);
-    }
+    //define some url patterns
+    const search = args.join(" ");
+    const videoPattern = /^(https?:\/\/)?(www\.)?(m\.)?(youtube\.com|youtu\.?be)\/.+$/gi;
+    const scRegex = /^https?:\/\/(soundcloud\.com)\/(.*)$/;
+    const urlValid = videoPattern.test(args[0]);
 
-    let stream = null;
-    let streamType = song.url.includes("youtube.com") ? "opus" : "ogg/opus";
-    let isnotayoutube=false;        
-    let seekTime = 0;
-    let oldSeekTime = queue.realseek;
-    let encoderArgstoset;
-    if (filters === "remove") {
-        queue.filters = ['-af','dynaudnorm=f=200'];
-        encoderArgstoset = queue.filters;
-        try{
-          seekTime = (queue.connection.dispatcher.streamTime - queue.connection.dispatcher.pausedTime) / 1000 + oldSeekTime;
-        } catch{
-          seekTime = 0;
-        } 
-          queue.realseek = seekTime;
-    } else if (filters)
-    {
-      try{
-        seekTime = (queue.connection.dispatcher.streamTime - queue.connection.dispatcher.pausedTime) / 1000 + oldSeekTime;
-      } catch{
-        seekTime = 0;
-      } 
-        queue.realseek = seekTime;
-        queue.filters.push(filters)
-        encoderArgstoset = ['-af', queue.filters]
-    }
- 
-
+    //define Queue Construct
+    const queueConstruct = {
+      textChannel: message.channel,
+      channel,
+      connection: null,
+      songs: [],
+      loop: false,
+      volume: 69,
+      filters: [],
+      realseek: 0,
+      playing: true
+    };
+    //get song infos to null
+    let songInfo = null;
+    let song = null;
+    //try catch for errors
     try {
-      if (song.url.includes("youtube.com")) {
-         stream = ytdl(song.url, {
-          filter: "audioonly",
-          opusEncoded: true,
-          encoderArgs: encoderArgstoset,
-          bitrate: 320,
-          seek: seekTime, 
-          quality: "highestaudio",
-          liveBuffer: 40000,
-          highWaterMark: 1 << 25, 
-  
-      });
-      } else if (song.url.includes(".mp3") || song.url.includes("baseradiode")) {
-        stream = song.url;
-        isnotayoutube = true;
-      } else if (song.url.includes("soundcloud.com")) {
-        try {
-          await scdl.downloadFormat(song.url)
-          stream = fs.createWriteStream("./fade.mp3");
-        } catch (error) {
-
+      //If something is playing
+      if (serverQueue) {
+        //if its an url
+        if (urlValid) { //send searching link
+          message.channel.send(new MessageEmbed().setColor("#c219d8")
+            .setDescription(`**<:youtube:769675858431705109> Searching 🔍 [\`LINK\`](${args.join(" ")})**`))
+        //if not
+        }else if (scRegex.test(args.join(" "))) {
+          message.channel.send(new MessageEmbed().setColor("#c219d8")
+          .setDescription(`**<:youtube:769675858431705109> Searching 🔍 [\`LINK\`](${args.join(" ")})**`))
+   
         }
+        else { //send searching TITLE
+          message.channel.send(new MessageEmbed().setColor("#c219d8")
+            .setDescription(`**<:youtube:769675858431705109> Searching 🔍 \`${args.join(" ")}\`**`))
+        }
+      } else {
+        //If nothing is playing join the channel
+        queueConstruct.connection = await channel.join();
+        //send join message
+        message.channel.send(new MessageEmbed().setColor("#c219d8")
+          .setDescription(`**👍 Joined \`${channel.name}\` 📄 bound \`#${message.channel.name}\`**`)
+          .setFooter(`By: ${message.author.username}#${message.author.discriminator}`))
+        //if its an url
+        if (urlValid) { //send searching link
+          message.channel.send(new MessageEmbed().setColor("#c219d8")
+            .setDescription(`**<:youtube:769675858431705109> Searching 🔍 [\`LINK\`](${args.join(" ")})**`))
+          //if not 
+        } else if (scRegex.test(args.join(" "))) {
+          message.channel.send(new MessageEmbed().setColor("#c219d8")
+          .setDescription(`**<:youtube:769675858431705109> Searching 🔍 [\`LINK\`](${args.join(" ")})**`))
+   
+        } 
+        else { //send searching TITLE
+          message.channel.send(new MessageEmbed().setColor("#c219d8")
+            .setDescription(`**<:youtube:769675858431705109> Searching 🔍 \`${args.join(" ")}\`**`))
+        }
+        //Set selfdeaf and serverdeaf true
+        queueConstruct.connection.voice.setSelfDeaf(true);
+        queueConstruct.connection.voice.setDeaf(true);
       }
-    } catch (error) {
-      if (queue) {
-        queue.songs.shift();
-        module.exports.play(queue.songs[0], message);
+    }
+    catch {
+    }
+    //if its a valdi youtube link
+    if (urlValid) {
+      try {
+        songInfo = await ytsr.searchOne(search) ;
+        song = {
+          title: songInfo.title,
+          url: songInfo.url,
+          thumbnail: songInfo.thumbnail,
+          duration: songInfo.durationFormatted,
+       };
+      } catch (error) {
+        if (error.statusCode === 403) return attentionembed(message, "Max. uses of api Key, please refresh!");
+        console.error(error);
+        return attentionembed(message, error.message);
       }
-
-      console.error(error);
-      return attentionembed(message, `Error: ${error.message ? error.message : error}`);
+    } 
+    //else try to find the song via ytsr 
+    else {
+      try {
+       //get the result 
+        songInfo = await ytsr.searchOne(search) ;
+        song = {
+          title: songInfo.title,
+          url: songInfo.url,
+          thumbnail: songInfo.thumbnail,
+          duration: songInfo.durationFormatted,
+       };
+      } catch (error) {
+        console.error(error);
+        return attentionembed(message, error);        
+      }                                                               
     }
-
-      console.error(error);
-      return attentionembed(message, `Error: ${error.message ? error.message : error}`);
-    }
-
-    queue.connection.on("disconnect", () => message.client.queue.delete(message.guild.id));   
-    
-    if(isnotayoutube){
-      console.log("TEST")
-      const dispatcher = queue.connection
-      .play(stream)
-      .on("finish", () => {
-        if (collector && !collector.ended) collector.stop();
-
-        if (queue.loop) {
-          let lastSong = queue.songs.shift();
-          queue.songs.push(lastSong);
-          module.exports.play(queue.songs[0], message);
-        } else {
-          queue.songs.shift();
-          module.exports.play(queue.songs[0], message);
-        }
-    })
-    .on("error", (err) => {
-      console.error(err);
-      queue.songs.shift();
-      module.exports.play(queue.songs[0], message);
-    });
-  dispatcher.setVolumeLogarithmic(queue.volume / 100);
-    }else{
-      const dispatcher = queue.connection
-      .play(stream, { type: streamType })
-      .on("finish", () => {
-        if (collector && !collector.ended) collector.stop();
-  
-        if (queue.loop) {
-          let lastSong = queue.songs.shift();
-          queue.songs.push(lastSong);
-          module.exports.play(queue.songs[0], message);
-        } else {
-          queue.songs.shift();
-          module.exports.play(queue.songs[0], message);
-        }
-      })
-      .on("error", (err) => {
-        console.error(err);
-        queue.songs.shift();
-        module.exports.play(queue.songs[0], message);
-      });
-    dispatcher.setVolumeLogarithmic(queue.volume / 100);
-    }
-    
-  let thumb;
+    //get the thumbnail
+    let thumb = "https://cdn.discordapp.com/attachments/748095614017077318/769672148524335114/unknown.png"
     if (song.thumbnail === undefined) thumb = "https://cdn.discordapp.com/attachments/748095614017077318/769672148524335114/unknown.png";
     else thumb = song.thumbnail.url;
-
-    try {
+    //if there is a server queue send that message!
+    if (serverQueue) {
+      //Calculate the estimated Time
+      let estimatedtime = Number(0);
+      for (let i = 0; i < serverQueue.songs.length; i++) {
+        let minutes = serverQueue.songs[i].duration.split(":")[0];   
+        let seconds = serverQueue.songs[i].duration.split(":")[1];    
+        estimatedtime += (Number(minutes)*60+Number(seconds));   
+      }
+      if (estimatedtime > 60) {
+        estimatedtime = Math.round(estimatedtime / 60 * 100) / 100;
+        estimatedtime = estimatedtime + " Minutes"
+      }
+      else if (estimatedtime > 60) {
+        estimatedtime = Math.round(estimatedtime / 60 * 100) / 100;
+        estimatedtime = estimatedtime + " Hours"
+      }
+      else {
+        estimatedtime = estimatedtime + " Seconds"
+      }
+      //Push the ServerQueue
+      serverQueue.songs.push(song);
+      //the new song embed
       const newsong = new MessageEmbed()
-        .setTitle("<:Playing:769665713124016128>  "+song.title)
-        .setURL(song.url)
+        .setTitle("<:Playing:769665713124016128> " + song.title)
         .setColor("#c219d8")
         .setThumbnail(thumb)
+        .setURL(song.url)
+        .setDescription(`\`\`\`Has been added to the Queue.\`\`\``)
+        .addField("Estimated time until playing:", `\`${estimatedtime}\``, true)
+        .addField("Position in queue", `**\`${serverQueue.songs.length - 1}\`**`, true)
         .setFooter(`Requested by: ${message.author.username}#${message.author.discriminator}`, message.member.user.displayAvatarURL({ dynamic: true }))
-        .addField("Duration:", `\`${song.duration} Minutes\``, true)
-
-      var playingMessage = await queue.textChannel.send(newsong);
+      //send the Embed into the Queue Channel
+        return serverQueue.textChannel
+        .send(newsong)
+        .catch(console.error);
       
-
-      await playingMessage.react("769915194444480542"); //skip
-      await playingMessage.react("769912238236106793"); //pause
-      await playingMessage.react("769913064194834511"); //loop
-      await playingMessage.react("769915194066862080"); //stop
-      await playingMessage.react("769940554481532938"); //np
-      await playingMessage.react("769945882120028160"); //queue
-      await playingMessage.react("769938447279456296"); //lyrics
-    } catch (error) {
-      console.error(error);
     }
-
-
-
-    const filter = (reaction, user) => user.id !== message.client.user.id;
-    var collector = playingMessage.createReactionCollector(filter, {
-      time: song.duration > 0 ? song.duration * 1000 : 600000
-    });
-
-    collector.on("collect", async (reaction, user) => {
-      if (!queue) return;
-      const member = message.guild.member(user);
-
-      switch (reaction.emoji.id) {
-        //queue
-        case "769945882120028160":
-          reaction.users.remove(user).catch(console.error);
-          const description = queue.songs.map((song, index) => `${index + 1}. ${escapeMarkdown(song.title)}`);
-
-          let queueEmbed = new MessageEmbed()
-            .setTitle("Music Queue")
-            .setDescription(description)
-            .setColor("#c219d8")
-             ;
-      
-          const splitDescription = splitMessage(description, {
-            maxLength: 2048,
-            char: "\n",
-            prepend: "",
-            append: ""
-          });
-      
-          splitDescription.forEach(async (m) => {
-      
-            queueEmbed.setDescription(m);
-            message.react(approveemoji)
-            message.channel.send(queueEmbed);
-          });
-          break;
-        //np
-        case "769940554481532938":
-        reaction.users.remove(user).catch(console.error);
-        const song = queue.songs[0];
-        //get current song duration in s
-        let minutes = song.duration.split(":")[0];   
-        let seconds = song.duration.split(":")[1];    
-        let ms = (Number(minutes)*60+Number(seconds));   
-        //get thumbnail
-        let thumb;
-        if (song.thumbnail === undefined) thumb = "https://cdn.discordapp.com/attachments/748095614017077318/769672148524335114/unknown.png";
-        else thumb = song.thumbnail.url;
-        //define current time
-        const seek = (queue.connection.dispatcher.streamTime - queue.connection.dispatcher.pausedTime) / 1000;
-        //define left duration
-        const left = ms - seek;
-        //define embed
-        let nowPlaying = new MessageEmbed()
-          .setTitle("Now playing")
-          .setDescription(`[**${song.title}**](${song.url})`)
-          .setThumbnail(song.thumbnail.url)
-          .setColor("#c219d8")
-          .setFooter("Time Remaining: " + new Date(left * 1000).toISOString().substr(11, 8));
-          //if its a stream
-          if(ms >= 10000) {
-            nowPlaying.addField("\u200b", "🔴 LIVE", false);
-            //send approve msg
-            return message.channel.send(nowPlaying);
-          }
-          //If its not a stream 
-          if (ms > 0 && ms<10000) {
-            nowPlaying.addField("\u200b", "**[" + createBar((ms == 0 ? seek : ms), seek, 25, "▬", "<:currentposition:770098066552258611>")[0] + "]**\n**" + new Date(seek * 1000).toISOString().substr(11, 8) + " / " + (ms == 0 ? " ◉ LIVE" : new Date(ms * 1000).toISOString().substr(11, 8))+ "**" , false );
-            //send approve msg
-            return message.channel.send(nowPlaying);
-          }
-        
-        break;
-        //skip
-        case "769915194444480542":
-          queue.playing = true;
-          reaction.users.remove(user).catch(console.error);
-          if (!canModifyQueue(member)) return;
-          queue.connection.dispatcher.end();
-          const skipembed = new MessageEmbed().setColor("#c219d8").setAuthor(`${user.username} skipped the song.`, "https://cdn.discordapp.com/attachments/748633941912584333/753201474691137647/next.png")
-          queue.textChannel.send(skipembed).catch(console.error);
-
-          collector.stop();
-
-          break;
-        //lyrics
-        case "769938447279456296":
-        
-          reaction.users.remove(user).catch(console.error);
-          if (!canModifyQueue(member)) return;
-          let lyrics = null;
-          let temEmbed = new MessageEmbed()
-          .setAuthor("Searching...", "https://cdn.discordapp.com/emojis/757632044632375386.gif?v=1").setFooter("Lyrics")
-          .setColor("#f300e5")
-          let result = await message.channel.send(temEmbed)
-          try {
-            lyrics = await lyricsFinder(queue.songs[0].title,"");
-            if (!lyrics) lyrics = `No lyrics found for ${queue.songs[0].title}.`;
-          } catch (error) {
-            lyrics = `No lyrics found for ${queue.songs[0].title}.`;
-          }
-      
-          let lyricsEmbed = new MessageEmbed()
-            .setTitle("<:lyrics:769938447279456296> Lyrics")
-            .setDescription(lyrics)
-            .setColor("#f300e5")
-      
-          if (lyricsEmbed.description.length >= 2048)
-      
-            lyricsEmbed.description = `${lyricsEmbed.description.substr(0, 2045)}...`;
-            message.react(approveemoji);
-          return result.edit(lyricsEmbed).catch(console.error);
-
-          break;
-          //pause
-        case "769912238236106793":
-          reaction.users.remove(user).catch(console.error);
-          if (!canModifyQueue(member)) return;
-          if (queue.playing) {
-            queue.playing = !queue.playing;
-            queue.connection.dispatcher.pause(true);
-            const pausemebed = new MessageEmbed().setColor("#c219d8")
-              .setAuthor(`${user.username} paused the music.`, "https://cdn.discordapp.com/emojis/769912238236106793.png")
-            queue.textChannel.send(pausemebed).catch(console.error);
-          } else {
-            queue.playing = !queue.playing;
-            queue.connection.dispatcher.resume();
-            const playembed = new MessageEmbed().setColor("#c219d8")
-              .setAuthor(`${user.username} resumed the music!`, "https://cdn.discordapp.com/emojis/769912238236106793.png")
-            queue.textChannel.send(playembed).catch(console.error);
-          }
-          break;
-          //loop  
-        case "769913064194834511":
-          reaction.users.remove(user).catch(console.error);
-          if (!canModifyQueue(member)) return;
-          queue.loop = !queue.loop;
-          const loopembed = new MessageEmbed().setColor("#c219d8")
-            .setAuthor(`Loop is now ${queue.loop ? " enabled" : " disabled"}`, "https://cdn.discordapp.com/emojis/769913064194834511.png")
-          queue.textChannel.send(loopembed).catch(console.error);
-          break;
-          //stop
-        case "769915194066862080":
-          reaction.users.remove(user).catch(console.error);
-          if (!canModifyQueue(member)) return;
-          queue.songs = [];
-          const stopembed = new MessageEmbed().setColor("#c219d8").setAuthor(`${user.username} stopped the music!`, "https://cdn.discordapp.com/emojis/769915194066862080.png")
-          queue.textChannel.send(stopembed).catch(console.error);
-          try {
-            queue.connection.dispatcher.end();
-          } catch (error) {
-            console.error(error);
-            queue.connection.disconnect();
-          }
-          collector.stop();
-          break;
-
-        default:
-          reaction.users.remove(user).catch(console.error);
-          break;
-      }
-    });
-
-    collector.on("end", () => {
-      playingMessage.reactions.removeAll().catch(console.error);
-      if (PRUNING && playingMessage && !playingMessage.deleted) {
-        playingMessage.delete({ timeout: 3000 }).catch(console.error);
-      }
-    });
+    //push the song list by 1 to add it to the queu
+    queueConstruct.songs.push(song);
+    //set the queue
+    message.client.queue.set(message.guild.id, queueConstruct);
+    //playing with catching errors
+    try {
+    
+      //try to play the song
+      play(queueConstruct.songs[0], message, client);
+    } catch (error) {
+      //if an error comes log
+      console.error(error);
+      //delete the Queue
+      message.client.queue.delete(message.guild.id);
+      //leave the channel
+      await channel.leave();
+      //sent an error message
+      return attentionembed(message, `Could not join the channel: ${error}`);
+    }
   }
 };
+
+//////////////////////////////////////////
+//////////////////////////////////////////
+/////////////by Tomato#6966///////////////
