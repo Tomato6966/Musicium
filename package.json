@@ -17,7 +17,6 @@
     "lyrics-finder": "^21.4.0",
     "node.js": "0.0.1-security",
     "string-progressbar": "^1.0.1",
-    "soundcloud-scraper": "^3.0.4",
     "youtube-sr": "^1.0.4",
     "ytdl-core": "^4.0.0"
   }
