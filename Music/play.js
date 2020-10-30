@@ -48,8 +48,9 @@ async execute(message, args, client) {
     //define some url patterns
     const search = args.join(" ");
     const videoPattern = /^(https?:\/\/)?(www\.)?(m\.)?(youtube\.com|youtu\.?be)\/.+$/gi;
+    const scRegex = /^https?:\/\/(soundcloud\.com)\/(.*)$/;
     const urlValid = videoPattern.test(args[0]);
-   
+
     //define Queue Construct
     const queueConstruct = {
       textChannel: message.channel,
@@ -74,7 +75,12 @@ async execute(message, args, client) {
           message.channel.send(new MessageEmbed().setColor("#c219d8")
             .setDescription(`**<:youtube:769675858431705109> Searching 🔍 [\`LINK\`](${args.join(" ")})**`))
         //if not
-        } else { //send searching TITLE
+        }else if (scRegex.test(args.join(" "))) {
+          message.channel.send(new MessageEmbed().setColor("#c219d8")
+          .setDescription(`**<:youtube:769675858431705109> Searching 🔍 [\`LINK\`](${args.join(" ")})**`))
+   
+        }
+        else { //send searching TITLE
           message.channel.send(new MessageEmbed().setColor("#c219d8")
             .setDescription(`**<:youtube:769675858431705109> Searching 🔍 \`${args.join(" ")}\`**`))
         }
@@ -90,7 +96,12 @@ async execute(message, args, client) {
           message.channel.send(new MessageEmbed().setColor("#c219d8")
             .setDescription(`**<:youtube:769675858431705109> Searching 🔍 [\`LINK\`](${args.join(" ")})**`))
           //if not 
-        } else { //send searching TITLE
+        } else if (scRegex.test(args.join(" "))) {
+          message.channel.send(new MessageEmbed().setColor("#c219d8")
+          .setDescription(`**<:youtube:769675858431705109> Searching 🔍 [\`LINK\`](${args.join(" ")})**`))
+   
+        } 
+        else { //send searching TITLE
           message.channel.send(new MessageEmbed().setColor("#c219d8")
             .setDescription(`**<:youtube:769675858431705109> Searching 🔍 \`${args.join(" ")}\`**`))
         }
