@@ -1,6 +1,7 @@
 ////////////////////////////
 //////CONFIG LOAD///////////
 ////////////////////////////
+const scdl = require("soundcloud-scraper");
 const ytdl = require("discord-ytdl-core");
 const { canModifyQueue } = require("../util/MilratoUtil");
 const { Client, Collection, MessageEmbed, splitMessage, escapeMarkdown,MessageAttachment } = require("discord.js");
@@ -76,10 +77,10 @@ module.exports = {
         isnotayoutube = true;
       } else if (song.url.includes("soundcloud.com")) {
         try {
-          stream = await scdl.downloadFormat(song.url, scdl.FORMATS.OPUS, SOUNDCLOUD_CLIENT_ID ? SOUNDCLOUD_CLIENT_ID : undefined);
+          await scdl.downloadFormat(song.url)
+          stream = fs.createWriteStream("./fade.mp3");
         } catch (error) {
-          stream = await scdl.downloadFormat(song.url, scdl.FORMATS.MP3, SOUNDCLOUD_CLIENT_ID ? SOUNDCLOUD_CLIENT_ID : undefined);
-          streamType = "unknown";
+
         }
       }
     } catch (error) {
@@ -87,6 +88,10 @@ module.exports = {
         queue.songs.shift();
         module.exports.play(queue.songs[0], message);
       }
+
+      console.error(error);
+      return attentionembed(message, `Error: ${error.message ? error.message : error}`);
+    }
 
       console.error(error);
       return attentionembed(message, `Error: ${error.message ? error.message : error}`);
