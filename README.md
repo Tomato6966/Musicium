@@ -39,7 +39,7 @@ You can always [invite](https://bit.ly/Musicium) the Bot to your Server if you w
 
  **3.** Download this repo and unzip it    |    or git clone it
  
- **4.** Install all of the packages with **`npm install`**     |  the packages are   **`npm install node.js @discordjs/opus discord.js ffmpeg-static figlet lyrics-finder string-progressbar ytdl-core discord-ytdl-core youtube-sr`**
+ **4.** Install all of the packages with **`npm install`**     |  the packages are   **`npm install node.js @discordjs/opus discord.js ffmpeg-static figlet lyrics-finder string-progressbar ytdl-core discord-ytdl-core youtube-sr soundcloud-scraper`**
  
  **5.** start the bot with **`node index.js`**
 
