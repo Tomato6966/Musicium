@@ -28,8 +28,8 @@ client.on(`ready`, () => {
         if(!member.voice.channel)
         return;
         //if connected but not speaking
-    if(!member.speaking&&!client.queue)
-    { return member.voice.channel.leave(); } 
+            // if(!member.speaking&&!client.queue)
+            //{ return member.voice.channel.leave(); } 
       //if alone 
       if (member.voice.channel.members.size === 1) 
       { return member.voice.channel.leave(); }
