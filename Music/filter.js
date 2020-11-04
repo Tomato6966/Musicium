@@ -5,7 +5,7 @@ const ytsr = require("youtube-sr")
 const { Client, Collection, MessageEmbed } = require("discord.js");
 const { play } = require("../include/play")
 const { attentionembed } = require("../util/attentionembed");
-const { approveemoji, denyemoji, PREFIX, } = require(`../config.json`);
+const { PREFIX, } = require(`../config.json`);
 ////////////////////////////
 //////COMMAND BEGIN/////////
 ////////////////////////////
@@ -13,10 +13,10 @@ module.exports = {
   name: "filter",
   description: "Set Audio - Effects",
   aliases: ["fi"],
-  cooldown: 3,
+  cooldown: 5,
   edesc: `Type this Command to change the current audio effect - style \nUsage: ${PREFIX}filter <Filtertype>`,
 
-  async execute(message, args, client) {
+async execute(message, args, client) {
     //if its not in a guild return
     if (!message.guild) return;
     //define channel
@@ -24,7 +24,7 @@ module.exports = {
     //get serverqueue
     const queue = message.client.queue.get(message.guild.id);
     //react with approve emoji
-    message.react(approveemoji).catch(console.error);
+    message.react("✅").catch(console.error);
     //if the argslength is null return error
     //if there is already a search return error
     if (message.channel.activeCollector)
