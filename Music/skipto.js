@@ -4,7 +4,7 @@
 const { canModifyQueue } = require("../util/MilratoUtil");
 const { Client, Collection, MessageEmbed } = require("discord.js");
 const { attentionembed } = require("../util/attentionembed");
-const { approveemoji, denyemoji, PREFIX, } = require(`../config.json`);
+const { PREFIX } = require(`../config.json`);
 ////////////////////////////
 //////COMMAND BEGIN/////////
 ////////////////////////////
@@ -19,7 +19,7 @@ execute(message, args) {
     //if not in a guild return
     if (!message.guild) return;
     //react with approve
-    message.react(approveemoji).catch(console.error);
+    message.react("769665713124016128").catch(console.error);
     //if no args return error
     if (!args.length)
       return attentionembed(message, `Try: ${message.client.prefix}${module.exports.name} <Queue Number>`)
@@ -37,14 +37,14 @@ execute(message, args) {
       return attentionembed(message, `The Queue is just ${queue.songs.length} long!`);
     //set playing to true
     queue.playing = true;
-    //if the queue is loop 
+    //if the queue is loop
     if (queue.loop) {
       //make a loop for all songs to skip and add them at the end again
-      for (let i = 0; i < args[0] - 1; i++) 
+      for (let i = 0; i < args[0] - 1; i++)
         queue.songs.push(queue.songs.shift());
     //if not a loop
     } else {
-      //remove all songs including the args 
+      //remove all songs including the args
       queue.songs = queue.songs.slice(args[0] - 1);
     }
     //end current song

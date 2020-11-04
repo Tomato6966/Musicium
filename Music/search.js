@@ -3,8 +3,8 @@
 ////////////////////////////
 const ytsr = require("youtube-sr")
 const { Client, Collection, MessageEmbed } = require("discord.js");
-const { attentionembed } = require("../util/attentionembed"); 
-const { approveemoji,  denyemoji,  PREFIX,} = require(`../config.json`);
+const { attentionembed } = require("../util/attentionembed");
+const { PREFIX } = require(`../config.json`);
 ////////////////////////////
 //////COMMAND BEGIN/////////
 ////////////////////////////
@@ -23,7 +23,7 @@ async execute(message,args,client) {
      //get serverqueue
      const serverQueue = message.client.queue.get(message.guild.id);
     //react with approve emoji
-    message.react(approveemoji).catch(console.error);
+    message.react("769665713124016128").catch(console.error);
     //if the argslength is null return error
     if (!args.length)
       return attentionembed(message,`Usage: ${message.client.prefix}${module.exports.name} <Video Name>`)
@@ -71,11 +71,11 @@ async execute(message,args,client) {
       await resultsMessage.awaitReactions((reaction, user) => user.id == message.author.id,
       {max: 1, time: 60000, errors: ['time'],} ).then(collected => {
         //if its one of the emoji set them to 1 / 2 / 3 / 4 / 5
-          if(collected.first().emoji.id == "769932441967263754"){ return response = 1;}
-          if(collected.first().emoji.id == "769932441909067786"){ return response = 2;}
-          if(collected.first().emoji.id == "769932441946816542"){ return response = 3;}
-          if(collected.first().emoji.id == "769932569235292170"){ return response = 4;}
-          if(collected.first().emoji.id == "769933892014440448"){ return response = 5;}
+          if(collected.first().emoji.id == "769932441967263754"){ return response = 1; }
+          if(collected.first().emoji.id == "769932441909067786"){ return response = 2; }
+          if(collected.first().emoji.id == "769932441946816542"){ return response = 3; }
+          if(collected.first().emoji.id == "769932569235292170"){ return response = 4; }
+          if(collected.first().emoji.id == "769933892014440448"){ return response = 5; }
           //otherwise set it to error
           else{
             response = "error";

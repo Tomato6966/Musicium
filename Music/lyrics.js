@@ -4,8 +4,8 @@
 const { canModifyQueue } = require("../util/MilratoUtil");
 const { Client, Collection, MessageEmbed } = require("discord.js");
 const lyricsFinder = require("lyrics-finder");
-const { attentionembed } = require("../util/attentionembed"); 
-const { approveemoji,  denyemoji,  PREFIX,} = require(`../config.json`);
+const { attentionembed } = require("../util/attentionembed");
+const { PREFIX } = require(`../config.json`);
 ////////////////////////////
 //////COMMAND BEGIN/////////
 ////////////////////////////
@@ -20,12 +20,12 @@ async execute(message) {
     //if not in a Guild return
     if(!message.guild) return;
     //react with approve emoji
-    message.react(approveemoji).catch(console.error);
+    message.react("769665713124016128").catch(console.error);
     //Get the current Queue
     const queue = message.client.queue.get(message.guild.id);
     //If no Queue Error
     if (!queue) return attentionembed(message, "There is nothing playing");
-    //If not in a VOICE 
+    //If not in a VOICE
     if (!canModifyQueue(message.member)) return;
     //Set lyrics to null for the try catch
     let lyrics = null;
@@ -51,7 +51,7 @@ async execute(message) {
       .setTitle("<:lyrics:769938447279456296> Lyrics")
       .setDescription(lyrics)
       .setColor("#f300e5")
-    //if to long make slice it 
+    //if to long make slice it
     if (lyricsEmbed.description.length >= 2048)
       //slice the embed description and redefine it
       lyricsEmbed.description = `${lyricsEmbed.description.substr(0, 2045)}...`;

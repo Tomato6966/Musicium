@@ -4,11 +4,7 @@
 const { play } = require("../include/play");
 const { Client, Collection, MessageEmbed } = require("discord.js");
 const { attentionembed } = require("../util/attentionembed");
-const {
-  approveemoji,
-  denyemoji,
-  PREFIX,
-} = require(`../config.json`);
+const { PREFIX } = require(`../config.json`);
 const ytsr = require("youtube-sr")
 
 ////////////////////////////
@@ -20,7 +16,7 @@ module.exports = {
   description: "Plays song from YouTube/Stream",
   cooldown: 1.5,
   edesc: `Type this command to play some music.\nUsage: ${PREFIX}play <TITLE | URL>`,
-  
+
 async execute(message, args, client) {
     //If not in a guild return
     if (!message.guild) return;
@@ -37,7 +33,7 @@ async execute(message, args, client) {
     if (!args.length)
       return attentionembed(message, `Usage: ${message.client.prefix}play <YouTube URL | Video Name | Soundcloud URL>`);
     //react with approve emoji
-    message.react(approveemoji).catch(console.error);
+    message.react("769665713124016128").catch(console.error);
     //get permissions and send error if bot doesnt have enough
     const permissions = channel.permissionsFor(message.client.user);
     if (!permissions.has("CONNECT"))
@@ -90,7 +86,7 @@ async execute(message, args, client) {
         if (urlValid) { //send searching link
           message.channel.send(new MessageEmbed().setColor("#c219d8")
             .setDescription(`**<:youtube:769675858431705109> Searching 🔍 [\`LINK\`](${args.join(" ")})**`))
-          //if not 
+          //if not
         }
         else { //send searching TITLE
           message.channel.send(new MessageEmbed().setColor("#c219d8")
@@ -118,11 +114,11 @@ async execute(message, args, client) {
         console.error(error);
         return attentionembed(message, error.message);
       }
-    } 
-    //else try to find the song via ytsr 
+    }
+    //else try to find the song via ytsr
     else {
       try {
-       //get the result 
+       //get the result
         songInfo = await ytsr.searchOne(search) ;
         song = {
           title: songInfo.title,
@@ -132,8 +128,8 @@ async execute(message, args, client) {
        };
       } catch (error) {
         console.error(error);
-        return attentionembed(message, error);        
-      }                                                               
+        return attentionembed(message, error);
+      }
     }
     //get the thumbnail
     let thumb = "https://cdn.discordapp.com/attachments/748095614017077318/769672148524335114/unknown.png"
@@ -144,9 +140,9 @@ async execute(message, args, client) {
       //Calculate the estimated Time
       let estimatedtime = Number(0);
       for (let i = 0; i < serverQueue.songs.length; i++) {
-        let minutes = serverQueue.songs[i].duration.split(":")[0];   
-        let seconds = serverQueue.songs[i].duration.split(":")[1];    
-        estimatedtime += (Number(minutes)*60+Number(seconds));   
+        let minutes = serverQueue.songs[i].duration.split(":")[0];
+        let seconds = serverQueue.songs[i].duration.split(":")[1];
+        estimatedtime += (Number(minutes)*60+Number(seconds));
       }
       if (estimatedtime > 60) {
         estimatedtime = Math.round(estimatedtime / 60 * 100) / 100;
@@ -175,7 +171,7 @@ async execute(message, args, client) {
         return serverQueue.textChannel
         .send(newsong)
         .catch(console.error);
-      
+
     }
     //push the song list by 1 to add it to the queu
     queueConstruct.songs.push(song);
@@ -183,7 +179,7 @@ async execute(message, args, client) {
     message.client.queue.set(message.guild.id, queueConstruct);
     //playing with catching errors
     try {
-    
+
       //try to play the song
       play(queueConstruct.songs[0], message, client);
     } catch (error) {

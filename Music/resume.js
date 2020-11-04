@@ -3,8 +3,8 @@
 ////////////////////////////
 const { canModifyQueue } = require("../util/MilratoUtil");
 const { Client, Collection, MessageEmbed } = require("discord.js");
-const { attentionembed } = require("../util/attentionembed"); 
-const { approveemoji,  denyemoji,  PREFIX,} = require(`../config.json`);
+const { attentionembed } = require("../util/attentionembed");
+const { PREFIX } = require(`../config.json`);
 ////////////////////////////
 //////COMMAND BEGIN/////////
 ////////////////////////////
@@ -14,12 +14,12 @@ module.exports = {
   description: "Resume currently playing music",
   cooldown: 5,
   edesc: `Type this command to resume the paused Song!\nUsage: ${PREFIX}resume`,
-  
+
 execute(message) {
     //if not a guild return
     if(!message.guild) return;
     //react with approve emoji
-    message.react(approveemoji).catch(console.error);
+    message.react("769665713124016128").catch(console.error);
     //get the Server Queue
     const queue = message.client.queue.get(message.guild.id);
     //if no queue return error
