@@ -1,8 +1,8 @@
 const { Client, Collection, MessageEmbed } = require(`discord.js`);
-const { 
-  PREFIX, 
+const {
+  PREFIX,
   approveemoji,
-  denyemoji 
+  denyemoji
 } = require(`../config.json`);
 const db = require('quick.db');
 
@@ -16,17 +16,19 @@ module.exports = {
 
     let prefix = await db.get(`prefix_${message.guild.id}`)
     if(prefix === null) prefix = PREFIX;
-
+    //react with approve emoji
+    message.react("769665713124016128");
+    //define the commands as a command
     let commands = message.client.commands.array();
- 
+    //define the help embed
     let helpEmbed = new MessageEmbed()
       .setTitle("Musicium Help")
       .setDescription(`**Version:** \`v2.8\` \n**PREFIX:** \`${PREFIX}\``)
       .setFooter( client.user.username +`Type: ${prefix}help <Command>  for more information!`, "https://cdn.discordapp.com/avatars/769642999227351070/f1b78891507308fb76c0a66b56f4bcd6.webp")
       .setColor("#c219d8");
+    //define argstrue to negative
+    let ifargstruedothis = -1;
 
-      let ifargstruedothis = -1;
-      
       switch(args[0]){
           case "filter":
            ifargstruedothis=0;
@@ -97,7 +99,7 @@ module.exports = {
           case "uptime":
             ifargstruedothis=22
           break;
-          default:        
+          default:
             commands.forEach((cmd) => {
               helpEmbed.addField(
                 `**${prefix}${cmd.name}**`,
@@ -116,10 +118,10 @@ module.exports = {
             message.channel.send( new MessageEmbed().setColor("#c219d8")
             .setDescription(`**👍 ${message.author} Check your \`direct messages\` for a list of Commands!**`)
             );
-           
+
         break;
        }
-     
+
        if(ifargstruedothis>=0){
          let aliases = commands[ifargstruedothis].aliases;
          if(aliases === undefined || !aliases) aliases="No Aliases!";
@@ -147,4 +149,4 @@ module.exports = {
        }
 
 }
-} 
+}
