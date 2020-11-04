@@ -4,6 +4,7 @@ const {
   approveemoji,
   denyemoji 
 } = require(`../config.json`);
+const db = require('quick.db');
 
 module.exports = {
   name: `help`,
@@ -11,14 +12,17 @@ module.exports = {
   aliases: ["h","commands"],
   cooldown: 3,
   edesc: "Type help to get a short preview of all Commands, Type help <COMMANDNAME> to get extended information about this one command!",
-  execute(message,args,client) {
-     
+  async execute(message,args,client) {
+
+    let prefix = await db.get(`prefix_${message.guild.id}`)
+    if(prefix === null) prefix = PREFIX;
+
     let commands = message.client.commands.array();
  
     let helpEmbed = new MessageEmbed()
       .setTitle("Musicium Help")
       .setDescription(`**Version:** \`v2.8\` \n**PREFIX:** \`${PREFIX}\``)
-      .setFooter( client.user.username +`Type: ${PREFIX}help <Command>  for more information!`, "https://cdn.discordapp.com/avatars/769642999227351070/f1b78891507308fb76c0a66b56f4bcd6.webp")
+      .setFooter( client.user.username +`Type: ${prefix}help <Command>  for more information!`, "https://cdn.discordapp.com/avatars/769642999227351070/f1b78891507308fb76c0a66b56f4bcd6.webp")
       .setColor("#c219d8");
 
       let ifargstruedothis = -1;
@@ -75,13 +79,28 @@ module.exports = {
           case "volume":
             ifargstruedothis=16
           break;
-          case "help":
+          case "botlist":
             ifargstruedothis=17
+          break;
+          case "help":
+            ifargstruedothis=18
+          break;
+          case "invite":
+            ifargstruedothis=19
+          break;
+          case "ping":
+            ifargstruedothis=20
+          break;
+          case "prefix":
+            ifargstruedothis=21
+          break;
+          case "uptime":
+            ifargstruedothis=22
           break;
           default:        
             commands.forEach((cmd) => {
               helpEmbed.addField(
-                `**${message.client.prefix}${cmd.name}**`,
+                `**${prefix}${cmd.name}**`,
                 `${cmd.description}`,
                 true
               );
@@ -109,7 +128,7 @@ module.exports = {
 
 
         helpEmbed.addField(
-          `**${message.client.prefix}${commands[ifargstruedothis].name}**`,
+          `**${prefix}${commands[ifargstruedothis].name}**`,
           `\`\`\`fix\n${commands[ifargstruedothis].edesc}\n\`\`\`\n\`${commands[ifargstruedothis].description}\``
         );
         helpEmbed.addField(
