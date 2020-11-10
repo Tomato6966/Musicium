@@ -29,7 +29,7 @@ execute(message, args) {
     //If not a number then return error
     if (isNaN(args[0])) return attentionembed(message,`Try: ${message.client.prefix}remove <Queue Number>`);
     //get the song
-    const song = queue.songs.splice(args[0] - 1, 1);
+    const song = queue.songs.splice(args[0], 1);
     //react with approve
     message.react("769665713124016128")
     //send approve
