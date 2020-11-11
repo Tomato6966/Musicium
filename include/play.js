@@ -191,8 +191,23 @@ module.exports = {
 
     collector.on("collect", async (reaction, user) => {
       if (!queue) return;
+     
       const member = message.guild.member(user);
+      
+     
+      if (member.voice.channel !== member.guild.me.voice.channel) {
 
+        member.send(new MessageEmbed()
+        .setTitle("<:no:770326304473350145> | You must be in the Same Voice Channel as me!")
+        .setColor("#ff0e7a"))
+        
+        reaction.users.remove(user).catch(console.error);
+        
+        console.log("not in the same ch."); 
+        
+        return; 
+      }
+      
       switch (reaction.emoji.id) {
         //queue
         case "769945882120028160":
