@@ -13,6 +13,8 @@ You can always [invite](https://bit.ly/Musicium) the Bot to your Server if you w
 
 If you decide to use this Bot, [check out this Github of me first](https://github.com/Tomato6966/Music-Bot-with-Filter) cause this is the same exact Bot with standard Discord/Unicode Emojis, which means that you can just simply use it instantly without changing the emojis!
 
+This is an old version use [this repository.](https://github.com/Tomato6966/distube-music-bot)
+
 #### Commands:
 
 - `+filter <FILTERNAME>` --    *Set Audio - Effects*
