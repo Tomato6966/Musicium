@@ -6,7 +6,19 @@ If you decide to use this Bot, [check out this Github of me first](https://githu
 
 ## **This is an old version use [this repository.](https://github.com/Tomato6966/distube-music-bot/tree/latest-version)**
 
-## BEST HOSTING | Bittmax.de
+## [**DISCORD SUPPORT SERVER INVITE**](https://support.milrato.eu)
+
+# SUPPORT ME AND MILRATO DEVELOPMENT
+
+You can always Support me by inviting one of my **own Discord Bots**
+
+[![2021's best Music Bot | Lava Music](https://cdn.discordapp.com/attachments/748533465972080670/817088638780440579/test3.png)](https://lava.milrato.eu)
+[![Musicium Music Bot](https://cdn.discordapp.com/attachments/742446682381221938/770055673965707264/test1.png)](https://dc.musicium.eu)
+[![Milrato Multi Bot](https://cdn.discordapp.com/attachments/742446682381221938/770056826724679680/test1.png)](https://dc.milrato.eu)
+
+## Sponsors
+
+### BEST HOSTING | Bittmax.de
 BITTMAX Quality is their solution.
 Bittmax is our first and probably most important sponsor!
 
@@ -27,7 +39,7 @@ Bittmax is our first and probably most important sponsor!
 GET **5%** OFF EVERYTHING FOR EVER!
 Code: **`x10`**
 
-## MC-Host24.de
+### MC-Host24.de
 MC-Host24.de is selling the Best Digital Hosting Services ever!
 Like For games..
 
@@ -44,21 +56,6 @@ Like For games..
 
 **Website:**
 [mc-host24.de](https://mc-host24.de/user/affiliate/3121])
-
-## SUPPORT ME
-
-You can always Support me by inviting one of my **own Discord Bots**
-
-[![Musicium Music Bot](https://cdn.discordapp.com/attachments/742446682381221938/770055673965707264/test1.png)](dc.musicium.eu)
-[![Milrato Muslti Bot](https://cdn.discordapp.com/attachments/742446682381221938/770056826724679680/test1.png)](https://bit.ly/Milrato)
-
-[| fork my repository  |](https://github.com/user/repository/fork)
-[watch this repo  |](https://github.com/user/repository/subscription)
-[create issue |](https://github.com/user/repository/issues/new)
-
-*Both bots are still in Development, and will always be in development, this means always uptodate and always online and always improving!*
-
-[![](https://cdn.discordapp.com/emojis/770098066552258611.png)](https://cdn.discordapp.com/emojis/770098066552258611.png) 
 
 ## Credits
 
