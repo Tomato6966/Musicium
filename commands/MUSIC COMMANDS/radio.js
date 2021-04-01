@@ -1,4 +1,5 @@
 const radio = require("../../radio")
+const functions = require("../../functions")
 const config = require("../../config.json")
 module.exports = {
     name: "radio",
