@@ -174,20 +174,13 @@ client.login(config.token);
 
 //BOT CODED BY: Tomato#6966
 //DO NOT SHARE WITHOUT CREDITS!
-
 process.on('unhandledRejection', (reason, p) => {
-    console.log('=== unhandled Rejection ==='.toUpperCase());
-    console.log('Promise: ', p, 'Reason: ', reason.stack ? reason.stack : reason);
     console.log('=== unhandled Rejection ==='.toUpperCase());
 });
 process.on("uncaughtException", (err, origin) => {
     console.log('=== uncaught Exception ==='.toUpperCase());
-    console.log('Origin: ', origin, 'Exception: ', err.stack ? err.stack : err)
-    console.log('=== uncaught Exception ==='.toUpperCase());
 })
 process.on('uncaughtExceptionMonitor', (err, origin) => {
-    console.log('=== uncaught Exception Monitor ==='.toUpperCase());
-    console.log('Origin: ', origin, 'Exception: ', err.stack ? err.stack : err)
     console.log('=== uncaught Exception Monitor ==='.toUpperCase());
 });
 
@@ -195,17 +188,11 @@ process.on('uncaughtExceptionMonitor', (err, origin) => {
 //DO NOT SHARE WITHOUT CREDITS!
 process.on('beforeExit', (code) => {
     console.log('=== before Exit ==='.toUpperCase());
-    console.log('Code: ', code);
-    console.log('=== before Exit ==='.toUpperCase());
 });
 process.on('exit', (code) => {
     console.log('=== exit ==='.toUpperCase());
-    console.log('Code: ', code);
-    console.log('=== exit ==='.toUpperCase());
 });
 process.on('multipleResolves', (type, promise, reason) => {
-    console.log('=== multiple Resolves ==='.toUpperCase());
-    console.log(type, promise, reason);
     console.log('=== multiple Resolves ==='.toUpperCase());
 });
 
