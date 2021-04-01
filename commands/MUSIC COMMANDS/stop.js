@@ -23,11 +23,11 @@ module.exports = {
         //send information message
         functions.embedbuilder(client, "null", message, config.colors.no, "STOPPED!", `Left the channel`)
 
-        //stop distube
-        client.distube.stop(message);
-
         //leave channel if bot joined via opus stream
         message.member.voice.channel.leave().catch(e=> console.log("could not leave the channel LOLOL"))
+        
+        //stop distube
+        client.distube.stop(message);
     }
 };
 /**
