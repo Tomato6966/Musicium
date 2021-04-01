@@ -79,6 +79,13 @@ client.custom2 = new Enmap({
     name: "custom",
     dataDir: "./databases/playlist2"
 });
+function escapeRegex(str) {
+    try {
+      return str.replace(/[.*+?^${}()|[\]\\]/g, `\\$&`);
+    } catch (e) {
+      console.log(String(e.stack).bgRed)
+    }
+  }
 //registering a command setup
 client.on("message", async message => {
     if (message.author.bot) return;
@@ -87,6 +94,10 @@ client.on("message", async message => {
 
     let prefix = client.settings.get(message.guild.id, `prefix`);
     if (prefix === null) prefix = config.prefix; //if not prefix set it to standard prefix in the config.json file
+    const prefixRegex = new RegExp(`^(<@!?${client.user.id}>|${escapeRegex(prefix)})\\s*`);
+    if (!prefixRegex.test(message.content)) return;
+    const [, matchedPrefix] = message.content.match(prefixRegex);
+    prefix = matchedPrefix;
 
     if (!message.content.startsWith(prefix) && message.content.includes(client.user.id))
         if (message.guild.me.permissionsIn(message.channel).has("EMBED_LINKS"))
