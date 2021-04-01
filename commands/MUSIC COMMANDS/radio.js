@@ -36,7 +36,11 @@ module.exports = {
             if (message.member.voice.channel.id != message.guild.me.voice.channel.id) return functions.embedbuilder(client, 5000, message, config.colors.no, "`" + message.author.tag + "`" + " You must join my Voice Channel: " + ` \`${message.guild.me.voice.channel.name ? message.guild.me.voice.channel.name : ""}\``)
 
             //stop the Distube
-            client.distube.stop(message);
+            try{
+                client.distube.stop(message);
+            }catch{
+                console.log("JUST PLAY RADIO")
+            }
 
             //execute the radio module
             return radio(client, message, args); //get the radio module
