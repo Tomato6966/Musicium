@@ -12,6 +12,9 @@
 
 - start your Bot with `node index.js`
 
+also change the files in config.json / the src code so that its change for a .env file 
+needed files: ./index.js & ./commands/MUSIC\ COMMANDS/lyrics.js
+
 Enjoy ;)
 
 *Yes It Works on REPLIT*
