@@ -17,6 +17,8 @@ needed files: ./index.js & ./commands/MUSIC\ COMMANDS/lyrics.js
 
 Enjoy ;)
 
+[REPLIT](https://replit.com/@OxyTomato/Musicium-or-Best-Music-Bot-on-Replit?v=1)
+
 *Yes It Works on REPLIT*
 
 # SUPPORT ME AND MILRATO DEVELOPMENT
