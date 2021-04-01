@@ -28,10 +28,10 @@ module.exports = {
         if (!queue) return functions.embedbuilder(client, 3000, message, config.colors.no, "There is nothing playing!");
 
         //get the filter from the content
-        let filter = args[0];
+        let filter = path.parse(__filename).name;
 
         //if its the same filter as the current one, use bassboost6
-        if (args[0] === queue.filter) filter = "bassboost6";
+        if (filter === queue.filter) filter = "bassboost6";
 
         //set the new filter
         filter = await client.distube.setFilter(message, filter);
