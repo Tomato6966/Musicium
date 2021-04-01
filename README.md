@@ -6,11 +6,11 @@
 
 ## HOW TO SELFHOSt
 
-- 1. download `nodejs` v12 or higher, and `ffmpeg`
+- download `nodejs` v12 or higher, and `ffmpeg`
 
-- 2 install all dependeces with `npm install`
+- install all dependeces with `npm install`
 
-- 3. start your Bot with `node index.js`
+- start your Bot with `node index.js`
 
 Enjoy ;)
 
