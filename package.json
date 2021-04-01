@@ -1,0 +1,69 @@
+{
+  "name": "musicium",
+  "version": "7.0.0",
+  "description": "The Ultimate MUSIC BOT",
+  "main": "index.js",
+  "dependencies": {
+    "@discordjs/opus": "^0.3.3",
+    "@ksoft/api": "^3.1.9",
+    "ascii-table": "^0.0.9",
+    "booru": "^2.3.2",
+    "canvas": "^2.6.1",
+    "common-tags": "^1.8.0",
+    "cpu-stat": "^2.0.1",
+    "deezer-public-api": "^1.0.4",
+    "discord.js": "^12.3.1",
+    "discord.js-pagination": "^1.0.3",
+    "distube": "^2.8.7",
+    "enmap": "^5.8.2",
+    "fetch": "^1.1.0",
+    "ffmpeg-static": "^4.2.7",
+    "moment": "^2.27.0",
+    "node-fetch": "^2.6.1",
+    "soundcloud-downloader": "^0.2.2",
+    "soundcloud-key-fetch": "^1.0.11",
+    "soundcloud-scraper": "^4.0.1",
+    "spotify-url-info": "^2.2.0",
+    "youtube-sr": "^2.0.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tomato6966/Musicium"
+  },
+  "keywords": [
+    "Musicium",
+    "discord",
+    "discord-js",
+    "discord.js",
+    "discord-api",
+    "discord-music-bot",
+    "discord-bot",
+    "discordbot",
+    "youtube",
+    "music",
+    "hentai",
+    "nsfw",
+    "hentai-bot",
+    "hentai-sites",
+    "booru",
+    "booru-websites",
+    "music-bot",
+    "nodejs",
+    "npm",
+    "node-js",
+    "porn",
+    "multipurpose",
+    "gaming",
+    "utility"
+  ],
+  "author": "Tomato#6966",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/Tomato6966/Musicium/issues"
+  },
+  "homepage": "https://github.com/Tomato6966/Musicium#readme"
+}
