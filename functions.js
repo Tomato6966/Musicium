@@ -219,7 +219,7 @@ async function playsongyes(client, message, queue, song) {
             errorbuilder(error.stack.toString().substr(0, 2000))
             console.log(error);
         }
-        const filter = (reaction, user) => ["780399882460069900", "780399882410131476", "780396937899278356", "780396939203444756", "780394421123285012", "780394421320679424"].includes(reaction.emoji.id) && user.id !== message.client.user.id;
+        const filter = (reaction, user) => ["780399882460069900", "780399882410131476", "780396937899278356", "780396939203444756", "780394421123285012", "780394421320679424"].includes(reaction.emoji.id || reaction.emoji.name) && user.id !== message.client.user.id;
 
         var collector = await playingMessage.createReactionCollector(filter, {
             time: song.duration > 0 ? song.duration * 1000 : 600000
@@ -244,7 +244,7 @@ async function playsongyes(client, message, queue, song) {
             if (check_if_dj(reaction.message, member))
                 return embedbuilder(client, 6000, message, config.colors.no, "DJ-ROLE", `<:declined:780403017160982538> You don\'t have permission for this Command! You need to have: ${check_if_dj(message)}`)
 
-            switch (reaction.emoji.id) {
+            switch (reaction.emoji.id || reaction.emoji.name) {
                 case "780399882460069900":
                     client.distube.skip(message);
                     embedbuilder(client, 3000, message, config.colors.yes, "SKIPPED!", `Skipped the song`)
