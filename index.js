@@ -100,7 +100,7 @@ client.on("message", async message => {
     prefix = matchedPrefix;
 
     if (!message.content.startsWith(prefix) && message.content.includes(client.user.id))
-        if (message.guild.me.permissionsIn(message.channel).has("EMBED_LINKS"))
+        if (!message.guild.me.permissionsIn(message.channel).has("EMBED_LINKS"))
             message.reply(new Discord.MessageEmbed().setColor(config.colors.yes).setAuthor(`${message.author.username}, My prefix is ${prefix}, to get started; type ${prefix}help`, message.author.displayAvatarURL({
                 dynamic: true
             }), "https://dc.musicium.eu"));
@@ -109,7 +109,7 @@ client.on("message", async message => {
     if (!message.content.startsWith(prefix)) return;
 
     //if not allowed to send embeds, return that
-    if (message.guild.me.permissionsIn(message.channel).has("EMBED_LINKS"))
+    if (!message.guild.me.permissionsIn(message.channel).has("EMBED_LINKS"))
         return message.reply("**:x: I am missing the Permission to `EMBED_LINKS`**")
 
     //CHECK IF IN A BOT CHANNEL OR NOT

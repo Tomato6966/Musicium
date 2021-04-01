@@ -21,7 +21,7 @@ module.exports = {
     if(message.guild.me.voice.channel) return functions.embedbuilder(client, 5000, message, config.colors.no, " I am already connected somewhere")
    
     //if not allowed to CONNECT to the CHANNEL
-    if (message.guild.me.permissionsIn(message.member.voice.channel).has("CONNECT"))
+    if (!message.guild.me.permissionsIn(message.member.voice.channel).has("CONNECT"))
       return functions.embedbuilder(client, 5000, message, config.colors.no, "`" + message.author.tag + "`" + " I am not allowed to \`join\` your Channel")
 
     //try to join the channel
