@@ -1,12 +1,20 @@
-You can always [invite](https://dc.musicium.eu) the Bot to your Server if you wish, its public and you can use it!
+# **IMPORTANT**
 
-### **IMPORTANT!** 
+**Without the [PUBLIC VERSION](https://dc.musicium.eu) of this Bot this Repo would not exist!**
 
-If you decide to use this Bot, [check out this Github of me first](https://github.com/Tomato6966/Music-Bot-with-Filter) cause this is the same exact Bot with standard Discord/Unicode Emojis, which means that you can just simply use it instantly without changing the emojis!
+[Join my Support Server](https://support.milrato.eu)
 
-## **This is an old version use [this repository.](https://github.com/Tomato6966/distube-music-bot/tree/latest-version)**
+## HOW TO SELFHOSt
 
-## [**DISCORD SUPPORT SERVER INVITE**](https://support.milrato.eu)
+1. download `nodejs` v12 or higher, and `ffmpeg`
+
+2 install all dependeces with `npm install`
+
+3. start your Bot with `node index.js`
+
+Enjoy ;)
+
+*Yes It Works on REPLIT*
 
 # SUPPORT ME AND MILRATO DEVELOPMENT
 
