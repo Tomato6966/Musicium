@@ -1,4 +1,4 @@
-const functions = require("../../functions")
+﻿const functions = require("../../functions")
 const config = require("../../config.json")
 var {
   getData,
@@ -16,7 +16,7 @@ module.exports = {
   run: async (client, message, args) => {
     //if not a dj, return error Disabled - Because not needed 
     //if(functions.check_if_dj(message))
-    //return functions.embedbuilder(client, 6000, message, config.colors.no, "DJ-ROLE", `<:declined:780403017160982538> You don\'t have permission for this Command! You need to have: ${functions.check_if_dj(message)}`)
+    //return functions.embedbuilder(client, 6000, message, config.colors.no, "DJ-ROLE", `❌ You don\'t have permission for this Command! You need to have: ${functions.check_if_dj(message)}`)
 
     //if member not connected return error
     if (!message.member.voice.channel) return functions.embedbuilder(client, 5000, message, config.colors.no, "`" + message.author.tag + "`" + " You must join a Voice Channel")
@@ -41,7 +41,7 @@ module.exports = {
     if (!message.guild.me.permissionsIn(message.member.voice.channel).has("SPEAK")) return functions.embedbuilder(client, 5000, message, config.colors.no, "`" + message.author.tag + "`" + " I am not allowed to \`speak\` your Channel")
 
     //send information message
-    functions.embedbuilder(client, 5000, message, config.colors.yes, "<:Playing:769665713124016128>  Searching!", "```" + args.join(" ") + "```")
+    functions.embedbuilder(client, 5000, message, config.colors.yes, "🎶  Searching!", "```" + args.join(" ") + "```")
     
     //do things for deezer
     if (args.join(" ").includes("deezer")) {
@@ -54,7 +54,7 @@ module.exports = {
         let songsarray = [];
         let tracklength = items.length;
 
-        functions.embedbuilder(client, 5000, message, config.colors.yes, "<:Playing:769665713124016128>  Fetching the songs!", "This will take me around about: " + tracklength / 2 + " seconds");
+        functions.embedbuilder(client, 5000, message, config.colors.yes, "🎶  Fetching the songs!", "This will take me around about: " + tracklength / 2 + " seconds");
         
         for (let i = 0; i < 25; i++) {
           let result = await client.distube.play(items[i].title);
@@ -83,7 +83,7 @@ module.exports = {
         message.reply("the current maximum of tracks for spotify playlists are 25 tracks, if you wanna use bigger playlists, then dm `Tomato#6966`\n\nI will use the first 25 songs!");
         tracklength = 25;
       }
-      functions.embedbuilder(client, 5000, message, config.colors.yes, "<:Playing:769665713124016128>  Fetching the songs!", "This will take me around about: " + tracklength / 2 + " seconds");
+      functions.embedbuilder(client, 5000, message, config.colors.yes, "🎶  Fetching the songs!", "This will take me around about: " + tracklength / 2 + " seconds");
       for (let i = 0; i < 25; i++) {
         let result = await client.distube.play(items[i].title);
         songsarray.push(result[0].url)

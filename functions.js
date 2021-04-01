@@ -185,16 +185,16 @@ async function playsongyes(client, message, queue, song) {
         let embed1 = new Discord.MessageEmbed()
 
             .setColor(config.colors.yes)
-            .setTitle("<:Playing:769665713124016128> Playing Song!")
+            .setTitle("🎶 Playing Song!")
             .setDescription(`Song: [\`${song.name}\`](${song.url})`)
             .addField("💡 Requested by:", `>>> ${song.user}`, true)
             .addField("⏱ Duration:", `>>> \`${queue.formattedCurrentTime} / ${song.formattedDuration}\``, true)
             .addField("🌀 Queue:", `>>> \`${queue.songs.length} song(s) - ${queue.formattedDuration}\``, true)
             .addField("🔊 Volume:", `>>> \`${queue.volume} %\``, true)
-            .addField("♾ Loop:", `>>> ${queue.repeatMode ? queue.repeatMode === 2 ? "<:approved:780401773532807208> Queue" : "<:approved:780401773532807208> Song" : "<:declined:780403017160982538>"}`, true)
-            .addField("↪️ Autoplay:", `>>> ${queue.autoplay ? "<:approved:780401773532807208>" : "<:declined:780403017160982538>"}`, true)
+            .addField("♾ Loop:", `>>> ${queue.repeatMode ? queue.repeatMode === 2 ? "✅ Queue" : "✅ Song" : "❌"}`, true)
+            .addField("↪️ Autoplay:", `>>> ${queue.autoplay ? "✅" : "❌"}`, true)
             .addField("❔ Download Song:", `>>> [\`Click here\`](${song.streamURL})`, true)
-            .addField("❔ Filter:", `>>> \`${queue.filter || "<:declined:780403017160982538>"}\``, true)
+            .addField("❔ Filter:", `>>> \`${queue.filter || "❌"}\``, true)
             .addField("🎧 DJ-Role:", `>>> ${djs}`, true)
             .setFooter(client.user.username + " | by: milrato.eu", client.user.displayAvatarURL())
             .setAuthor(message.author.tag, message.member.user.displayAvatarURL({
@@ -208,18 +208,18 @@ async function playsongyes(client, message, queue, song) {
         client.settings.set(message.guild.id, message.channel.id, "playingchannel")
 
         try {
-            await playingMessage.react("780399882460069900");
-            await playingMessage.react("780399882410131476");
-            await playingMessage.react("780396937899278356");
-            await playingMessage.react("780396939203444756");
-            await playingMessage.react("780394421123285012");
-            await playingMessage.react("780394421320679424");
+            await playingMessage.react("⏭");
+            await playingMessage.react("⏹");
+            await playingMessage.react("🔉");
+            await playingMessage.react("🔊");
+            await playingMessage.react("⬅️");
+            await playingMessage.react("➡️");
         } catch (error) {
             embedbuilder(client, 5000, message, config.colors.no, "ERROR: ", "```" + error.toString().substr(0, 100) + "```" + "\n\n**Error got sent to my owner!**")
             errorbuilder(error.stack.toString().substr(0, 2000))
             console.log(error);
         }
-        const filter = (reaction, user) => ["780399882460069900", "780399882410131476", "780396937899278356", "780396939203444756", "780394421123285012", "780394421320679424"].includes(reaction.emoji.id) && user.id !== message.client.user.id;
+        const filter = (reaction, user) => ["⏭", "⏹", "🔉", "🔊", "⬅️", "➡️"].includes(reaction.emoji.id || reaction.emoji.name) && user.id !== message.client.user.id;
 
         var collector = await playingMessage.createReactionCollector(filter, {
             time: song.duration > 0 ? song.duration * 1000 : 600000
@@ -242,10 +242,10 @@ async function playsongyes(client, message, queue, song) {
 
             //if not a dj return error
             if (check_if_dj(reaction.message, member))
-                return embedbuilder(client, 6000, message, config.colors.no, "DJ-ROLE", `<:declined:780403017160982538> You don\'t have permission for this Command! You need to have: ${check_if_dj(message)}`)
+                return embedbuilder(client, 6000, message, config.colors.no, "DJ-ROLE", `❌ You don\'t have permission for this Command! You need to have: ${check_if_dj(message)}`)
 
-            switch (reaction.emoji.id) {
-                case "780399882460069900":
+            switch (reaction.emoji.id || reaction.emoji.name) {
+                case "⏭":
                     client.distube.skip(message);
                     embedbuilder(client, 3000, message, config.colors.yes, "SKIPPED!", `Skipped the song`)
                     try {
@@ -259,7 +259,7 @@ async function playsongyes(client, message, queue, song) {
                     } catch {}
                     break;
 
-                case "780399882410131476":
+                case "⏹":
                     client.distube.stop(message);
                     try {
                         playingMessage.reactions.removeAll();
@@ -272,17 +272,17 @@ async function playsongyes(client, message, queue, song) {
                     embedbuilder(client, 3000, message, config.colors.no, "STOPPED!", `Left the channel`)
                     break;
 
-                case "780396937899278356":
+                case "🔉":
                     await client.distube.setVolume(message, Number(queue.volume) - 10);
                     embedbuilder(client, 3000, message, config.colors.yes, "Volume!", `Reduced the Volume to \`${queue.volume}\``)
                     break;
 
-                case "780396939203444756":
+                case "🔊":
                     await client.distube.setVolume(message, Number(queue.volume) + 10);
                     embedbuilder(client, 3000, message, config.colors.yes, "Volume!", `Raised the Volume to \`${queue.volume}\``)
                     break;
 
-                case "780394421123285012":
+                case "⬅️":
                     let seektime = queue.currentTime - 10000;
                     if (seektime < 0) seektime = 0;
                     await client.distube.seek(message, Number(seektime));
@@ -290,7 +290,7 @@ async function playsongyes(client, message, queue, song) {
                     embedbuilder(client, 3000, message, config.colors.yes, "Seeked!", `Seeked the song for \`-10 seconds\``)
                     break;
 
-                case "780394421320679424":
+                case "➡️":
                     let seektime2 = queue.currentTime + 10000;
                     if (seektime2 >= queue.songs[0].duration * 1000) {
                         seektime2 = queue.songs[0].duration * 1000 - 1;
@@ -329,15 +329,15 @@ function curembed(client, message) {
         let song = queue.songs[0];
         embed = new Discord.MessageEmbed()
             .setColor(config.colors.yes)
-            .setTitle("<:Playing:769665713124016128> Playing Song:")
+            .setTitle("🎶 Playing Song:")
             .setDescription(`> [\`${song.name}\`](${song.url})`)
             .addField("💡 Requested by:", `>>> ${song.user}`, true)
             .addField("⏱ Duration:", `>>> \`${queue.formattedCurrentTime} / ${song.formattedDuration}\``, true)
             .addField("🌀 Queue:", `>>> \`${queue.songs.length} song(s) - ${queue.formattedDuration}\``, true)
             .addField("🔊 Volume:", `>>> \`${queue.volume} %\``, true)
-            .addField("♾ Loop:", `>>> ${queue.repeatMode ? queue.repeatMode === 2 ? "<:approved:780401773532807208> Queue" : "<:approved:780401773532807208> Song" : "<:declined:780403017160982538>"}`, true)
-            .addField("↪️ Autoplay:", `>>> ${queue.autoplay ? "<:approved:780401773532807208>" : "<:declined:780403017160982538>"}`, true)
-            .addField("❔ Filter:", `>>> \`${queue.filter || "<:declined:780403017160982538>"}\``, true)
+            .addField("♾ Loop:", `>>> ${queue.repeatMode ? queue.repeatMode === 2 ? "✅ Queue" : "✅ Song" : "❌"}`, true)
+            .addField("↪️ Autoplay:", `>>> ${queue.autoplay ? "✅" : "❌"}`, true)
+            .addField("❔ Filter:", `>>> \`${queue.filter || "❌"}\``, true)
             .addField("🎧 DJ-Role:", `>>> ${djs}`, true)
             .setFooter(client.user.username + " | by: milrato.eu", client.user.displayAvatarURL())
             .setAuthor(message.author.tag, message.member.user.displayAvatarURL({

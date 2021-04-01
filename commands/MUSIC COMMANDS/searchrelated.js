@@ -1,4 +1,4 @@
-const functions = require("../../functions")
+﻿const functions = require("../../functions")
 const config = require("../../config.json")
 module.exports = {
     name: "searchrelated",
@@ -11,7 +11,7 @@ module.exports = {
         
         //if not a dj, return error  -  Disabled because not needed
         //if(functions.check_if_dj(message))
-        //return functions.embedbuilder(client, 6000, message, config.colors.no, "DJ-ROLE", `<:declined:780403017160982538> You don\'t have permission for this Command! You need to have: ${functions.check_if_dj(message)}`)
+        //return functions.embedbuilder(client, 6000, message, config.colors.no, "DJ-ROLE", `❌ You don\'t have permission for this Command! You need to have: ${functions.check_if_dj(message)}`)
     
         //If Bot not connected, return error
         if (!message.guild.me.voice.channel) return functions.embedbuilder(client, 3000, message, config.colors.no, "Nothing playing!")
@@ -39,7 +39,7 @@ module.exports = {
             }
         }
         //send information message
-        await functions.embedbuilder(client, "null", message, config.colors.yes, "<:youtube:769675858431705109> Search Results for Related Songs:", searchresult)
+        await functions.embedbuilder(client, "null", message, config.colors.yes, "🔎 Search Results for Related Songs:", searchresult)
         let userinput;
         //wait for userinput
         await message.channel.awaitMessages(m => m.author.id == message.author.id, {
@@ -63,7 +63,7 @@ module.exports = {
         if (userinput === 404)  return functions.embedbuilder(client, "null", message, config.colors.no, "Something went wrong! / Time ran out")
         
         //send information message
-        functions.embedbuilder(client, 10000, message, config.colors.yes, "<:youtube:769675858431705109> Adding:", `[${result[userinput - 1].name}](${result[userinput - 1].url})`, result[userinput - 1].thumbnail)
+        functions.embedbuilder(client, 10000, message, config.colors.yes, "🔎 Adding:", `[${result[userinput - 1].name}](${result[userinput - 1].url})`, result[userinput - 1].thumbnail)
         
         //play track
         client.distube.play(message, result[userinput - 1].url)

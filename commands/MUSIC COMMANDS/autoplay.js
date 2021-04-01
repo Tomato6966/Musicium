@@ -1,4 +1,4 @@
-const functions = require("../../functions")
+﻿const functions = require("../../functions")
 const config = require("../../config.json")
 module.exports = {
   name: "autoplay",
@@ -9,7 +9,7 @@ module.exports = {
   run: async (client, message, args) => {
     //if not a dj, return error
     if (functions.check_if_dj(message))
-      return functions.embedbuilder(client, 6000, message, config.colors.no, "DJ-ROLE", `<:declined:780403017160982538> You don\'t have permission for this Command! You need to have: ${functions.check_if_dj(message)}`)
+      return functions.embedbuilder(client, 6000, message, config.colors.no, "DJ-ROLE", `❌ You don\'t have permission for this Command! You need to have: ${functions.check_if_dj(message)}`)
 
     //If Bot not connected, return error
     if (!message.guild.me.voice.channel) return functions.embedbuilder(client, 3000, message, config.colors.no, "Nothing playing!")

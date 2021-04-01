@@ -1,4 +1,4 @@
-const functions = require("../../functions")
+﻿const functions = require("../../functions")
 const config = require("../../config.json")
 module.exports = {
     name: "dj",
@@ -8,7 +8,7 @@ module.exports = {
     useage: "dj",
     run: async (client, message, args) => {
         if (!functions.check_if_dj(message))
-            return functions.embedbuilder(client, 6000, message, config.colors.no, "DJ-ROLE", `<:declined:780403017160982538> There are no DJ ROLES`)  
+            return functions.embedbuilder(client, 6000, message, config.colors.no, "DJ-ROLE", `❌ There are no DJ ROLES`)  
 
         return functions.embedbuilder(client, "null", message, config.colors.yes, "DJ-ROLE", `These are the DJ ROLES`, `${functions.check_if_dj(message)}`)
     }

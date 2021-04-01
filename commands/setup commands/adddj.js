@@ -7,7 +7,7 @@ module.exports = {
   description: "Let's you define a DJ ROLE (as an array, aka you can have multiple)",
   useage: "adddj @role",
   run: async (client, message, args) => {
-    if (!message.member.hasPermission("ADMINISTRATOR")) return functions.embedbuilder(client, "null", message, config.colors.no, "DJ-ROLE", `<:declined:780403017160982538> You don\'t have permission for this Command!`)
+    if (!message.member.hasPermission("ADMINISTRATOR")) return functions.embedbuilder(client, "null", message, config.colors.no, "DJ-ROLE", `❌ You don\'t have permission for this Command!`)
 
     let role = message.mentions.roles.first();
 
@@ -20,7 +20,7 @@ module.exports = {
     if (!role) return functions.embedbuilder(client, "null", message, config.colors.no, `ERROR`, `Please add a Role via ping, @role!`)
     if (client.settings.get(message.guild.id, `djroles`).includes(role.id)) return functions.embedbuilder(client, "null", message, config.colors.no, `ERROR`, `This Role is alerady in the List!`)
 
-    message.react("780401773532807208");
+    message.react("✅");
 
     client.settings.push(message.guild.id, role.id, `djroles`);
     let leftb = "";
@@ -30,7 +30,7 @@ module.exports = {
         leftb += "<@&" + client.settings.get(message.guild.id, `djroles`)[i] + "> | "
       }
 
-    return functions.embedbuilder(client, "null", message, config.colors.yes, "DJ-ROLE", `<:approved:780401773532807208> Successfully set the DJ ROLE to ${role}
+    return functions.embedbuilder(client, "null", message, config.colors.yes, "DJ-ROLE", `✅ Successfully set the DJ ROLE to ${role}
     All Dj Roles:
     > ${leftb}`)
   }

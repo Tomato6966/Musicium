@@ -1,4 +1,4 @@
-const functions = require("../../functions")
+﻿const functions = require("../../functions")
 const scdl = require("soundcloud-downloader").default;
 const config = require("../../config.json")
 module.exports = {
@@ -10,7 +10,7 @@ module.exports = {
     run: async (client, message, args) => {
         //if not a dj, return error  -  DISABLED BECAUSE NOT A DJ CMD
         //if(functions.check_if_dj(message))
-        //return functions.embedbuilder(client, 6000, message, config.colors.no, "DJ-ROLE", `<:declined:780403017160982538> You don\'t have permission for this Command! You need to have: ${functions.check_if_dj(message)}`)
+        //return functions.embedbuilder(client, 6000, message, config.colors.no, "DJ-ROLE", `❌ You don\'t have permission for this Command! You need to have: ${functions.check_if_dj(message)}`)
 
         //if member not connected return error
         if (!message.member.voice.channel) return functions.embedbuilder(client, 5000, message, config.colors.no, "`" + message.author.tag + "`" + " You must join a Voice Channel")
@@ -36,7 +36,7 @@ module.exports = {
 
         
         //send information message
-        functions.embedbuilder(client, 3000, message, config.colors.yes, "<:soundcloud:792137871662252103> Searching!", args.join(" "))
+        functions.embedbuilder(client, 3000, message, config.colors.yes, "🔎 Searching!", args.join(" "))
 
         //search in soundcloud
         scdl.search('tracks', args.join(" "))
@@ -57,7 +57,7 @@ module.exports = {
                 }
 
                 //send information message
-                await functions.embedbuilder(client, "null", message, config.colors.yes, "<:soundcloud:792137871662252103> Search Results:", searchresult)
+                await functions.embedbuilder(client, "null", message, config.colors.yes, "🔎 Search Results:", searchresult)
 
                 //wait for userinput with 60 sec. delay
                 let userinput;
@@ -82,7 +82,7 @@ module.exports = {
                 if (userinput === 404) return functions.embedbuilder(client, "null", message, config.colors.no, "Something went wrong!")
 
                 //send information message
-                functions.embedbuilder(client, 10000, message, config.colors.yes, "<:soundcloud:792137871662252103> Searching!", `[${results.collection[userinput - 1].permalink}](${results.collection[userinput - 1].permalink_url})`, results.collection[userinput - 1].artwork_url)
+                functions.embedbuilder(client, 10000, message, config.colors.yes, "🔎 Searching!", `[${results.collection[userinput - 1].permalink}](${results.collection[userinput - 1].permalink_url})`, results.collection[userinput - 1].artwork_url)
 
                 //play the track
                 client.distube.play(message, results.collection[userinput - 1].permalink_url)

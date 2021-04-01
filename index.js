@@ -155,7 +155,7 @@ client.on("message", async message => {
 
         client.infos.set("global", Number(client.infos.get("global", "cmds")) + 1, "cmds");
 
-        message.react("769945882120028160").catch(e => console.log("COULD NOT REACT F"))
+        message.react("✅").catch(e => console.log("COULD NOT REACT F"))
 
         try {
             command.run(client, message, args);

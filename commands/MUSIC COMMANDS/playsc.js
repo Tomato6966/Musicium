@@ -1,4 +1,4 @@
-const functions = require("../../functions")
+﻿const functions = require("../../functions")
 const config = require("../../config.json")
 const scdl = require("soundcloud-downloader").default;
 module.exports = {
@@ -11,7 +11,7 @@ module.exports = {
     run: async (client, message, args) => {
         //if not a dj, return error Disabled - Because not needed 
         //if(functions.check_if_dj(message))
-        //return functions.embedbuilder(client, 6000, message, config.colors.no, "DJ-ROLE", `<:declined:780403017160982538> You don\'t have permission for this Command! You need to have: ${functions.check_if_dj(message)}`)
+        //return functions.embedbuilder(client, 6000, message, config.colors.no, "DJ-ROLE", `❌ You don\'t have permission for this Command! You need to have: ${functions.check_if_dj(message)}`)
 
         //if member not connected return error
         if (!message.member.voice.channel) return functions.embedbuilder(client, 5000, message, config.colors.no, "`" + message.author.tag + "`" + " You must join a Voice Channel")
@@ -36,13 +36,13 @@ module.exports = {
         if (!message.guild.me.permissionsIn(message.member.voice.channel).has("SPEAK")) return functions.embedbuilder(client, 5000, message, config.colors.no, "`" + message.author.tag + "`" + " I am not allowed to \`speak\` your Channel")
         
         //send information message
-        functions.embedbuilder(client, 5000, message, config.colors.yes, "<:soundcloud:792137871662252103> Searching!", "```" + args.join(" ") + "```")
+        functions.embedbuilder(client, 5000, message, config.colors.yes, "🔎 Searching!", "```" + args.join(" ") + "```")
         
         //Search in soundcloud
         scdl.search('tracks', args.join(" "))
             .then(async results => {
                 //send information message
-                functions.embedbuilder(client, 10000, message, config.colors.yes, "<:soundcloud:792137871662252103> Playing!", `[${results.collection[0].permalink}](${results.collection[0].permalink_url})`, results.collection[0].artwork_url)
+                functions.embedbuilder(client, 10000, message, config.colors.yes, "🔎 Playing!", `[${results.collection[0].permalink}](${results.collection[0].permalink_url})`, results.collection[0].artwork_url)
                 //play track
                 return client.distube.play(message, results.collection[0].permalink_url)
             })
