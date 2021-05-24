@@ -43,7 +43,22 @@
       "538-Radio http://21223.live.streamtheworld.com/RADIO538.mp3",
   
       "radio90-cieszyn http://streams2.radio90.pl:8000/radio90_128kbps_stereo.mp3",
-      "Fama-Radio http://stream2.nadaje.com:8076/,stream.mp3"
+      "Fama-Radio http://stream2.nadaje.com:8076/,stream.mp3",
+	  
+	  "reyfm-#ORIGINAL https://listen.reyfm.de/original_320kbps.mp3",
+	  "reyfm-#NIGHTLIFE https://listen.reyfm.de/nightlife_64kbps.mp3",
+	  "reyfm-#RAPROYAL https://listen.reyfm.de/raproyal_320kbps.mp3",
+	  "reyfm-#USRAP https://listen.reyfm.de/usrap_320kbps.mp3",
+	  "reyfm-#HITSONLY https://listen.reyfm.de/hitsonly_320kbps.mp3",
+	  "reyfm-#GAMING https://listen.reyfm.de/gaming_320kbps.mp3",
+	  "reyfm-#HOUSEPARTY https://listen.reyfm.de/houseparty_320kbps.mp3",
+	  "reyfm-#CHILLOUT https://listen.reyfm.de/chillout_320kbps.mp3",
+	  "reyfm-#EXCLUSIVE https://listen.reyfm.de/exclusive_320kbps.mp3",
+	  "reyfm-#OLDSCHOOL https://listen.reyfm.de/oldschool_320kbps.mp3",
+	  "reyfm-#MASHUP https://listen.reyfm.de/mashup_320kbps.mp3",
+	  "reyfm-#CHARTS https://listen.reyfm.de/charts_320kbps.mp3",
+	  "reyfm-#PARTYHARD https://listen.reyfm.de/partyhard_320kbps.mp3",
+	  "reyfm-#BASS https://listen.reyfm.de/bass_320kbps.mp3"
     ],
 
   "EU":{
