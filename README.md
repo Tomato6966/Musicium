@@ -1,29 +1,31 @@
-# **IMPORTANT**
+# Musicium 
 
-**Without the [PUBLIC VERSION](https://dc.musicium.eu) of this Bot this Repo would not exist!**
+## Important
+**Without the [PUBLIC VERSION](https://dc.musicium.eu) of this bot this repository would not exist!**
 
 [Join my Support Server](https://support.milrato.eu)
 
-## HOW TO SELFHOSt
+## Selfhosting Guide
 
-- download `nodejs` v12 or higher, and `ffmpeg`
+- Download `nodejs` v12 or higher, and `ffmpeg`
 
-- install all dependeces with `npm install`
+- Install all dependeces with `npm install`
 
-- start your Bot with `node index.js`
+- Start the bot with `node index.js`
 
-also change the files in config.json / the src code so that its change for a .env file 
-needed files: ./index.js & ./commands/MUSIC\ COMMANDS/lyrics.js
+- Change the files in config.json / and the .env file 
+
+- Required files: ./index.js & ./commands/music\ and commands/lyrics.js
 
 Enjoy ;)
 
-[REPLIT](https://replit.com/@OxyTomato/Musicium-or-Best-Music-Bot-on-Replit?v=1)
+### Setup on Replit
 
-*Yes It Works on REPLIT*
+[Replit Link](https://replit.com/@OxyTomato/Musicium-or-Best-Music-Bot-on-Replit?v=1)
 
-# SUPPORT ME AND MILRATO DEVELOPMENT
+## Support me and milrato development
 
-You can always Support me by inviting one of my **own Discord Bots**
+You can always Support me by inviting one of my **own discord bots**
 
 [![2021's best Music Bot | Lava Music](https://cdn.discordapp.com/attachments/748533465972080670/817088638780440579/test3.png)](https://lava.milrato.eu)
 [![Musicium Music Bot](https://cdn.discordapp.com/attachments/742446682381221938/770055673965707264/test1.png)](https://dc.musicium.eu)
@@ -52,6 +54,8 @@ Bittmax is our first and probably most important sponsor!
 GET **5%** OFF EVERYTHING FOR EVER!
 Code: **`x10`**
 
+--- 
+
 ### MC-Host24.de
 MC-Host24.de is selling the Best Digital Hosting Services ever!
 Like For games..
@@ -70,12 +74,14 @@ Like For games..
 **Website:**
 [mc-host24.de](https://mc-host24.de/user/affiliate/3121])
 
+---
+
 ## Credits
 
 [@eritislami](https://github.com/eritislami/) For the Reacting system to messages, great Idea i adopted that [@iCrawl/evobot](https://github.com/eritislami/evobot)
 
 
-## emojis
+## Emojis
 
 [![](https://cdn.discordapp.com/emojis/770290491731476500.png)](https://cdn.discordapp.com/emojis/770290491731476500.png) 
 [![](https://cdn.discordapp.com/emojis/769675858431705109.png)](https://cdn.discordapp.com/emojis/769675858431705109.png) 
