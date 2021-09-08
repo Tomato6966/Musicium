@@ -82,7 +82,7 @@ module.exports = {
 						content: `${client.allEmojis.x} **No Lyrics Found!** :cry:\n${String(e).substr(0, 1800)}`,
 					});
 				})
-				i.reply({
+				message.reply({
 					embeds: embeds,
 				})
 			} catch (e) {
