@@ -21,6 +21,10 @@
 
 - in `./botconfig/embed.json` Adjust the EMBED SETTINGS
 
+- in `./dashboard/settings.json` Adjust the parameters!
+
+    - `dpkg-reconfigure locales` --> To change the server language to XXXX (on debian)
+
 - `npm install` to Install the depedences
 
 - `node .` to start the Bot
@@ -60,3 +64,4 @@ You can always Support me by inviting one of my **own Discord Bots**
 # Credits
 
 > If consider using this Bot, make sure to credit me!
+
