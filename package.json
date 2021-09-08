@@ -1,0 +1,42 @@
+{
+  "name": "v13musicbot",
+  "version": "1.0.0",
+  "description": "A Discord Music Bot built with latest Discord Voice Features",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/Tomato6966/v13-music-bot"
+  },
+  "keywords": [
+    "Music",
+    "Bot",
+    "Discord",
+    "Discord-jsv13",
+    "v13",
+    "js",
+    "nodejs"
+  ],
+  "author": "Tomato6966",
+  "license": "MIT",
+  "dependencies": {
+    "@discordjs/builders": "^0.6.0",
+    "@discordjs/voice": "^0.5.6",
+    "@distube/soundcloud": "^0.2.2",
+    "@distube/spotify": "^0.6.3",
+    "@ksoft/api": "^3.1.9",
+    "colors": "^1.4.0",
+    "cpu-stat": "^2.0.1",
+    "discord.js": "^13.1.0",
+    "distube": "^3.0.0-beta.37",
+    "enmap": "^5.8.7",
+    "express": "^4.17.1",
+    "ffmpeg-static": "^4.4.0",
+    "http": "^0.0.1-security",
+    "https-proxy-agent": "^5.0.0",
+    "libsodium-wrappers": "^0.7.9",
+    "moment": "^2.29.1"
+  }
+}
