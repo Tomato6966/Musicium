@@ -1,0 +1,350 @@
+body {
+    background: #23272A;
+    color: white;
+    height: 100%;
+}
+.btn-outline-success {
+    border-radius: 5px;
+    zoom: 2;
+    margin-right: 5%;
+    background-color: #5663f7;
+    border: solid 1px #5663f7;
+    color: #ffffff;
+    transition: all 0.2s ease;
+}
+.btn-outline-success:hover{
+    border-radius: 15px;
+    background-color: #57F287;
+    border: solid 1px #57F287;
+}
+.navbar-brand img {
+    width: 80px;
+    border-radius: 5px;
+}
+.nav-item {
+    padding-left: 30px;
+    font-size: 30px;
+}
+.nav-item a{
+    text-decoration: none;
+    color: #cacaca;
+}
+.nav-item a:hover{
+    color: #ffffff;
+}
+.nav-item b{
+    text-decoration: none;
+    color: #41cf48!important;
+}
+.nav-item b:hover{
+    color: #56ff8e!important;
+}
+.nav-item button {
+    border-radius: 10px;
+    height: 80px;
+    font-size: 40px;
+    transition: all 0.2s ease;
+}
+.nav-item button:hover {
+    border-radius: 20px;
+    height: 80px;
+    font-size: 40px;
+}
+
+form.d-flex button {
+    background-color: #5663F7;
+    color: white;
+    outline: none;
+    border: none;
+}
+
+form.d-flex button:hover {
+    background-color: #5663F7;
+}
+
+/* MAIN BODY */
+
+.head {
+    padding-top: 260px;
+    color: white;
+    line-height: 1.3;
+    text-align: center;
+}
+
+.subtext {
+    padding-bottom: 330px;
+    color: rgb(255, 255, 255, .55);
+    line-height: 1.3;
+    text-align: center;
+
+}
+
+.container {
+    max-width: 1300px;
+}
+
+.pt-10 {
+    padding-top: 10rem!important;
+}
+
+.pt-16 {
+    padding-top: 20rem!important;
+}
+
+.custom-1 img {
+  float: right;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.custom-1 h3 {
+    padding-top: 60px;
+}
+
+.custom-1 p {
+    color: rgb(255, 255, 255, .55);
+    width: 40%;
+}
+
+.custom-2 img {
+    float: left;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.custom-2 h3 {
+    padding-top: 60px;
+    float: right;
+    width: 40%;
+}
+
+.custom-2 p {
+    float: right;
+    width: 40%;
+    color: rgb(255, 255, 255, .55);
+}
+
+
+/* MEDIA */
+
+@media screen and (max-width: 967px) {
+    .custom-1 img {
+        float: none;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        height: auto;
+    }
+
+    .pt-10 {
+        padding-top: 5rem!important;
+    }
+    .pt-16 {
+        padding-top: 2rem!important;
+    }
+
+    .custom-1 p {
+        text-align: center;
+        width: 100%;
+    }
+
+    .custom-1 h3 {
+        text-align: center;
+    }
+
+    .custom-2 p {
+        text-align: center;
+        float: none;
+        width: 100%;
+    }
+
+    .custom-2 h3 {
+        float: none;
+        text-align: center;
+        width: 100%;
+    }
+
+    .custom-2 img {
+        float: none;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        height: auto;
+    }
+    
+}
+
+
+
+.card {
+    max-width: 18rem; 
+    margin: 2rem; 
+    min-width: 10em;
+    background: #23272A;
+}
+
+
+
+
+.form-holder {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      min-height: 100vh;
+}
+
+.form-holder .form-content {
+    position: relative;
+    text-align: center;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-align-items: center;
+    align-items: center;
+    padding: 60px;
+}
+
+.form-content .form-items {
+    border: 3px solid #fff;
+    padding: 40px;
+    display: inline-block;
+    width: 100%;
+    min-width: 540px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    text-align: left;
+    -webkit-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+}
+
+.form-content h3 {
+    color: #fff;
+    text-align: left;
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.form-content h3.form-title {
+    margin-bottom: 30px;
+}
+
+.form-content p {
+    color: #fff;
+    text-align: left;
+    font-size: 17px;
+    font-weight: 300;
+    line-height: 20px;
+    margin-bottom: 30px;
+}
+
+
+.form-content label, .was-validated .form-check-input:invalid~.form-check-label, .was-validated .form-check-input:valid~.form-check-label{
+    color: #fff;
+}
+
+.form-content input[type=text], .form-content input[type=password], .form-content input[type=email], .form-content select {
+    width: 100%;
+    padding: 9px 20px;
+    text-align: left;
+    border: 0;
+    outline: 0;
+    border-radius: 6px;
+    background-color: #fff;
+    font-size: 15px;
+    font-weight: 300;
+    color: #292929;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    margin-top: 16px;
+}
+
+
+.form-content textarea {
+    position: static !important;
+    width: 100%;
+    padding: 8px 20px;
+    border-radius: 6px;
+    text-align: left;
+    background-color: #fff;
+    border: 0;
+    font-size: 15px;
+    font-weight: 300;
+    color: #292929;
+    outline: none;
+    resize: none;
+    height: 120px;
+    -webkit-transition: none;
+    transition: none;
+    margin-bottom: 14px;
+}
+
+.form-content textarea:hover, .form-content textarea:focus {
+    border: 0;
+    background-color: #ebeff8;
+    color: #292929;
+}
+
+.mv-up{
+    margin-top: -9px !important;
+    margin-bottom: 8px !important;
+}
+
+.invalid-feedback{
+    color: #ff606e;
+}
+
+.valid-feedback{
+   color: #2acc80;
+}
+.bootstrap-select.btn-group .dropdown-menu li a:hover {
+    color: whitesmoke !important;
+    background: #bf5279 !important;
+}
+select {
+    height: 40px!important;
+    margin-top: -10px;
+}
+.form-control {
+    height: 40px!important;
+    margin-top: -10px;
+}
+.selectpicker {
+    height: 40px!important;
+    margin-top: -10px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.current-song {
+  margin-top: -20%;
+  min-height: 100vh; /* minimum height = screen height */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.current-song img   {
+    border-radius: 15px;
+}

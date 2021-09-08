@@ -1,0 +1,200 @@
+<%- include('header'); -%>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!--Meta Tags-->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">        
+        <link rel="stylesheet" href="/index.css">
+        <title><%= guild.name %></title>    
+       
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+        <%
+        const nFormatter = function(num, digits = 2) {
+            const lookup = [
+                { value: 1, symbol: "" },
+                { value: 1e3, symbol: "k" },
+                { value: 1e6, symbol: "M" },
+                { value: 1e9, symbol: "G" },
+                { value: 1e12, symbol: "T" },
+                { value: 1e15, symbol: "P" },
+                { value: 1e18, symbol: "E" }
+            ];
+            const rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
+            var item = lookup.slice().reverse().find(function(item) {
+                return num >= item.value;
+            });
+            return item ? (num / item.value).toFixed(digits).replace(rx, "$1") + item.symbol : "0";
+        } 
+        %>
+    </head>
+    <body>
+    <section id="queue">
+        <br><br>
+            <%  if(botClient.distube.getQueue(guild.id) && botClient.distube.getQueue(guild.id).songs && botClient.distube.getQueue(guild.id).songs.length > 0){ let current = botClient.distube.getQueue(guild.id).songs[0] %>
+                <!-- CURRENT SONG CARD-->
+                <center>
+                    <h1 style="font-size: 100px;color:#828cff"><i class="iconify" data-icon="dashicons:format-audio"></i> Current Song:</h1>
+                </center>
+                
+                <div style="display: flex; flex-wrap: wrap; justify-content: center;" style="height: 20px">
+                    <!-- CURRENT SONG-->
+                    <div style="width:900px;height:350px;border: solid 5px #828cff;border-radius: 15px;">
+                        <div id="nowplaying" style="position: relative;width:800px;height:300px;margin-left: 50px;margin-top: 25px;">
+                            <img class="img-thumbnail" 
+                            style ="width:43%; height: 70%;border-radius: 10px;"
+                            src="https://img.youtube.com/vi/<%= current.id %>/mqdefault.jpg" alt="<%= String(current.name).substr(0, 50) %>">
+                            <div class="progresswrapper" style="position: absolute; width:100%;bottom: 0px;">
+                                
+                                <div class="progress" style="height:25px;border-radius: 15px;background: #4a4a52;">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated " 
+                                    role="progressbar" 
+                                    style="width: <%= Math.floor(botClient.distube.getQueue(guild.id).currentTime) / Math.floor(current.duration) * 100 %>%"
+                                    aria-valuenow="<%= Math.floor(botClient.distube.getQueue(guild.id).currentTime) %>"
+                                    aria-valuemin="0" 
+                                    aria-valuemax="<%= Math.floor(current.duration) %>" > 
+                                    </div>
+                                </div> 
+                                <b style="font-size: 24px"><%= botClient.distube.getQueue(guild.id).formattedCurrentTime %></b><b style="float:right;font-size: 24px;"><%= current.formattedDuration %></b>
+                            </div>
+                            <h3 style="position: absolute; margin-left:45%;top: 0px;width:450px;height:80px;"><%= String(current.name).length > 70 ? String(current.name).substr(0, 69) + " ..." : String(current.name) %></h3>
+                            <h4 style="font-size: 20px;position: absolute; margin-left:45%;top: 100px;width:440px;height:80px;">
+                                <img src="<%= current.user.displayAvatarURL({dynamic: true, size: 4096}) %>" style="width:30px">
+                                <b>Requested by:</b> <kdl style="background-color: #1b1b1b;border: solid 5px #1b1b1b;border-radius: 5px;"><%= current.user.username %><span style="font-size: 15px;color:#65656e;">#<%= current.user.discriminator %></span></kdl>
+                            </h4>
+                            <h4 style="font-size: 20px;position: absolute; margin-left:45%;top: 145px;width:440px;height:80px;">
+                                <img src="https://cdn.discordapp.com/emojis/840260133686870036.png?v=1" style="width:30px">
+                                <kdl style="background-color: #1b1b1b;border: solid 5px #1b1b1b;border-radius: 5px;"><%= nFormatter(current.views, 2) %></kdl>
+                            </h4>
+                            <h4 style="font-size: 20px;position: absolute; margin-left:68%;top: 145px;width:440px;height:80px;">
+                                <img src="https://cdn.discordapp.com/emojis/783353957719998474.gif?v=1" style="width:30px">
+                                <kdl style="background-color: #1b1b1b;border: solid 5px #1b1b1b;border-radius: 5px;"><%= nFormatter(current.likes, 2) %></kdl>
+                            </h4>
+                            <h4 style="font-size: 20px;position: absolute; margin-left:87%;top: 145px;width:440px;height:80px;">
+                                <img src="https://cdn.discordapp.com/emojis/783353914610810881.gif?v=1" style="width:30px">
+                                <kdl style="background-color: #1b1b1b;border: solid 5px #1b1b1b;border-radius: 5px;"><%= nFormatter(current.dislikes, 2) %></kdl>
+                            </h4>
+                            <h4 style="font-size: 20px;position: absolute; margin-left:45%;top: 190px;width:440px;height:80px;">
+                                <img src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/282/hourglass-done_231b.png" style="width:30px">
+                                <b>Duration:</b> <kdl style="background-color: #1b1b1b;border: solid 5px #1b1b1b;border-radius: 5px;"><%= current.formattedDuration %> | <%= current.duration %> Seconds</kdl>
+                            </h4>
+                        </div>
+                    </div>
+                    <!-- CONTROLS -->
+                    <!--<div style="width:450px;height:350px;border: solid 5px #828cff;border-radius: 15px;margin-left:1%;vertical-align: middle;">
+                        <center><h1 style="font-size: 50px;color:#828cff"><i class="iconify" data-icon="il:controls"></i> Controls</h1></center>
+                        
+                        <button style="font-size: 30px;width: 100%;"
+                            class="btn btn-primary" type="button">
+                            <i class="iconify" data-icon="dashicons:controls-skipforward" ></i>
+                            Skip</button>
+                            <button style="font-size: 30px;width: 100%;"
+                                class="btn btn-danger" type="button">
+                                <i class="iconify" data-icon="fa-solid:stop" ></i>
+                                Stop</button>
+                            <% if(botClient.distube.getQueue(guild.id).playing){ %>
+                            <button style="font-size: 30px;width: 100%;"
+                                class="btn btn-primary" type="button">
+                                <i class="iconify" data-icon="dashicons:controls-pause" ></i>
+                                Pause</button>
+                            <% }else{ %>
+                            <button style="font-size: 30px;width: 100%;"
+                                class="btn btn-success" type="button">
+                                <i class="iconify" data-icon="dashicons:controls-play" ></i>
+                                Resume</button>
+                            <% } %>
+                    </div> -->
+                </div>
+                <br>
+                <hr>
+                <br>
+                <!-- SHOWING THE QUEUE-->
+                <center>
+                    <h1 style="font-size: 100px;color:#828cff"><i class="iconify" data-icon="bi:music-note-list"></i> Show the <b>Music Queue</b>  [<span id="queueamount"> <%= botClient.distube.getQueue(guild.id) && botClient.distube.getQueue(guild.id).songs ? botClient.distube.getQueue(guild.id).songs.length : 0 %> Songs </span>]</h1>
+                </center>
+                <div style="display: flex; flex-wrap: wrap; justify-content: center;" id="wholequeue">
+                    <div id="currentsong" class="card mb-3 text-white bg-info mb-3">
+                        <img class="card-img-top" src="https://img.youtube.com/vi/<%= current.id %>/mqdefault.jpg" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title" style="color: #ffffff "><b>0.</b> <a href="<%= current.url %>" style="text-decoration: none;color: #ffffff" target="_blank"><%= current.name %></a></h5>
+                            <p class="mt-auto card-text"><small class="text-muted" style="color: #1b1b1b !important;">Requested by: <%= current.user.tag %></small></p>
+                            <p class="mt-auto card-text"><small class="text-muted" style="color: #1b1b1b !important">Duration: <%= botClient.distube.getQueue(guild.id).formattedCurrentTime + " / " + current.formattedDuration %></small></p>                          
+                            </div>
+                    </div>
+                    <% botClient.distube.getQueue(guild.id).songs.forEach((song, i) => { if(i>0){ %>
+                        <div class="card mb-3 <%= i==0 ? 'text-white bg-success mb-3': 'text-white bg-secondary  mb-3' %>">
+                            <img class="card-img-top" src="https://img.youtube.com/vi/<%= song.id %>/mqdefault.jpg" alt="Card image cap">
+                            <div class="card-body">
+                            <h5 class="card-title" style="color: <%= i==0 ? '#ffffff' : '#1b1b1b' %>"><b><%= i + 1%>.</b> <a href="<%= song.url %>" style="text-decoration: none;color: <%= i==0 ? '#ffffff' :'#1b1b1b' %>" target="_blank"><%= song.name %></a></h5>
+                            <p class="mt-auto card-text"><small class="text-muted" style="color: #1b1b1b !important;">Requested by: <%= song.user.tag %></small></p>
+                            <p class="mt-auto card-text"><small class="text-muted" style="color: #1b1b1b !important">Duration: <%= song.formattedDuration %></small></p>                          
+                            </div>
+                        </div>
+                    <% }}) %>
+                </div>
+            <% }else{ %>
+                <center>
+                    <h3 style="color:#828cff">Currently there is nothing Playing</h3>
+                </center>
+            <% } %>
+    </section>
+      <!-- FOOTER-->
+      <section>
+        <div class="card-footer" style="margin-top:15%;text-align: center;color: #828cff;">
+          <hr style="width: 75%;background-color: #FFFFFF!important;color: #FFFFFF!important;border: 5px solid #FFFFFF!important;border-radius:25px;margin-left: 12%;">
+          <h4 style="margin-top:5%;">
+            <img src="<%= botClient.user.displayAvatarURL({size: 4096}) %>" style="width: 4%;margin-top: -0.5%;"> <span style="font-size: 40px;"><%= botClient.user.username %> | Ultimate Music Experience</span>
+          </h4>
+          <h5 style="text-align: center;">
+            <a href="https://github.com/Tomato6966/Musicium" target="_blank" style="font-size: 12px; color: #888a9b!important;text-decoration: none;">&copy; Copyright Musicium | All rights served.</a><br><br>
+            <a href="https://github.com/Tomato6966/Musicium" target="_blank" style="font-size: 20px; color: #828cff!important;text-decoration: none;">Developed by <code>Tomato#6966</code> | [Github]</a>
+          </h5>
+        </div>
+      </section>
+
+       <!--JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+    
+    <script type="text/javascript">
+        window.onload = startInterval
+        function startInterval()
+        {
+            setInterval(()=>{
+                var xmlhttp = new XMLHttpRequest();
+                xmlhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        try{
+                            // if it worked, parse that string, make it back into an object
+                            var data = this.responseText
+                            parser = new DOMParser();
+                            var doc = parser.parseFromString(data, "text/html");
+                            if(document.getElementById("queueamount").innerHTML != data) {
+                                data = doc.querySelector("#wholequeue").innerHTML;
+                                document.getElementById("wholequeue").innerHTML = data;
+                            } else{
+                                data = doc.querySelector("#currentsong").innerHTML;
+                                document.getElementById("currentsong").innerHTML = data;
+                            }
+                            data = doc.querySelector("#queueamount").innerHTML;
+                            document.getElementById("queueamount").innerHTML = data;
+                            data = doc.querySelector("#nowplaying").innerHTML;
+                            document.getElementById("nowplaying").innerHTML = data;
+                        }catch (e){
+                            data = doc.querySelector("#queue").innerHTML;
+                            document.getElementById("queue").innerHTML = data;
+                            console.log(e)
+                        }
+                    }
+                };
+                xmlhttp.open("GET", "/queue/<%= req.params.guildID %>", true);
+                xmlhttp.send();
+
+            }, 1000);
+        }
+    </script>
+  </body>
+</html>

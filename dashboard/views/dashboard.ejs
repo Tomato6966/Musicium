@@ -1,0 +1,81 @@
+<%- include('header'); -%>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!--Meta Tags-->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">        
+        <link rel="stylesheet" href="/index.css">
+        <title><%= bot.name %></title>    
+    </head>
+    <body>
+        <!--HEADER-->
+        
+        <!--MAIN BODY-->
+      <section>
+        <div class="d-flex justify-content-center head">
+            <h1><b>DASHBOARD</b></h1>
+        </div>
+        <div class="d-flex justify-content-center">
+            <p style="font-style: italic;">With the Dashboard you can manage the Settings of each single Guild individually!<br>Only if you have the <b>Manage Server</b> Setting, cause that's needed for that Command!</p>
+        </div>
+        <% if(user && user.id){ %>
+          <div style="display: flex; flex-wrap: wrap; justify-content: center;">
+              <% user.guilds
+              .filter((guild) => {
+                const permsOnGuild = new Permissions(guild.permissions_new);
+                if(permsOnGuild.has(Permissions.FLAGS.MANAGE_GUILD)) return guild;
+              })
+              .sort((a, b) => {
+                return (botClient.guilds.cache.get(a.id) === botClient.guilds.cache.get(b.id)) ? 0 : a ? -1 : 1;
+              })
+              .forEach(guild => {
+              %>
+                <div class="card text-white bg-dark mb-3">
+                <%- guild.icon ? `<img src="https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}" class="card-img-top" style="max-width: 250px;width: 250px;">` : `<img src="https://cdn.discordapp.com/attachments/765919453766352916/877787616974622770/wCfHtuoejLIbAAAAABJRU5ErkJggg.png" class="card-img-top" style="max-width: 250px;width: 250px;">` %>
+                  <div class="card-img-overlay text-grey h-100 d-flex flex-column justify-content-end" style="background:#000000b0;max-width: 250px;width: 250px;">
+                    <h5 class="card-title text-primary" style="font-size: 25px;"><%= guild.name %></h5>
+                    <% if (botClient.guilds.cache.get(guild.id)) { %>
+                      <p class="card-text" style="font-size: 12px;font-style: italic;color: #b3b3b3">Edit <b><%= guild.name %></b>'s Settings via the Dashboard by clicking the Button below!</p>
+                      <a style="font-size: 25px;"
+                      href="<%- bot.domain %>/dashboard/<%- guild.id %>" 
+                      class="mt-auto btn btn-lg btn-block btn-success">Edit Settings</a>
+                    <% } else { %>
+                      <p class="card-text" style="font-size: 12px;font-style: italic;color: #b3b3b3">Invite me to <b><%= guild.name %></b> in order to view their guild's Settings via the Dashboard by clicking the button below!</p>
+                      <a style="font-size: 25px;"
+                      href="<%= `https://discordapp.com/oauth2/authorize?client_id=${botClient.user.id}&scope=bot%20applications.commands&guild_id=${guild.id}&response_type=code&redirect_uri=${encodeURIComponent(`${callback}`)}`  %>" 
+                      class="mt-auto btn btn-lg btn-block btn-primary">Invite Bot</a>
+                    <% } %>
+                  </div>
+                </div>
+              <%
+                  });
+              %>
+          </div>
+        <%
+          } else {
+        %>
+            <p>Please login First!</p>
+        <%
+          } 
+        %>
+      </section>
+      <!-- FOOTER-->
+      <section>
+        <div class="card-footer" style="margin-top:15%;text-align: center;color: #5663f7;">
+          <hr style="width: 75%;background-color: #FFFFFF!important;color: #FFFFFF!important;border: 5px solid #FFFFFF!important;border-radius:25px;margin-left: 12%;">
+          <h4 style="margin-top:5%;">
+            <img src="<%= botClient.user.displayAvatarURL({size: 4096}) %>" style="width: 4%;margin-top: -0.5%;"> <span style="font-size: 40px;"><%= botClient.user.username %> | Ultimate Music Experience</span>
+          </h4>
+          <h5 style="text-align: center;">
+            <a href="https://github.com/Tomato6966/Musicium" target="_blank" style="font-size: 12px; color: #888a9b!important;text-decoration: none;">&copy; Copyright Musicium | All rights served.</a><br><br>
+            <a href="https://github.com/Tomato6966/Musicium" target="_blank" style="font-size: 20px; color: #5663f7!important;text-decoration: none;">Developed by <code>Tomato#6966</code> | [Github]</a>
+          </h5>
+        </div>
+      </section>
+
+       <!--JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+    </body>
+</html>

@@ -1,0 +1,142 @@
+<%- include('header'); -%>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+      <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+         <link rel="stylesheet" href="/index.css">        
+        <link rel="stylesheet" href="/commands.css">
+        <title><%= bot.name %></title>   
+    </head>
+
+    <body>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+      <div class="d-flex justify-content-center command_head">
+      </div>
+      
+      <section id="botcommands" class="botcommands">
+        <h1> Bot Commands </h1>
+        <p>
+          <a href="https://discord.com/api/oauth2/authorize?client_id=<%=botClient.user.id%>&permissions=8&scope=bot%20applications.commands">
+            Invite me with <u>Slash Commands</u> Permissions</a>, cause all of my Commands are available as Slash Commands too</p>
+        <!-- Command Menu -->
+
+        <div class="container px-lg-5" id="commands_menu">
+          <div class="row">
+            <div class="col-sm-3" id="category">
+              <div class="list-group" id="myList" role="tablist">
+                <% categories.forEach((category, i) => { %>
+                  <a class="list-group-item list-group-item-action <%= i==0 ? 'active' : '' %>"  data-bs-toggle="list" href="#<%= category %>" role="tab" aria-controls="<%= category %>"><%= category %></a>
+                <% }) %>
+              </div>
+            </div>
+          <div class="col-sm-9">
+            <div class="tab-content">
+              <% categories.forEach((category, k) => { %>
+                  <div class="tab-pane fade show <%= k == 0 ? 'active' : '' %>" id="<%= category %>" role="tabpanel" aria-labelledby="list-home-list">
+                    <div class="accordion" id="acc_<%= category %>">
+                      <% commands.filter((cmd) => cmd.category === category).forEach((cmd, i) => { %>
+                        <div class="accordion-item">
+                          <h2 class="accordion-header" id="h_<%= cmd.name %>">
+                            <button class="accordion-button <%= i==0 ? '' : 'collapsed' %>" 
+                              type="button" 
+                              data-bs-toggle="collapse" 
+                              data-bs-target="#c_<%= cmd.name %>" 
+                              aria-expanded="<%= i==0 ? 'true' : 'false' %>"
+                              aria-controls="<%= cmd.name %>"
+                            >
+                              +<%= cmd.name %>
+                            </button>
+                          </h2>
+                          <div id="c_<%= cmd.name %>" 
+                            class="accordion-collapse collapse <%= i==0 ? 'show' : ''%>" 
+                            aria-labelledby="h_<%= cmd.name %>" 
+                            data-bs-parent="#acc_<%= category %>">
+                            <div class="accordion-body">
+                            <code>Description : </code><%= cmd.description %> <br>
+                            <code>Aliases : </code><% cmd.aliases && cmd.aliases.length > 0 ? cmd.aliases.forEach(a => { %>
+                            <small class="text-muted">[+<%= a %>]</small>
+                            <% }) : "NO" %><br>
+                            <code>Usage : </code><small><kbd><%= cmd.usage %></kbd></small><br>
+                            </div>
+                          </div>
+                        </div>
+                      <% }) %>
+                    </div>
+                  </div>
+              <% }) %>
+            </div>
+          </div>
+        </div>
+        </div>
+      </section>
+
+      <section id="audiofilters" class="audiofilters">
+        <h1 style="text-align: center;"> Audio Filters </h1>
+        <p style="font-style: italic;">You can add Filters using the <b>addfilter / removefilter / setfilter</b> Commands or the <b>filter [set/add/remove]</b> SlashCommand!<br>
+        <span>Sometimes it takes up to 2 Seconds until a Filter got applied!</span><br>
+        <b>You can add Filters on default too! <u>defaultfilter</u></b></p>
+        <!-- Command Menu -->
+
+        <div class="container px-lg-5" id="filters_menu">
+          <div class="row">
+            <div class="col-sm-3" id="category">
+              <div class="list-group" id="myList" role="tablist">
+                <a class="list-group-item list-group-item-action active"  data-bs-toggle="list" href="#filters" role="tab" aria-controls="Filters">All Audio Filters</a>
+              </div>
+            </div>
+          <div class="col-sm-9">
+            <div class="tab-content">
+              <div class="tab-pane fade show active" id="filters" role="tabpanel" aria-labelledby="list-home-list">
+                <div class="accordion" id="acc_filters">
+                  <% Object.keys(BotFilters).forEach((filter, i) => { %>
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="h_filter">
+                          <button class="accordion-button <%= i==0 ? '' : 'collapsed' %>" 
+                            type="button" 
+                            data-bs-toggle="collapse" 
+                            data-bs-target="#c_<%= filter %>" 
+                            aria-expanded="<%= i==0 ? 'true' : 'false' %>" 
+                            aria-controls="<%= filter %>">
+                            +add-/remove-/setfilter&nbsp;<b><%= filter %></b>
+                          </button>
+                        </h2>
+                        <div id="c_<%= filter %>" 
+                        class="accordion-collapse collapse <%= i==0 ? 'show' : ''%>" 
+                        aria-labelledby="h_<%= filter %>" 
+                        data-bs-parent="#acc_filters">
+                          <div class="accordion-body">
+                          <% if(filter.includes("custom")) { %>
+                            <p><b><i>This is a <u>custom</u> Filter, and has dedicated Commands for it! U can adjust the Gain/Amount of it!</i></b></p>
+                          <% } %>
+                          <code>FFmpeg-Arg: </code><small class="text-muted"><kbd><%= BotFilters[String(filter)] %></kbd></small><br>
+                          <code>Applies a <b>"<%= filter %>"</b> Sounding Audio-Filter</code>
+                          </div>
+                        </div>
+                      </div>
+                    <% }) %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </section>
+      
+      <!-- FOOTER -->
+      <section>
+        <div class="card-footer" style="margin-top:15%;text-align: center;color: #5663f7;">
+          <hr style="width: 75%;background-color: #FFFFFF!important;color: #FFFFFF!important;border: 5px solid #FFFFFF!important;border-radius:25px;margin-left: 12%;">
+          <h4 style="margin-top:5%;">
+            <img src="<%= botClient.user.displayAvatarURL({size: 4096}) %>" style="width: 4%;margin-top: -0.5%;"> <span style="font-size: 40px;"><%= botClient.user.username %> | Ultimate Music Experience</span>
+          </h4>
+          <h5 style="text-align: center;">
+            <a href="https://github.com/Tomato6966/Musicium" target="_blank" style="font-size: 12px; color: #888a9b!important;text-decoration: none;">&copy; Copyright Musicium | All rights served.</a><br><br>
+            <a href="https://github.com/Tomato6966/Musicium" target="_blank" style="font-size: 20px; color: #5663f7!important;text-decoration: none;">Developed by <code>Tomato#6966</code> | [Github]</a>
+          </h5>
+        </div>
+      </section>
+
+    </body>
+</html>

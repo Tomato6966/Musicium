@@ -6,7 +6,7 @@ const colors = require("colors");
 const Enmap = require("enmap");
 const libsodium = require("libsodium-wrappers");
 const ffmpeg = require("ffmpeg-static");
-const voice = require("@discordjs/voice")
+const voice = require("@discordjs/voice");
 const DisTube = require("distube").default;
 const https = require('https-proxy-agent');
 const client = new Discord.Client({
@@ -45,7 +45,6 @@ const client = new Discord.Client({
       status: "online"
     }
 });
-//audiosetups
 //BOT CODED BY: Tomato#6966
 //DO NOT SHARE WITHOUT CREDITS!
 const proxy = 'http://123.123.123.123:8080';
@@ -71,8 +70,8 @@ client.distube = new DisTube(client, {
   emitAddSongWhenCreatingQueue: false,
   //emitAddListWhenCreatingQueue: false,
   searchSongs: 0,
-  youtubeCookie: config.youtubeCookie,    
-  nsfw: true,
+  youtubeCookie: config.youtubeCookie,     //Comment this line if you dont want to use a youtube Cookie 
+  nsfw: true, //Set it to false if u want to disable nsfw songs
   emptyCooldown: 25,
   ytdlOptions: {
     requestOptions: {
@@ -100,17 +99,11 @@ client.aliases = new Discord.Collection();
 client.categories = require("fs").readdirSync(`./commands`);
 client.allEmojis = require("./botconfig/emojis.json");
 
-client.setMaxListeners(0);
-require('events').defaultMaxListeners = 0;
+client.setMaxListeners(100); require('events').defaultMaxListeners = 100;
 
-client.settings = new Enmap({
-  name: "settings",
-  dataDir: "./databases/settings"
-});
-client.infos = new Enmap({
-  name: "infos",
-  dataDir: "./databases/infos"
-});
+client.settings = new Enmap({ name: "settings",dataDir: "./databases/settings"});
+client.infos = new Enmap({ name: "infos", dataDir: "./databases/infos"});
+
 
 //Require the Handlers                  Add the antiCrash file too, if its enabled
 ["events", "commands", "slashCommands", settings.antiCrash ? "antiCrash" : null, "distubeEvent"]
@@ -136,4 +129,9 @@ client.login(config.token)
 
 
 
-
+/**
+ * @LOAD_THE_DASHBOARD - Loading the Dashbaord Module with the BotClient into it!
+ */
+client.on("ready", () => {
+  require("./dashboard/index.js")(client);
+})

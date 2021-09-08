@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+
+body {
+  background: #23272A
+}
+h1 {
+  text-align: center;
+}
+p {
+  text-align: center;
+}
+a {
+  color: #5663F7;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+a:hover {
+  color: #0062ff
+}
+section {
+  margin-top: 10px;
+  margin-bottom: 30px;
+}
+
+.command_head {
+  padding-top: 50px;
+  padding-bottom: 50px;
+  color: white;
+}
+
+#category {
+  border-radius: 5px;
+  padding-bottom: 50px;
+}
+
+#category a {
+  background-color: #151f2e;
+  color: white;
+}
+#category a.active {
+  background-color: #5663F7;
+  border-color: #5663F7;
+}
+
+.accordion-item {
+  background-color: #151f2e;
+  color: #9fadbd;
+}
+
+.accordion-button {
+  color: white;
+}
+
+.accordion-button:not(.collapsed) {
+  color: white;
+  background-color: #5663F7;
+}
+
+/* .accordion-button:not(.collapsed)::after {
+  background-image: url(https://cdn3.iconfinder.com/data/icons/faticons/32/arrow-up-01-512.png);
+  transform: rotate(180deg);
+  filter: invert(100%)
+}
+.accordion-button::after {
+   background-image: url(https://cdn3.iconfinder.com/data/icons/faticons/32/arrow-up-01-512.png);
+} */
+
+.accordion-button:focus {
+  z-index: 0;
+  border-color: transparent;
+  outline: 0;
+  box-shadow: 0 0 0 0.25rem transparent;
+}
+
+.accordion-item:first-of-type {
+  border-top-left-radius: .25rem;
+  border-top-right-radius: .25rem;
+}
+
+
+.accordion-item:last-of-type {
+  border-bottom-left-radius: .25rem;
+  border-bottom-right-radius: .25rem;
+}
+
+#commands_menu {
+  font-family: 'Poppins', sans-serif;
+}
+
+
+/* ANIMATION */
+
+.slide-up-fade-in{
+    animation: slide-up-fade-in ease 1.5s;
+}
+
+@keyframes slide-up-fade-in{
+    0% {
+        opacity:0;
+        transform:  translate(0px,40px)  ;
+    }
+    100% {
+        opacity:1;
+        transform:  translate(0px,0px)  ;
+    }
+}

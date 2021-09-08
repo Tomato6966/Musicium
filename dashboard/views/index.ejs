@@ -1,0 +1,108 @@
+<%- include('header'); -%>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!--Meta Tags-->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">        
+        <link rel="stylesheet" href="/index.css">
+        <title><%= bot.name %></title>    
+    </head>
+    <body>
+        <!--HEADER-->
+        
+        <!--MAIN BODY-->
+      <section style="margin-bottom: 0;">
+        <div class="d-flex justify-content-center head">
+            <h1 style="font-weight: 900;">
+                <img src="<%= botClient.user.displayAvatarURL({size: 4096}) %>" style="width: 4%;margin-top: -0.5%;"> <span style="font-size: 40px;"><span style="color:#5663f7;"><%= botClient.user.username %></span> | Ultimate Music Experience</span>
+              </h1>
+        </div>
+        <div class="d-flex justify-content-center subtext">
+            <p style="font-style: italic;font-size: 30px;">The Best Music Bot with the Best, Highest Quality you ever used!</p>
+        </div>
+      </section>
+      
+      <section  style="margin-top: -15%;">
+
+        <div class="container">
+          <div class="row align-items-center mt-5">
+            <div class="col-md-5 col-lg-6 order-md-1 order-0"><img class="w-100" src="https://i.imgur.com/4wsUNJm.png" alt="" /></div>
+            <div class="col-md-7 col-lg-6 pe-lg-4 pe-xl-7">
+              <div class="d-flex align-items-start"><img class="me-4" src="https://cdn.discordapp.com/emojis/850924066517155871.png?v=1" alt="" width="30" />
+                <div class="flex-1">
+                  <h5>All needed Commands for your Server</h5>
+                  <p class="text-muted mb-4">Are you sick of having a Music Bot with thousands Commands? Musicium has all Commands needed in just one Single Bot!
+                    <br> Tho they don't see like "much" you can use our Command structures to add one of the <b><%= Object.keys(BotFilters).length %> Filters!</b></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="container">
+            <div class="row align-items-center mt-5">
+              <div class="col-md-5 col-lg-6 order-md-0 order-1"><img class="w-100" src="https://i.imgur.com/zoOTxsU.png" alt="" /></div>
+              <div class="col-md-7 col-lg-6 pe-lg-4 pe-xl-7">
+                <div class="d-flex align-items-start"><img class="me-4" src="https://cdn.discordapp.com/emojis/850924929444610048.png?v=1" alt="" width="30" />
+                  <div class="flex-1">
+                    <h5>Ultimate Music Experiences means, <%= Object.keys(BotFilters).length %> Filters to adjust your Audio!</h5>
+                    <p class="text-muted mb-4">We are using FFMPEG, to give you the highest Audio Quality possible! As a matter of fact, we spawn them instantly and have no lag at all!</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+
+          <div class="container">
+            <div class="row align-items-center mt-5">
+              <div class="col-md-5 col-lg-6 order-md-1 order-0"><img class="w-100" src="https://i.imgur.com/wXwAvIi.png" alt="" /></div>
+              <div class="col-md-7 col-lg-6 pe-lg-4 pe-xl-7">
+                <div class="d-flex align-items-start"><img class="me-4" src="https://cdn.discordapp.com/emojis/850831345051762719.png?v=1" alt="" width="30" />
+                  <div class="flex-1">
+                    <h5>Spotify, Soundcloud, Youtube, and 1100+ Other Links Supported!</h5>
+                    <p class="text-muted mb-4">We Support everything you listen to!
+                        INCLUDING PLAYLISTS AND <b>20 PREDEFINED, optimized, PLAYLISTS! (mix)</b></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+
+            <div class="container">
+              <div class="row align-items-center mt-5">
+                <div class="col-md-5 col-lg-6 order-md-0 order-1"><img class="w-100" src="https://i.imgur.com/orpW86s.png" alt="" /></div>
+                <div class="col-md-7 col-lg-6 pe-lg-4 pe-xl-7">
+                  <div class="d-flex align-items-start"><img class="me-4" src="https://cdn.discordapp.com/emojis/853006694312574977.png?v=1" alt="" width="30" />
+                    <div class="flex-1">
+                      <h5>Clear Interface, with Logs and instant Buttons!</h5>
+                      <p class="text-muted mb-4">So that you can get all you want instantly from the Bot, and see everything what/who happened!</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>  
+    
+    </section>
+      <!-- FOOTER-->
+      <section>
+        <div class="card-footer" style="margin-top:15%;text-align: center;color: #5663f7;">
+          <hr style="width: 75%;background-color: #FFFFFF!important;color: #FFFFFF!important;border: 5px solid #FFFFFF!important;border-radius:25px;margin-left: 12%;">
+          <h4 style="margin-top:5%;">
+            <img src="<%= botClient.user.displayAvatarURL({size: 4096}) %>" style="width: 4%;margin-top: -0.5%;"> <span style="font-size: 40px;"><%= botClient.user.username %> | Ultimate Music Experience</span>
+          </h4>
+          <h5 style="text-align: center;">
+            <a href="https://github.com/Tomato6966/Musicium" target="_blank" style="font-size: 12px; color: #888a9b!important;text-decoration: none;">&copy; Copyright Musicium | All rights served.</a><br><br>
+            <a href="https://github.com/Tomato6966/Musicium" target="_blank" style="font-size: 20px; color: #5663f7!important;text-decoration: none;">Developed by <code>Tomato#6966</code> | [Github]</a>
+          </h5>
+        </div>
+      </section>
+
+       <!--JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+    </body>
+</html>

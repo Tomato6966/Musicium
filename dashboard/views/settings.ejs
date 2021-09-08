@@ -1,0 +1,159 @@
+<%- include('header'); -%>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!--Meta Tags-->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">        
+        <link rel="stylesheet" href="/index.css">
+        <title><%= guild.name %></title>    
+       
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+
+    </head>
+    <body>
+        <!--MAIN BODY-->
+      <section>
+            <center>
+                <h1 style="font-size: 75px;color:#828cff"><i class="iconify" data-icon="ant-design:dashboard-filled"></i><b><%= guild.name %></b> | Dashboard</h1>
+            </center>
+            <br>
+            <div class="form-body">
+                <div class="form-holder">
+                    <div class="form-content">
+                        <div class="form-items">
+                            <h3 style="color:#828cff">Server Settings</h3>
+                            <p>Change the Server Settings of <%= botClient.user.username %> in <%= guild.name %>.</p>
+                            <form method="POST">
+                                <h5 style="margin-bottom: 0.5rem; margin-top: 10px;color:#828cff">Prefix:</h5>
+                                <p style="font-style: italic;" class="disabled">The prefix that is added to discord messages in order to invoke commands.</p>
+                                <input style="margin-top: -10px;" type="text" class="form-control" name="prefix" value="<%= botClient.settings.get(guild.id, 'prefix') %>" placeholder="Your prefix.">
+                                
+                                <br><br>
+                                <h5 style="margin-bottom: 0.5rem; margin-top: 10px;color:#828cff">Default Autoplay:</h5>
+                                <p style="font-style: italic;" class="disabled">If the Autoplay should be enabled on the Queue Initialisation.</p>
+                                <div class="form-check form-switch">
+                                    &nbsp;&nbsp;<input class="form-check-input" 
+                                        type="checkbox" 
+                                        name="defaultautoplay" 
+                                        id="defaultautoplay"
+                                        style="zoom:2;margin-left: auto;margin-top: auto;margin: auto;"
+                                        <%= botClient.settings.get(guild.id, 'defaultautoplay') ? "checked" : "" %> >
+                                    
+                                <label class="form-check-label" for="defaultautoplay"> <%= botClient.settings.get(guild.id, 'defaultautoplay') ? "Enabled" : "Disabled" %> (Updates on Save)
+                                </label>
+                                    
+                                </div>
+                                
+                                <br><br>
+                                <h5 style="margin-bottom: 0.5rem; margin-top: 10px;color:#828cff">Default Volume:</h5>
+                                <p style="font-style: italic;" class="disabled">The Volume to be set on the Queue Initialisation.</p>
+                                <input oninput="this.nextElementSibling.value = this.value" tyle="margin-top: -10px;" type="range" class="form-range" min="1" max="150" step="1" value="<%= botClient.settings.get(guild.id, 'defaultvolume')%>" name="defaultvolume" id="defaultvolume">
+                                Current Volume: <output><%= botClient.settings.get(guild.id, 'defaultvolume')%></output>%
+                                
+                                
+                                <br><br>
+                                <h5 style="margin-bottom: 0.5rem; margin-top: 10px;color:#828cff">Dj-Roles:</h5>
+                                <p style="font-style: italic;" class="disabled">All Users with the Selected-Roles/Song-Requester are allowed to use Queue / Song Manipulation Commands. | Pick no Role, to disable!</p>
+                                <select 
+                                    class="form-control selectpicker"
+                                    multiple  
+                                    data-width="100%"
+                                    data-live-search="true" 
+                                    aria-label="Dj Roles"
+                                    name="djroles"
+                                >
+                                    <% guild.roles.cache.filter(role=>!role.managed).sort((a, b) => b.rawPosition - a.rawPosition).forEach((role, i) => { %>
+                                        <option value="<%= role.id%>" 
+                                            <%= botClient.settings.get(guild.id, "djroles").includes(role.id) ? "selected" : "" %>> @<%= role.name%>
+                                        </option>
+                                    <% }) %>
+                                </select>
+                                
+                                
+                                <br><br>
+                                <h5 style="margin-bottom: 0.5rem; margin-top: 10px;color:#828cff">Whitelisted Bot-Channels:</h5>
+                                <p style="font-style: italic;" class="disabled">All Bot Channels which are Whitelisted! | The Bot will only responde to Commands in one of those Channels!</p>
+                                <select 
+                                class="form-control selectpicker"
+                                    multiple 
+                                    data-width="100%"
+                                    data-height="100%"
+                                    data-live-search="true" 
+                                    aria-label="Dj Roles"
+                                    name="botchannel"
+                                >
+                                    <% guild.channels.cache
+                                        .filter(channel=> channel.isText() && channel.permissionsFor(botClient.user).has(["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS"]))
+                                        .sort((a, b) => a.rawPosition - b.rawPosition)
+                                        .forEach((channel, i) => { %>
+                                        <option value="<%= channel.id%>" 
+                                            <%= botClient.settings.get(guild.id, "botchannel").includes(channel.id) ? "selected" : "" %>> #<%= channel.name%>
+                                        </option>
+                                    <% }) %>
+                                </select>
+                                
+                                
+                                
+                                <br><br>
+                                <h5 style="margin-bottom: 0.5rem; margin-top: 10px;color:#828cff">Default Filters:</h5>
+                                <p style="font-style: italic;" class="disabled">Filters to be added to the Queue before starting to play!</p>
+                                <select 
+                                class="form-control selectpicker"
+                                    multiple 
+                                    data-width="100%"
+                                    data-height="100%"
+                                    data-live-search="true" 
+                                    aria-label="Default Filters"
+                                    name="defaultfilters"
+                                >
+                                    <% Object.keys(BotFilters)
+                                        .forEach((filter, i) => { %>
+                                        <option value="<%= filter %>" 
+                                            <%= botClient.settings.get(guild.id, "defaultfilters").includes(filter) ? "selected" : "" %>> <%= filter%>
+                                        </option>
+                                    <% }) %>
+                                </select>
+                                
+                                <br><br>
+                                <button type="submit" class="btn btn-success text-white" style="font-size: 40px;">
+                                    <i class="iconify" data-icon="cil:save"></i> Save Settings</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <center>
+                <h1 style="font-size: 100px;color:#828cff"><i class="iconify" data-icon="bi:music-note-list"></i> Show the <b>Music Queue</b>  [ <%= botClient.distube.getQueue(guild.id) && botClient.distube.getQueue(guild.id).songs ? botClient.distube.getQueue(guild.id).songs.length : 0 %> Songs]</h1>
+            
+                <button style="font-size: 50px"
+                onclick="location.href='/queue/<%=guild.id%>'"
+                class="btn btn-primary" type="button"><i class="iconify" data-icon="ant-design:dashboard-filled"></i>
+                Queue | Live Music Player</button>
+            </center>
+      </section>
+   
+      <!-- FOOTER-->
+      <section>
+        <div class="card-footer" style="margin-top:15%;text-align: center;color: #828cff;">
+          <hr style="width: 75%;background-color: #FFFFFF!important;color: #FFFFFF!important;border: 5px solid #FFFFFF!important;border-radius:25px;margin-left: 12%;">
+          <h4 style="margin-top:5%;">
+            <img src="<%= botClient.user.displayAvatarURL({size: 4096}) %>" style="width: 4%;margin-top: -0.5%;"> <span style="font-size: 40px;"><%= botClient.user.username %> | Ultimate Music Experience</span>
+          </h4>
+          <h5 style="text-align: center;">
+            <a href="https://github.com/Tomato6966/Musicium" target="_blank" style="font-size: 12px; color: #888a9b!important;text-decoration: none;">&copy; Copyright Musicium | All rights served.</a><br><br>
+            <a href="https://github.com/Tomato6966/Musicium" target="_blank" style="font-size: 20px; color: #828cff!important;text-decoration: none;">Developed by <code>Tomato#6966</code> | [Github]</a>
+          </h5>
+        </div>
+      </section>
+
+       <!--JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+    
+  </body>
+</html>
