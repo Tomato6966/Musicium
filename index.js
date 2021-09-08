@@ -47,8 +47,8 @@ const client = new Discord.Client({
 });
 //BOT CODED BY: Tomato#6966
 //DO NOT SHARE WITHOUT CREDITS!
-const proxy = 'http://123.123.123.123:8080';
-const agent = https(proxy);
+//const proxy = 'http://123.123.123.123:8080';
+//const agent = https(proxy);
 const { SpotifyPlugin } = require("@distube/spotify");
 const { SoundCloudPlugin } = require("@distube/soundcloud");
 let spotifyoptions = {
@@ -74,9 +74,9 @@ client.distube = new DisTube(client, {
   nsfw: true, //Set it to false if u want to disable nsfw songs
   emptyCooldown: 25,
   ytdlOptions: {
-    requestOptions: {
-      agent
-    },
+    //requestOptions: {
+    //  agent //ONLY USE ONE IF YOU KNOW WHAT YOU DO!
+    //},
     highWaterMark: 1024 * 1024 * 64,
     quality: "highestaudio",
     format: "audioonly",
