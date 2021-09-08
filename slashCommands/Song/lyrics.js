@@ -82,7 +82,7 @@ module.exports = {
 						ephemeral: true
 					});
 				})
-				i.reply({
+				interaction.reply({
 					embeds: embeds,
 					ephemeral: true
 				})
