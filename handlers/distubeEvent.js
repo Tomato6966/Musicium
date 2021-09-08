@@ -407,12 +407,12 @@ module.exports = (client) => {
               let embeds = [];
               await ksoft.lyrics.get(newQueue.songs[0].name).then(
                 async track => {
-                    if (!track.lyrics) return interaction.reply({content: `${client.allEmojis.x} **No Lyrics Found!** :cry:`, ephemeral: true});
+                    if (!track.lyrics) return i.reply({content: `${client.allEmojis.x} **No Lyrics Found!** :cry:`, ephemeral: true});
                     lyrics = track.lyrics;
                 embeds = lyricsEmbed(lyrics, newQueue.songs[0]);
               }).catch(e=>{
                 console.log(e)
-                return interaction.reply({content: `${client.allEmojis.x} **No Lyrics Found!** :cry:\n${String(e).substr(0, 1800)}`, ephemeral: true});
+                return i.reply({content: `${client.allEmojis.x} **No Lyrics Found!** :cry:\n${String(e).substr(0, 1800)}`, ephemeral: true});
               })
               i.reply({
                 embeds: embeds, ephemeral: true
