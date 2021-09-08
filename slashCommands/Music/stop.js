@@ -55,13 +55,11 @@ module.exports = {
 			}
 			try {
 				let newQueue = client.distube.getQueue(guildId);
-				if (!newQueue || !newQueue.songs || newQueue.songs.length == 0) {
-					await newQueue.stop()
-					//Reply with a Message
-					interaction.reply({
-						content: `⏹ **Stopped playing and left the Channel**\n> 💢 **Action by**: \`${member.user.tag}\``
-					})
-				}
+				if (!newQueue || !newQueue.songs || newQueue.songs.length == 0) return message.reply({
+					interaction: [
+						new MessageEmbed().setColor(ee.wrongcolor).setTitle(`${client.allEmojis.x} **I am nothing Playing right now!**`)
+					],ephemeral: true
+				})
 				if (check_if_dj(client, member, newQueue.songs[0])) {
 					return interaction.reply({
 						embeds: [new MessageEmbed()
