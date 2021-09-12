@@ -85,8 +85,8 @@ module.exports = {
 						],
 					});
 				}
-				let loop = args[0]
-				if (!["off", "song", "queue"].includes(args[0].toLowerCase())) {
+				let loop = String(args[0])
+				if (!["off", "song", "queue"].includes(loop.toLowerCase())) {
 					return message.reply({
 						embeds: [new MessageEmbed()
 							.setColor(ee.wrongcolor)
@@ -97,8 +97,8 @@ module.exports = {
 					});
 				}
 				if (loop.toLowerCase() == "off") loop = 0;
-				if (loop.toLowerCase() == "song") loop = 1;
-				if (loop.toLowerCase() == "queue") loop = 2;
+				else if (loop.toLowerCase() == "song") loop = 1;
+				else if (loop.toLowerCase() == "queue") loop = 2;
 				await newQueue.setRepeatMode(loop);
 				if (newQueue.repeatMode == 0) {
 					message.reply({
