@@ -32,7 +32,7 @@ module.exports = (client) => {
             collector.stop();
           }
           var newQueue = client.distube.getQueue(queue.id)
-          var newTrack = newQueue.songs[0];
+          var newTrack = track; //dont use queue.songs[0] which is WRONG !!!!
           var data = receiveQueueData(newQueue, newTrack)
           //Send message with buttons
           let currentSongPlayMsg = await queue.textChannel.send(data).then(msg => {
