@@ -86,7 +86,7 @@ module.exports = {
 					});
 				}
 				let loop = args[0]
-				if (!["off", "song", "queue"].includes(args[0]).toLowerCase()) {
+				if (!["off", "song", "queue"].includes(args[0].toLowerCase())) {
 					return message.reply({
 						embeds: [new MessageEmbed()
 							.setColor(ee.wrongcolor)
