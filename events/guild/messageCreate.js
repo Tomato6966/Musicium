@@ -31,14 +31,16 @@ module.exports = async (client, message) => {
     let command = client.commands.get(cmd);
     if(!command) command = client.commands.get(client.aliases.get(cmd));
     if (command) {
-        if (client.settings.get(message.guild.id, `botchannel`).length > 0) {
-            if (!client.settings.get(message.guild.id, `botchannel`).includes(message.channel.id) && !message.member.permissions.has("ADMINISTRATOR")) {
+      let botchannels = client.settings.get(message.guild.id, `botchannel`);
+      if(!botchannels || !Array.isArray(botchannels)) botchannels = [];
+        if (botchannels.length > 0) {
+            if (!botchannels.includes(message.channel.id) && !message.member.permissions.has("ADMINISTRATOR")) {
                return message.reply({
                  embeds: [new Discord.MessageEmbed()
                  .setColor(ee.wrongcolor)
                  .setFooter(ee.footertext, ee.footericon)
                  .setTitle(`${client.allEmojis.x} **You are not allowed to use this Command in here!**`)
-                  .setDescription(`Please do it in one of those:\n> ${client.settings.get(message.guild.id, `botchannel`).map(c=>`<#${c}>`).join(", ")}`)
+                  .setDescription(`Please do it in one of those:\n> ${botchannels.map(c=>`<#${c}>`).join(", ")}`)
                 ]
                })
             }
@@ -151,7 +153,7 @@ module.exports = async (client, message) => {
             }).then(msg => {setTimeout(()=>{msg.delete().catch((e) => {console.log(String(e).grey)})}, 4000)}).catch((e) => {console.log(String(e).grey)});
           }
         }
-      } else //if the command is not found send an info msg
+      }/* else //if the command is not found send an info msg
         return message.reply({
           embeds: [new Discord.MessageEmbed()
             .setColor(ee.wrongcolor)
@@ -159,8 +161,8 @@ module.exports = async (client, message) => {
             .setTitle(replacemsg(settings.messages.unknown_cmd, {
               prefix: prefix
             }))]
-        }).then(msg => {setTimeout(()=>{msg.delete().catch((e) => {console.log(String(e).grey)})}, 4000)}).catch((e) => {console.log(String(e).grey)});
-}
+        }).then(msg => {setTimeout(()=>{msg.delete().catch((e) => {console.log(String(e).grey)})}, 4000)}).catch((e) => {console.log(String(e).grey)});*/
+      }
 /**
  * @INFO
  * Bot Coded by Tomato#6966 | https://discord.gg/milrato
