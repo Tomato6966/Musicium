@@ -16,23 +16,20 @@ const {
   lyricsEmbed, check_if_dj
 } = require("./functions");
 let songEditInterval = null;
-let collector = null;
 module.exports = (client) => {
   try {
     client.distube
       .on(`playSong`, async (queue, track) => {
-        let edited = false;
         try {
-          client.guilds.cache.get(queue.id).me.voice.setDeaf(true);
+          client.guilds.cache.get(queue.id).me.voice.setDeaf(true).catch((e) => {
+            //console.log(e.stack ? String(e.stack).grey : String(e).grey)
+          })
         } catch (error) {
           console.log(error)
         }
         try {
-          if(collector && !collector.ended){
-            collector.stop();
-          }
           var newQueue = client.distube.getQueue(queue.id)
-          var newTrack = track; //dont use queue.songs[0] which is WRONG !!!!
+          var newTrack = track;
           var data = receiveQueueData(newQueue, newTrack)
           //Send message with buttons
           let currentSongPlayMsg = await queue.textChannel.send(data).then(msg => {
@@ -40,7 +37,7 @@ module.exports = (client) => {
             return msg;
           })
           //create a collector for the thinggy
-          collector = currentSongPlayMsg.createMessageComponentCollector({
+          var collector = currentSongPlayMsg.createMessageComponentCollector({
             filter: (i) => i.isButton() && i.user && i.message.author.id == client.user.id,
             time: track.duration > 0 ? track.duration * 1000 : 600000
           }); //collector for 5 seconds
@@ -110,11 +107,13 @@ module.exports = (client) => {
               if (newQueue.songs.length == 0) {
                 //if its on autoplay mode, then do autoplay before leaving...
                   i.reply({
-                    content: `⏹ **Stopped playing and left the Channel**\n> 💢 **Action by**: \`${member.user.tag}\``
+                    embeds: [new MessageEmbed()
+                    .setColor(ee.color)
+                    .setTimestamp()
+                    .setTitle(`⏹ **Stopped playing and left the Channel**`)
+                    .setFooter(`💢 Action by: ${member.user.tag}`, member.user.displayAvatarURL({dynamic: true}))]
                   })
                   clearInterval(songEditInterval);
-                  collector.stop()
-                  edited = true;
                   //edit the current song message
                   await client.distube.stop(i.guild.id)
                 return
@@ -122,9 +121,12 @@ module.exports = (client) => {
               //skip the track
               await client.distube.skip(i.guild.id)
               i.reply({
-                content: `⏭ **Skipped to the next Song!**\n> 💢 **Action by**: \`${member.user.tag}\``,
+                embeds: [new MessageEmbed()
+                  .setColor(ee.color)
+                  .setTimestamp()
+                  .setTitle(`⏭ **Skipped to the next Song!**`)
+                  .setFooter(`💢 Action by: ${member.user.tag}`, member.user.displayAvatarURL({dynamic: true}))]
               })
-              collector.stop();
             }
             //stop
             if (i.customId == `2`) {
@@ -144,27 +146,17 @@ module.exports = (client) => {
                   content: `${client.allEmojis.x} **Please join __my__ Voice Channel first! <#${channel.id}>**`,
                   ephemeral: true
                 })
-              //if ther is nothing more to skip then stop music and leave the Channel
-              if (newQueue.songs.length == 0) {
+                //stop the track
                 i.reply({
-                  content: `⏹ **Stopped playing and left the Channel**\n> 💢 **Action by**: \`${member.user.tag}\``
+                  embeds: [new MessageEmbed()
+                    .setColor(ee.color)
+                    .setTimestamp()
+                    .setTitle(`⏹ **Stopped playing and left the Channel!**`)
+                    .setFooter(`💢 Action by: ${member.user.tag}`, member.user.displayAvatarURL({dynamic: true}))]
                 })
                 clearInterval(songEditInterval);
-                collector.stop()
-                edited = true;
                 //edit the current song message
                 await client.distube.stop(i.guild.id)
-              } else {
-                //skip the track
-                i.reply({
-                  content: `⏹ **Stopped playing and left the Channel**\n> 💢 **Action by**: \`${member.user.tag}\``
-                })
-                clearInterval(songEditInterval);
-                collector.stop()
-                edited = true;
-                //edit the current song message
-                await client.distube.stop(i.guild.id)
-              }
             }
             //pause/resume
             if (i.customId == `3`) {
@@ -190,7 +182,11 @@ module.exports = (client) => {
                   //console.log(e.stack ? String(e.stack).grey : String(e).grey)
                 })
                 i.reply({
-                  content: `⏸ **Paused!**\n> 💢 **Action by**: \`${member.user.tag}\``
+                  embeds: [new MessageEmbed()
+                    .setColor(ee.color)
+                    .setTimestamp()
+                    .setTitle(`⏸ **Paused!**`)
+                    .setFooter(`💢 Action by: ${member.user.tag}`, member.user.displayAvatarURL({dynamic: true}))]
                 })
               } else {
                 //pause the player
@@ -200,7 +196,11 @@ module.exports = (client) => {
                   //console.log(e.stack ? String(e.stack).grey : String(e).grey)
                 })
                 i.reply({
-                  content: `▶️ **Resumed!**\n> 💢 **Action by**: \`${member.user.tag}\``,
+                  embeds: [new MessageEmbed()
+                    .setColor(ee.color)
+                    .setTimestamp()
+                    .setTitle(`▶️ **Resumed!**`)
+                    .setFooter(`💢 Action by: ${member.user.tag}`, member.user.displayAvatarURL({dynamic: true}))]
                 })
               }
             }
@@ -236,8 +236,12 @@ module.exports = (client) => {
               }
               //Send Success Message
               i.reply({
-                content: `${newQueue.autoplay ? `${client.allEmojis.check_mark} **Enabled Autoplay**`: `${client.allEmojis.x} **Disabled Autoplay**`}\n> 💢 **Action by**: \`${member.user.tag}\``
-              })
+                embeds: [new MessageEmbed()
+                  .setColor(ee.color)
+                  .setTimestamp()
+                  .setTitle(`${newQueue.autoplay ? `${client.allEmojis.check_mark} **Enabled Autoplay**`: `${client.allEmojis.x} **Disabled Autoplay**`}`)
+                  .setFooter(`💢 Action by: ${member.user.tag}`, member.user.displayAvatarURL({dynamic: true}))]
+                })
             }
             //Shuffle
             if(i.customId == `5`){
@@ -260,7 +264,11 @@ module.exports = (client) => {
               await newQueue.shuffle()
               //Send Success Message
               i.reply({
-                content: `🔀 **Shuffled ${newQueue.songs.length} Songs**\n> 💢 **Action by**: \`${member.user.tag}\``
+                embeds: [new MessageEmbed()
+                  .setColor(ee.color)
+                  .setTimestamp()
+                  .setTitle(`🔀 **Shuffled ${newQueue.songs.length} Songs!**`)
+                  .setFooter(`💢 Action by: ${member.user.tag}`, member.user.displayAvatarURL({dynamic: true}))]
               })
             }
             //Songloop
@@ -289,7 +297,11 @@ module.exports = (client) => {
                 await newQueue.setRepeatMode(1)
               }
               i.reply({
-                content: `${newQueue.repeatMode == 1 ? `${client.allEmojis.check_mark} **Enabled Song-Loop**`: `${client.allEmojis.x} **Disabled Song-Loop**`}\n> 💢 **Action by**: \`${member.user.tag}\``
+                embeds: [new MessageEmbed()
+                  .setColor(ee.color)
+                  .setTimestamp()
+                  .setTitle(`${newQueue.repeatMode == 1 ? `${client.allEmojis.check_mark} **Enabled Song-Loop**`: `${client.allEmojis.x} **Disabled Song-Loop**`}`)
+                  .setFooter(`💢 Action by: ${member.user.tag}`, member.user.displayAvatarURL({dynamic: true}))]
               })
               var data = receiveQueueData(client.distube.getQueue(queue.id), newQueue.songs[0])
               currentSongPlayMsg.edit(data).catch((e) => {
@@ -322,8 +334,12 @@ module.exports = (client) => {
                 await newQueue.setRepeatMode(2)
               }
               i.reply({
-                content: `${newQueue.repeatMode == 2 ? `${client.allEmojis.check_mark} **Enabled Queue-Loop**`: `${client.allEmojis.x} **Disabled Queue-Loop**`}\n> 💢 **Action by**: \`${member.user.tag}\``
-              })
+                embeds: [new MessageEmbed()
+                  .setColor(ee.color)
+                  .setTimestamp()
+                  .setTitle(`${newQueue.repeatMode == 2 ? `${client.allEmojis.check_mark} **Enabled Queue-Loop**`: `${client.allEmojis.x} **Disabled Queue-Loop**`}`)
+                  .setFooter(`💢 Action by: ${member.user.tag}`, member.user.displayAvatarURL({dynamic: true}))]
+                })
               var data = receiveQueueData(client.distube.getQueue(queue.id), newQueue.songs[0])
               currentSongPlayMsg.edit(data).catch((e) => {
                 //console.log(e.stack ? String(e.stack).grey : String(e).grey)
@@ -351,7 +367,11 @@ module.exports = (client) => {
               await newQueue.seek(Number(seektime))
               collector.resetTimer({time: (newQueue.songs[0].duration - newQueue.currentTime) * 1000})
               i.reply({
-                content: `⏩ **Forwarded the song for \`10 Seconds\`**\n> 💢 **Action by**: \`${member.user.tag}\``
+                embeds: [new MessageEmbed()
+                  .setColor(ee.color)
+                  .setTimestamp()
+                  .setTitle(`⏩ **Forwarded the song for \`10 Seconds\`!**`)
+                  .setFooter(`💢 Action by: ${member.user.tag}`, member.user.displayAvatarURL({dynamic: true}))]
               })
               var data = receiveQueueData(client.distube.getQueue(queue.id), newQueue.songs[0])
               currentSongPlayMsg.edit(data).catch((e) => {
@@ -381,7 +401,11 @@ module.exports = (client) => {
               await newQueue.seek(Number(seektime))
               collector.resetTimer({time: (newQueue.songs[0].duration - newQueue.currentTime) * 1000})
               i.reply({
-                content: `⏪ **Rewinded the song for \`10 Seconds\`**\n> 💢 **Action by**: \`${member.user.tag}\``
+                embeds: [new MessageEmbed()
+                  .setColor(ee.color)
+                  .setTimestamp()
+                  .setTitle(`⏪ **Rewinded the song for \`10 Seconds\`!**`)
+                  .setFooter(`💢 Action by: ${member.user.tag}`, member.user.displayAvatarURL({dynamic: true}))]
               })
               var data = receiveQueueData(client.distube.getQueue(queue.id), newQueue.songs[0])
               currentSongPlayMsg.edit(data).catch((e) => {
@@ -404,6 +428,10 @@ module.exports = (client) => {
                   content: `${client.allEmojis.x} **Please join __my__ Voice Channel first! <#${channel.id}>**`,
                   ephemeral: true
                 })
+                return i.reply({
+                  content: `${client.allEmojis.x} **Lyrics are disabled!**\n> *Due to legal Reasons, Lyrics are disabled and won't work for an unknown amount of time!* :cry:`,
+                  ephemeral: true
+                });
               let embeds = [];
               await ksoft.lyrics.get(newQueue.songs[0].name).then(
                 async track => {
@@ -418,25 +446,6 @@ module.exports = (client) => {
                 embeds: embeds, ephemeral: true
               })
             }
-          });
-
-          /**
-           * @INFORMATION ONCE THE SONG-ENDED, CLEAR THE INTERVAl + EDIT!
-           */
-          collector.on('end', collected => {
-            try {
-              clearInterval(songEditInterval);
-            } catch (e) {}
-            var newQueue = client.distube.getQueue(queue.id)
-            var newTrack = newQueue.songs[0];
-            var data = receiveQueueData(newQueue, newTrack)
-            data.embeds[0].fields = [];
-            data.embeds[0].author.iconURL = "https://cdn.discordapp.com/attachments/883978730261860383/883978741892649000/847032838998196234.png"
-            data.embeds[0].footer.text += "\n⛔️ SONG ENDED!";
-            data.components = [];
-            currentSongPlayMsg.edit(data).catch((e) => {
-              //console.log(e.stack ? String(e.stack).grey : String(e).grey)
-            })
           });
         } catch (error) {
           console.error(error)
@@ -483,24 +492,28 @@ module.exports = (client) => {
       })
       .on(`empty`, channel => channel.send(`Voice channel is empty! Leaving the channel...`).catch((e)=>console.log(e)))
       .on(`searchNoResult`, message => message.channel.send(`No result found!`).catch((e)=>console.log(e)))
-      .on(`finish`, queue => {
-        var data = receiveQueueData(queue, queue.previousSongs[0])
-        data.embeds[0].fields = [];
-        data.embeds[0].author.iconURL = "https://cdn.discordapp.com/attachments/883978730261860383/883978741892649000/847032838998196234.png"
-        data.embeds[0].footer.text += "\n⛔️ SONG ENDED!";
-        data.components = [];
+      .on(`finishSong`, (queue, song) => {
+        var embed = new MessageEmbed().setColor(ee.color)
+        .setAuthor(`${song.name}`, "https://cdn.discordapp.com/attachments/883978730261860383/883978741892649000/847032838998196234.png", song.url)
+        .setDescription(`See the [Queue on the **DASHBOARD** Live!](http://dashboard.musicium.eu/queue/${queue.id})`)
+        .setThumbnail(`https://img.youtube.com/vi/${song.id}/mqdefault.jpg`)
+        .setFooter(`💯 ${song.user.tag}\n⛔️ SONG ENDED!`, song.user.displayAvatarURL({
+          dynamic: true
+        }));
         queue.textChannel.messages.fetch(PlayerMap.get(`currentmsg`)).then(currentSongPlayMsg=>{
-          currentSongPlayMsg.edit(data).catch((e) => {
+          currentSongPlayMsg.edit({embeds: [embed], components: []}).catch((e) => {
             //console.log(e.stack ? String(e.stack).grey : String(e).grey)
           })
         }).catch((e) => {
           //console.log(e.stack ? String(e.stack).grey : String(e).grey)
         })
+      })
+      .on(`finish`, queue => {
         queue.textChannel.send({
           embeds: [
             new MessageEmbed().setColor(ee.color).setFooter(ee.footertext, ee.footericon)
-            .setTitle("LEFT THE CHANNEL")
-            .setDescription("There are no more songs left")
+            .setTitle("⛔️ LEFT THE CHANNEL")
+            .setDescription(":headphones: **There are no more songs left**")
             .setTimestamp()
           ]
         })
@@ -525,12 +538,14 @@ module.exports = (client) => {
   }
 
   function receiveQueueData(newQueue, newTrack) {
-    var djs = client.settings.get(newQueue.id, `djroles`).array().map(r => `<@&${r}>`);
+    var djs = client.settings.get(newQueue.id, `djroles`);
+    if(!djs || !Array.isArray(djs)) djs = [];
+    else djs = djs.map(r => `<@&${r}>`);
     if(djs.length == 0 ) djs = "`not setup`";
     else djs.slice(0, 15).join(", ");
     if(!newTrack) return new MessageEmbed().setColor(ee.wrongcolor).setTitle("NO SONG FOUND?!?!")
     var embed = new MessageEmbed().setColor(ee.color)
-    .setDescription(`See the [Queue on the **DASHBOARD** Live!](http://dashboard.musicium.eu/queue/${newQueue.id})`)
+      .setDescription(`See the [Queue on the **DASHBOARD** Live!](http://dashboard.musicium.eu/queue/${newQueue.id})`)
       .addField(`💡 Requested by:`, `>>> ${newTrack.user}`, true)
       .addField(`⏱ Duration:`, `>>> \`${newQueue.formattedCurrentTime} / ${newTrack.formattedDuration}\``, true)
       .addField(`🌀 Queue:`, `>>> \`${newQueue.songs.length} song(s)\`\n\`${newQueue.formattedDuration}\``, true)
@@ -560,7 +575,7 @@ module.exports = (client) => {
     let queueloop = new MessageButton().setStyle('SUCCESS').setCustomId('7').setEmoji(`🔂`).setLabel(`Queue`)
     let forward = new MessageButton().setStyle('PRIMARY').setCustomId('8').setEmoji('⏩').setLabel(`+10 Sec`)
     let rewind = new MessageButton().setStyle('PRIMARY').setCustomId('9').setEmoji('⏪').setLabel(`-10 Sec`)
-    let lyrics = new MessageButton().setStyle('PRIMARY').setCustomId('10').setEmoji('📝').setLabel(`Lyrics`)
+    let lyrics = new MessageButton().setStyle('PRIMARY').setCustomId('10').setEmoji('📝').setLabel(`Lyrics`).setDisabled();
     if (newQueue.repeatMode === 0) {
       songloop = songloop.setStyle('SUCCESS')
       queueloop = queueloop.setStyle('SUCCESS')
