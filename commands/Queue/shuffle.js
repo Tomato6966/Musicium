@@ -75,7 +75,7 @@ module.exports = {
 						],
 					});
 				}
-				await newQueue.shuffle(volume);
+				await newQueue.shuffle();
 				message.reply({
 					content: `🔀 **Suffled ${newQueue.songs.length} Songs!**\n> 💢 **Action by**: \`${member.user.tag}\``
 				})
