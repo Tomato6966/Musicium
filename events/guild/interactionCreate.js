@@ -25,14 +25,16 @@ module.exports = (client, interaction) => {
    	    }
 	}
 	if(command) {
-    if (client.settings.get(interaction.guildId, `botchannel`).length > 0) {
-        if (!client.settings.get(interaction.guildId, `botchannel`).includes(interaction.channelId) && !interaction.member.permissions.has("ADMINISTRATOR")) {
+    let botchannels = client.settings.get(interaction.guildId, `botchannel`);
+    if(!botchannels || !Array.isArray(botchannels)) botchannels = [];
+    if (botchannels.length > 0) {
+        if (!botchannels.includes(interaction.channelId) && !interaction.member.permissions.has("ADMINISTRATOR")) {
            return interaction.reply({ ephemeral: true,
              embeds: [new Discord.MessageEmbed()
              .setColor(ee.wrongcolor)
              .setFooter(ee.footertext, ee.footericon)
              .setTitle(`${client.allEmojis.x} **You are not allowed to use this Command in here!**`)
-              .setDescription(`Please do it in one of those:\n> ${client.settings.get(interaction.guildId, `botchannel`).map(c=>`<#${c}>`).join(", ")}`)
+              .setDescription(`Please do it in one of those:\n> ${botchannels.map(c=>`<#${c}>`).join(", ")}`)
             ]
            })
         }
