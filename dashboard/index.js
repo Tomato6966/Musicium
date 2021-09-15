@@ -323,22 +323,6 @@ module.exports = client => {
     /**
      * @START THE WEBSITE
      */
-    //if https using is true, do this!
-    if(settings.config.https.enabled){
-      //REDIRECTING FROM HTTPS TO HTTP
-      httpApp.use("*", (req, res, next) => {
-        if (req.headers['x-forwarded-proto'] !== 'https') 
-          return res.redirect('https://' + req.headers.host + req.url);
-        else
-          return next();
-      });
-      const key = fs.readFileSync(settings.config.https.paths.privkey, `utf8`);
-      const cert = fs.readFileSync(settings.config.https.paths.fullchain, `utf8`);
-      const ca = fs.readFileSync(settings.config.https.paths.chain, `utf8`);
-      var httpsoptions = { key: key, cert: cert, ca: ca };
-      const https = require(`https`).createServer(httpsoptions, app);
-      https.listen(settings.config.https.port, () => { console.log(`[${settings.website.domain}]: HTTPS-Website running on ${settings.config.https.port} port.`)});
-    }
     //START THE WEBSITE ON THE DEFAULT PORT (80)
     const http = require(`http`).createServer(app);
     http.listen(settings.config.http.port, () => {
