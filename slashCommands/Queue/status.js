@@ -61,8 +61,10 @@ module.exports = {
 					],
 					ephemeral: true
 				})
-				var djs = client.settings.get(newQueue.id, `djroles`).map(r => `<@&${r}>`);
-				if (djs.length == 0) djs = "`not setup`";
+				var djs = client.settings.get(newQueue.id, `djroles`);
+				if(!djs || !Array.isArray(djs)) djs = [];
+				else djs = djs.map(r => `<@&${r}>`);
+				if(djs.length == 0 ) djs = "`not setup`";
 				else djs.slice(0, 15).join(", ");
 				let newTrack = newQueue.songs[0];
 				let embed = new MessageEmbed().setColor(ee.color)
@@ -75,7 +77,7 @@ module.exports = {
 					.addField(`↪️ Autoplay:`, `>>> ${newQueue.autoplay ? `${client.allEmojis.check_mark}` : `${client.allEmojis.x}`}`, true)
 					.addField(`❔ Download Song:`, `>>> [\`Click here\`](${newTrack.streamURL})`, true)
 					.addField(`❔ Filter${newQueue.filters.length > 0 ? "s": ""}:`, `>>> ${newQueue.filters && newQueue.filters.length > 0 ? `${newQueue.filters.map(f=>`\`${f}\``).join(`, `)}` : `${client.allEmojis.x}`}`, newQueue.filters.length > 1 ? false : true)
-					.addField(`🎧 DJ-Role${client.settings.get(newQueue.id, "djroles").length > 1 ? "s": ""}:`, `>>> ${djs}`, client.settings.get(newQueue.id, "djroles").length > 1 ? false : true)
+					.addField(`🎧 DJ-Role${djs.length > 1 ? "s": ""}:`, `>>> ${djs}`, djs.length > 1 ? false : true)
 					.setAuthor(`${newTrack.name}`, `https://images-ext-1.discordapp.net/external/DkPCBVBHBDJC8xHHCF2G7-rJXnTwj_qs78udThL8Cy0/%3Fv%3D1/https/cdn.discordapp.com/emojis/859459305152708630.gif`, newTrack.url)
 					.setThumbnail(`https://img.youtube.com/vi/${newTrack.id}/mqdefault.jpg`)
 					.setFooter(`💯 ${newTrack.user.tag}`, newTrack.user.displayAvatarURL({
