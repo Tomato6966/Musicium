@@ -10,16 +10,11 @@ const {
 } = require("../../handlers/functions")
 module.exports = {
 	name: "status", //the command name for the Slash Command
-
-	category: "Queue",
-	aliases: ["stats"],
-	usage: "status",
-
 	description: "Shows the Queue Status", //the command description for Slash Command Overview
 	cooldown: 10,
 	requiredroles: [], //Only allow specific Users with a Role to execute a Command [OPTIONAL]
 	alloweduserids: [], //Only allow specific Users to execute a Command [OPTIONAL]
-	run: async (client, message, args) => {
+	run: async (client, interaction) => {
 		try {
 			//things u can directly access in an interaction!
 			const {
@@ -34,40 +29,43 @@ module.exports = {
 				options,
 				id,
 				createdTimestamp
-			} = message;
+			} = interaction;
 			const {
 				guild
 			} = member;
 			const {
 				channel
 			} = member.voice;
-			if (!channel) return message.reply({
+			if (!channel) return interaction.reply({
 				embeds: [
 					new MessageEmbed().setColor(ee.wrongcolor).setTitle(`${client.allEmojis.x} **Please join ${guild.me.voice.channel ? "__my__" : "a"} VoiceChannel First!**`)
 				],
-
+				ephemeral: true
 			})
 			if (channel.guild.me.voice.channel && channel.guild.me.voice.channel.id != channel.id) {
-				return message.reply({
+				return interaction.reply({
 					embeds: [new MessageEmbed()
 						.setColor(ee.wrongcolor)
 						.setFooter(ee.footertext, ee.footericon)
 						.setTitle(`${client.allEmojis.x} Join __my__ Voice Channel!`)
 						.setDescription(`<#${guild.me.voice.channel.id}>`)
 					],
+					ephemeral: true
 				});
 			}
 			try {
 				let newQueue = client.distube.getQueue(guildId);
-				if (!newQueue || !newQueue.songs || newQueue.songs.length == 0) return message.reply({
+				if (!newQueue || !newQueue.songs || newQueue.songs.length == 0) return interaction.reply({
 					embeds: [
 						new MessageEmbed().setColor(ee.wrongcolor).setTitle(`${client.allEmojis.x} **I am nothing Playing right now!**`)
 					],
-
+					ephemeral: true
 				})
-				var djs = client.settings.get(newQueue.id, `djroles`).map(r => `<@&${r}>`);
-				if (djs.length == 0) djs = "`not setup`";
-				else djs.join(", ");
+				var djs = client.settings.get(newQueue.id, `djroles`);
+				if(!djs || !Array.isArray(djs)) djs = [];
+				else djs = djs.map(r => `<@&${r}>`);
+				if(djs.length == 0 ) djs = "`not setup`";
+				else djs.slice(0, 15).join(", ");
 				let newTrack = newQueue.songs[0];
 				let embed = new MessageEmbed().setColor(ee.color)
 					.setDescription(`See the [Queue on the **DASHBOARD** Live!](http://dashboard.musicium.eu/queue/${newQueue.id})`)
@@ -79,24 +77,24 @@ module.exports = {
 					.addField(`↪️ Autoplay:`, `>>> ${newQueue.autoplay ? `${client.allEmojis.check_mark}` : `${client.allEmojis.x}`}`, true)
 					.addField(`❔ Download Song:`, `>>> [\`Click here\`](${newTrack.streamURL})`, true)
 					.addField(`❔ Filter${newQueue.filters.length > 0 ? "s": ""}:`, `>>> ${newQueue.filters && newQueue.filters.length > 0 ? `${newQueue.filters.map(f=>`\`${f}\``).join(`, `)}` : `${client.allEmojis.x}`}`, newQueue.filters.length > 1 ? false : true)
-					.addField(`🎧 DJ-Role${client.settings.get(newQueue.id, "djroles").length > 1 ? "s": ""}:`, `>>> ${djs}`, client.settings.get(newQueue.id, "djroles").length > 1 ? false : true)
+					.addField(`🎧 DJ-Role${djs.length > 1 ? "s": ""}:`, `>>> ${djs}`, djs.length > 1 ? false : true)
 					.setAuthor(`${newTrack.name}`, `https://images-ext-1.discordapp.net/external/DkPCBVBHBDJC8xHHCF2G7-rJXnTwj_qs78udThL8Cy0/%3Fv%3D1/https/cdn.discordapp.com/emojis/859459305152708630.gif`, newTrack.url)
 					.setThumbnail(`https://img.youtube.com/vi/${newTrack.id}/mqdefault.jpg`)
 					.setFooter(`💯 ${newTrack.user.tag}`, newTrack.user.displayAvatarURL({
 						dynamic: true
 					}));
-				message.reply({
+				interaction.reply({
 					embeds: [embed]
 				})
 			} catch (e) {
 				console.log(e.stack ? e.stack : e)
-				message.reply({
+				interaction.editReply({
 					content: `${client.allEmojis.x} | Error: `,
 					embeds: [
 						new MessageEmbed().setColor(ee.wrongcolor)
 						.setDescription(`\`\`\`${e}\`\`\``)
 					],
-
+					ephemeral: true
 				})
 			}
 		} catch (e) {
