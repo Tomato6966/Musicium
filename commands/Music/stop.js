@@ -59,6 +59,7 @@ module.exports = {
 			}
 			try {
 				let newQueue = client.distube.getQueue(guildId);
+				if(!newQueue)
 				if (!newQueue || !newQueue.songs || newQueue.songs.length == 0) return message.reply({
 					embeds: [
 						new MessageEmbed().setColor(ee.wrongcolor).setTitle(`${client.allEmojis.x} **I am nothing Playing right now!**`)
@@ -77,7 +78,11 @@ module.exports = {
 				await newQueue.stop()
 				//Reply with a Message
 				message.reply({
-					content: `⏹ **Stopped playing and left the Channel**\n> 💢 **Action by**: \`${member.user.tag}\``
+					embeds: [new MessageEmbed()
+					  .setColor(ee.color)
+					  .setTimestamp()
+					  .setTitle(`⏹ **Stopped playing and left the Channel!**`)
+					  .setFooter(`💢 Action by: ${member.user.tag}`, member.user.displayAvatarURL({dynamic: true}))]
 				})
 				return
 			} catch (e) {

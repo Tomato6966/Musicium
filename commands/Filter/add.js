@@ -96,8 +96,12 @@ module.exports = {
 				}
 				await newQueue.setFilter(toAdded);
 				message.reply({
-					content: `♨️ **Added ${toAdded.length} ${toAdded.length == filters.length ? "Filters": `of ${filters.length} Filters! The Rest was already a part of the Filters!`} **\n> 💢 **Action by**: \`${member.user.tag}\``
-				})
+					embeds: [new MessageEmbed()
+					  .setColor(ee.color)
+					  .setTimestamp()
+					  .setTitle(`♨️ **Added ${toAdded.length} ${toAdded.length == filters.length ? "Filters": `of ${filters.length} Filters! The Rest was already a part of the Filters!`}**`)
+					  .setFooter(`💢 Action by: ${member.user.tag}`, member.user.displayAvatarURL({dynamic: true}))]
+					})
 			} catch (e) {
 				console.log(e.stack ? e.stack : e)
 				message.reply({

@@ -74,7 +74,11 @@ module.exports = {
 				}
 				await newQueue.skip();
 				interaction.reply({
-					content: `⏭ **Skipped to the next Song!**\n> 💢 **Action by**: \`${member.user.tag}\``
+					embeds: [new MessageEmbed()
+					  .setColor(ee.color)
+					  .setTimestamp()
+					  .setTitle(`⏭ **Skipped to the next Song!**`)
+					  .setFooter(`💢 Action by: ${member.user.tag}`, member.user.displayAvatarURL({dynamic: true}))]
 				})
 			} catch (e) {
 				console.log(e.stack ? e.stack : e)

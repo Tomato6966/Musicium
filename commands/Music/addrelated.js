@@ -64,7 +64,6 @@ module.exports = {
 					embeds: [
 						new MessageEmbed().setColor(ee.wrongcolor).setTitle(`${client.allEmojis.x} **I am nothing Playing right now!**`)
 					],
-
 				})
 				//update it without a response!
 				let thenewmsg = await message.reply({

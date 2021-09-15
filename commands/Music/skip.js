@@ -63,7 +63,6 @@ module.exports = {
 					embeds: [
 						new MessageEmbed().setColor(ee.wrongcolor).setTitle(`${client.allEmojis.x} **I am nothing Playing right now!**`)
 					],
-
 				})
 				if (check_if_dj(client, member, newQueue.songs[0])) {
 					return message.reply({
@@ -77,7 +76,11 @@ module.exports = {
 				}
 				await newQueue.skip();
 				message.reply({
-					content: `⏭ **Skipped to the next Song!**\n> 💢 **Action by**: \`${member.user.tag}\``
+					embeds: [new MessageEmbed()
+					  .setColor(ee.color)
+					  .setTimestamp()
+					  .setTitle(`⏭ **Skipped to the next Song!**`)
+					  .setFooter(`💢 Action by: ${member.user.tag}`, member.user.displayAvatarURL({dynamic: true}))]
 				})
 			} catch (e) {
 				console.log(e.stack ? e.stack : e)

@@ -66,6 +66,15 @@ module.exports = {
 					],
 					ephemeral: true
 				})
+				
+				return interaction.reply({
+					embeds: [new MessageEmbed()
+						.setColor(ee.wrongcolor)
+						.setFooter(ee.footertext, ee.footericon)
+						.setTitle(`${client.allEmojis.x} Lyrics are disabled!`)
+						.setDescription(`**Due to legal Reasons, Lyrics are disabled and won't work for an unknown amount of time!** :cry:`)
+					],
+				});
 				let embeds = [];
 				await ksoft.lyrics.get(newQueue.songs[0].name).then(
 					async track => {

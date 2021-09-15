@@ -123,7 +123,11 @@ module.exports = {
 				}
 				await newQueue.setFilter(toRemove);
 				interaction.reply({
-					content: `♨️ **Removed ${toRemove.length} ${toRemove.length == filters.length ? "Filters": `of ${filters.length} Filters! The Rest wasn't a part of the Filters yet!`} **\n> 💢 **Action by**: \`${member.user.tag}\``
+					embeds: [new MessageEmbed()
+					  .setColor(ee.color)
+					  .setTimestamp()
+					  .setTitle(`♨️ **Removed ${toRemove.length} ${toRemove.length == filters.length ? "Filters": `of ${filters.length} Filters! The Rest wasn't a part of the Filters yet!`}**`)
+					  .setFooter(`💢 Action by: ${member.user.tag}`, member.user.displayAvatarURL({dynamic: true}))]
 				})
 			} catch (e) {
 				console.log(e.stack ? e.stack : e)

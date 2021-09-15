@@ -93,7 +93,11 @@ module.exports = {
 				}
 				await newQueue.seek(seektime);
 				interaction.reply({
-					content: `⏩ **Forwarded the song for \`${seekNumber} Seconds\`!**\n> 💢 **Action by**: \`${member.user.tag}\``
+					embeds: [new MessageEmbed()
+					  .setColor(ee.color)
+					  .setTimestamp()
+					  .setTitle(`⏩ **Forwarded the song for \`${seekNumber} Seconds\`!**`)
+					  .setFooter(`💢 Action by: ${member.user.tag}`, member.user.displayAvatarURL({dynamic: true}))]
 				})
 			} catch (e) {
 				console.log(e.stack ? e.stack : e)

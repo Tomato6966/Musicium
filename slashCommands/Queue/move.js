@@ -117,7 +117,11 @@ module.exports = {
 				//Add it to a specific Position
 				newQueue.addToQueue(song, position)
 				interaction.reply({
-					content: `📑 Moved **${song.name}** to the **\`${position}th\`** Place right after **_${newQueue.songs[position - 1].name}_!**\n> 💢 **Action by**: \`${member.user.tag}\``
+					embeds: [new MessageEmbed()
+					  .setColor(ee.color)
+					  .setTimestamp()
+					  .setTitle(`📑 Moved **${song.name}** to the **\`${position}th\`** Place right after **_${newQueue.songs[position - 1].name}_!**`)
+					  .setFooter(`💢 Action by: ${member.user.tag}`, member.user.displayAvatarURL({dynamic: true}))]
 				})
 			} catch (e) {
 				console.log(e.stack ? e.stack : e)
