@@ -72,7 +72,7 @@ module.exports = {
 						ephemeral: true
 					});
 				}
-				await newQueue.shuffle(volume);
+				await newQueue.shuffle();
 				interaction.reply({
 					content: `🔀 **Suffled ${newQueue.songs.length} Songs!**\n> 💢 **Action by**: \`${member.user.tag}\``
 				})
