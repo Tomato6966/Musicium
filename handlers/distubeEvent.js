@@ -545,7 +545,7 @@ module.exports = (client) => {
     else djs.slice(0, 15).join(", ");
     if(!newTrack) return new MessageEmbed().setColor(ee.wrongcolor).setTitle("NO SONG FOUND?!?!")
     var embed = new MessageEmbed().setColor(ee.color)
-      .setDescription(`See the [Queue on the **DASHBOARD** Live!](http://dashboard.musicium.eu/queue/${newQueue.id})`)
+      .setDescription(`See the [Queue on the **DASHBOARD** Live!](${require("../dashboard/settings.json").website.domain}/queue/${newQueue.id})`)
       .addField(`💡 Requested by:`, `>>> ${newTrack.user}`, true)
       .addField(`⏱ Duration:`, `>>> \`${newQueue.formattedCurrentTime} / ${newTrack.formattedDuration}\``, true)
       .addField(`🌀 Queue:`, `>>> \`${newQueue.songs.length} song(s)\`\n\`${newQueue.formattedDuration}\``, true)
