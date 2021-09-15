@@ -525,7 +525,7 @@ module.exports = (client) => {
   }
 
   function receiveQueueData(newQueue, newTrack) {
-    var djs = client.settings.get(newQueue.id, `djroles`).map(r => `<@&${r}>`);
+    var djs = client.settings.get(newQueue.id, `djroles`).array().map(r => `<@&${r}>`);
     if(djs.length == 0 ) djs = "`not setup`";
     else djs.slice(0, 15).join(", ");
     if(!newTrack) return new MessageEmbed().setColor(ee.wrongcolor).setTitle("NO SONG FOUND?!?!")
