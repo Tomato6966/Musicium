@@ -7,7 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">        
         <link rel="stylesheet" href="/index.css">
-        <title><%= guild.name %></title>    
+        <title><%= guild ? guild.name : "Queue" %></title>    
        
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -35,7 +35,7 @@
     <body>
     <section id="queue">
         <br><br>
-            <%  if(botClient.distube.getQueue(guild.id) && botClient.distube.getQueue(guild.id).songs && botClient.distube.getQueue(guild.id).songs.length > 0){ let current = botClient.distube.getQueue(guild.id).songs[0] %>
+            <%  if(guild && botClient.distube.getQueue(guild.id) && botClient.distube.getQueue(guild.id).songs && botClient.distube.getQueue(guild.id).songs.length > 0){ let current = botClient.distube.getQueue(guild.id).songs[0] %>
                 <!-- CURRENT SONG CARD-->
                 <center>
                     <h1 style="font-size: 100px;color:#828cff"><i class="iconify" data-icon="dashicons:format-audio"></i> Current Song:</h1>
@@ -84,30 +84,6 @@
                             </h4>
                         </div>
                     </div>
-                    <!-- CONTROLS -->
-                    <!--<div style="width:450px;height:350px;border: solid 5px #828cff;border-radius: 15px;margin-left:1%;vertical-align: middle;">
-                        <center><h1 style="font-size: 50px;color:#828cff"><i class="iconify" data-icon="il:controls"></i> Controls</h1></center>
-                        
-                        <button style="font-size: 30px;width: 100%;"
-                            class="btn btn-primary" type="button">
-                            <i class="iconify" data-icon="dashicons:controls-skipforward" ></i>
-                            Skip</button>
-                            <button style="font-size: 30px;width: 100%;"
-                                class="btn btn-danger" type="button">
-                                <i class="iconify" data-icon="fa-solid:stop" ></i>
-                                Stop</button>
-                            <% if(botClient.distube.getQueue(guild.id).playing){ %>
-                            <button style="font-size: 30px;width: 100%;"
-                                class="btn btn-primary" type="button">
-                                <i class="iconify" data-icon="dashicons:controls-pause" ></i>
-                                Pause</button>
-                            <% }else{ %>
-                            <button style="font-size: 30px;width: 100%;"
-                                class="btn btn-success" type="button">
-                                <i class="iconify" data-icon="dashicons:controls-play" ></i>
-                                Resume</button>
-                            <% } %>
-                    </div> -->
                 </div>
                 <br>
                 <hr>

@@ -337,11 +337,11 @@ module.exports = client => {
       const ca = fs.readFileSync(settings.config.https.paths.chain, `utf8`);
       var httpsoptions = { key: key, cert: cert, ca: ca };
       const https = require(`https`).createServer(httpsoptions, app);
-      https.listen(settings.config.https.port, () => { console.log(`[${settings.config.callback}]: HTTPS-Website running on ${settings.config.https.port} port.`)});
+      https.listen(settings.config.https.port, () => { console.log(`[${settings.website.domain}]: HTTPS-Website running on ${settings.config.https.port} port.`)});
     }
     //START THE WEBSITE ON THE DEFAULT PORT (80)
     const http = require(`http`).createServer(app);
     http.listen(settings.config.http.port, () => {
-        console.log(`[${settings.config.callback}]: HTTP-Website running on ${settings.config.http.port} port.`)
+        console.log(`[${settings.website.domain}]: HTTP-Website running on ${settings.config.http.port} port.`)
     });
 }
