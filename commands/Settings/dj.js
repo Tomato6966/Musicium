@@ -40,8 +40,8 @@ module.exports = {
           embeds: [new MessageEmbed()
             .setColor(ee.wrongcolor)
             .setFooter(ee.footertext, ee.footericon)
-            .setTitle(`${client.allEmojis.x} **Please add a Method+Role!**`)
-            .setDescription(`**Usage:**\n> \`${client.settings.get(message.guild.id, "prefix")}botchat <add/remove> <@Role>\``)
+            .setTitle(`${client.allEmojis.x} **Please add a __Method+Role__!**`)
+            .setDescription(`**Usage:**\n> \`${client.settings.get(message.guild.id, "prefix")}dj <add/remove> <@Role>\``)
           ],
         });
       }
@@ -51,19 +51,19 @@ module.exports = {
           embeds: [new MessageEmbed()
             .setColor(ee.wrongcolor)
             .setFooter(ee.footertext, ee.footericon)
-            .setTitle(`${client.allEmojis.x} **Please add a Method+Role!**`)
-            .setDescription(`**Usage:**\n> \`${client.settings.get(message.guild.id, "prefix")}botchat <add/remove> <@Role>\``)
+            .setTitle(`${client.allEmojis.x} **Please add a __valid Method__+Role!**`)
+            .setDescription(`**Usage:**\n> \`${client.settings.get(message.guild.id, "prefix")}dj <add/remove> <@Role>\``)
           ],
         });
       }
-      let Role = message.mentions.channels.first();
+      let Role = message.mentions.roles.first();
       if (!Role) {
         return message.reply({
           embeds: [new MessageEmbed()
             .setColor(ee.wrongcolor)
             .setFooter(ee.footertext, ee.footericon)
-            .setTitle(`${client.allEmojis.x} **Please add a Method+Role!**`)
-            .setDescription(`**Usage:**\n> \`${client.settings.get(message.guild.id, "prefix")}botchat <add/remove> <@Role>\``)
+            .setTitle(`${client.allEmojis.x} **Please add a Method+__Role__!**`)
+            .setDescription(`**Usage:**\n> \`${client.settings.get(message.guild.id, "prefix")}dj <add/remove> <@Role>\``)
           ],
         });
       }
