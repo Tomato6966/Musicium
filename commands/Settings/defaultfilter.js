@@ -8,9 +8,9 @@ const filters = require("../../botconfig/filters.json")
 module.exports = {
   name: "defaultfilter", //the command name for execution & for helpcmd [OPTIONAL]
   aliases: ["dfilter"],
+  category: "Settings",
   usage: "defaultfilter <Filter1 Filter2>",
   cooldown: 10, //the command cooldown for execution & for helpcmd [OPTIONAL]
-  usage: "defaultfilter", //the command usage for helpcmd [OPTIONAL]
   description: "Defines the Default Filter(s)", //the command description for helpcmd [OPTIONAL]
   memberpermissions: ["MANAGE_GUILD "], //Only allow members with specific Permissions to execute a Commmand [OPTIONAL]
   requiredroles: [], //Only allow specific Users with a Role to execute a Command [OPTIONAL]
@@ -21,16 +21,6 @@ module.exports = {
       //things u can directly access in an interaction!
       const {
         member,
-        channelId,
-        guildId,
-        applicationId,
-        commandName,
-        deferred,
-        replied,
-        ephemeral,
-        options,
-        id,
-        createdTimestamp
       } = message;
       const {
         guild
@@ -52,15 +42,15 @@ module.exports = {
           ],
         })
       }
-
       client.settings.set(guild.id, args, "defaultfilters");
+      let newfilters = args.length > 0 ?args.map(a=>`\`${a}\``).join(", ") : `\`NOTHING\`\n> **Command Usage:** \`${client.settings.get(guild.id, "prefix")}defaultfilter <filter1 filter2 etc.>\``; 
       return message.reply({
         embeds: [
           new MessageEmbed()
           .setColor(ee.color)
           .setFooter(ee.footertext, ee.footericon)
-          .setTitle(`${client.allEmojis.check_mark} **The new Default-Filter${args.length > 0 ? "s are": " is"}:**`)
-          .setDescription(`${args.map(a=>`\`${a}\``).join(", ")}`)
+          .setTitle(`${client.allEmojis.check_mark} **The new Default-Filter${args.length > 1 ? "s are": " is"}:**`)
+          .setDescription(`${newfilters}`)
         ],
       })
     } catch (e) {
