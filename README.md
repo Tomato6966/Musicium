@@ -69,34 +69,6 @@
 [![Musicium Music Bot](https://cdn.discordapp.com/attachments/742446682381221938/770055673965707264/test1.png)](https://dc.musicium.eu)
 [![Milrato Multi Bot](https://cdn.discordapp.com/attachments/742446682381221938/770056826724679680/test1.png)](https://dc.milrato.eu)
 
-***
-
-## Sponsors
-
-### [Bero-Host | Quality Hosting](https://bero.milrato.dev)
-
-> ***BERO-HOST.de** is sponsoring us with some free / cheaper Hosting Methods, Thanks to them, we are able to host our Website, Bots and GAME SERVERS.*
- 
- - High Quality Root Servers with incredible Speed and Internet!
- 
- - Minecraft Hosting, CS:GO, Garry's Mod, ARK, ARMA 3, ...
- 
- - Cheap and fast Domains/Webspaces/WEBHOSTING
- 
- - Linux & Windows Root Servers. | TEAMSPEAK SERVERS
- 
-[![Bero-Host-Logo](https://cdn.bero-host.de/img/logo/bero_white.png)](https://bero.milrato.dev)
-
-### [NEXTNODE | Cheap Hosting Solutions](https://bittmax.de/)
-
-> ***NEXTNODE.de** is sponsoring us with some free / cheaper Hosting Methods, Thanks to them, we are able to host some of our Bots.*
- 
- - Game Hosting, MC, CS:GO, Garry's Mod, ARK, ARMA 3, ...
- 
- - Cheap and fast VPS & Rootservers (KVM)
- 
-[![NEXTNODE](https://cp.bittmax.de/assets/img/logo.png)](https://bittmax.de/)
-
 # Credits
 
 > If consider using this Bot, make sure to credit me!
