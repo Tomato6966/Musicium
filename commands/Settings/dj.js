@@ -21,16 +21,6 @@ module.exports = {
       //things u can directly access in an interaction!
       const {
         member,
-        channelId,
-        guildId,
-        applicationId,
-        commandName,
-        deferred,
-        replied,
-        ephemeral,
-        options,
-        id,
-        createdTimestamp
       } = message;
       const {
         guild
