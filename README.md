@@ -21,7 +21,7 @@
 
 - have **ffmpeg and at least 300mb Ram**
 
-- in `./botconfig/config.json` Adjust the BOT TOKEN and PREFIX
+- in `./botconfig/config.json` Adjust the BOT TOKEN and PREFIX **NOTE:** You __don't__ need the `ksoftapi`! It's disabled!
 
 - in `./botconfig/settings.json` Adjust the DEFAULT MESSAGES AND OTHER SETTINGS
 
