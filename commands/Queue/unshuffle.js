@@ -5,14 +5,20 @@ const {
 const config = require("../../botconfig/config.json");
 const ee = require("../../botconfig/embed.json");
 const settings = require("../../botconfig/settings.json");
+const {
+	check_if_dj
+} = require("../../handlers/functions")
 module.exports = {
-	name: "addrelated", //the command name for the Slash Command
-	category: "Music",
-	usage: "addrelated",
-	description: "Add a similar/related song to the current Song!", //the command description for Slash Command Overview
-	cooldown: 2,
+	name: "unshuffle", //the command name for the Slash Command
+
+	category: "Queue",
+	aliases: ["mix"],
+	usage: "unshuffle",
+
+	description: "Un-Shuffles (Mixes) The Queue", //the command description for Slash Command Overview
+	cooldown: 10,
 	requiredroles: [], //Only allow specific Users with a Role to execute a Command [OPTIONAL]
-	alloweduserids: [], //Only allow specific Users to execute a Command [OPTIONAL
+	alloweduserids: [], //Only allow specific Users to execute a Command [OPTIONAL]
 	run: async (client, message, args) => {
 		try {
 			//things u can directly access in an interaction!
@@ -41,20 +47,13 @@ module.exports = {
 				],
 
 			})
-			if (channel.userLimit != 0 && channel.full)
-				return message.reply({
-					embeds: [new MessageEmbed()
-						.setColor(ee.wrongcolor)
-						.setFooter(ee.footertext, ee.footericon)
-						.setTitle(`${client.allEmojis.x} Your Voice Channel is full, I can't join!`)
-					],
-				});
 			if (channel.guild.me.voice.channel && channel.guild.me.voice.channel.id != channel.id) {
 				return message.reply({
 					embeds: [new MessageEmbed()
 						.setColor(ee.wrongcolor)
 						.setFooter(ee.footertext, ee.footericon)
-						.setTitle(`${client.allEmojis.x} I am already connected somewhere else`)
+						.setTitle(`${client.allEmojis.x} Join __my__ Voice Channel!`)
+						.setDescription(`<#${guild.me.voice.channel.id}>`)
 					],
 				});
 			}
@@ -65,17 +64,31 @@ module.exports = {
 						new MessageEmbed().setColor(ee.wrongcolor).setTitle(`${client.allEmojis.x} **I am nothing Playing right now!**`)
 					],
 				})
-				//update it without a response!
-				let thenewmsg = await message.reply({
-					content: `🔍 Searching Related Song for... **${newQueue.songs[0].name}**`,
-				}).catch(e => {
-					console.log(e)
-				})
-				await newQueue.addRelatedSong();
-				await thenewmsg.edit({
-					content: `👍 Added: **${newQueue.songs[newQueue.songs.length - 1].name}**`,
-				}).catch(e => {
-					console.log(e)
+				if (check_if_dj(client, member, newQueue.songs[0])) {
+					return message.reply({
+						embeds: [new MessageEmbed()
+							.setColor(ee.wrongcolor)
+							.setFooter(ee.footertext, ee.footericon)
+							.setTitle(`${client.allEmojis.x} **You are not a DJ and not the Song Requester!**`)
+							.setDescription(`**DJ-ROLES:**\n> ${check_if_dj(client, member, newQueue.songs[0])}`)
+						],
+					});
+				}
+				if(!client.maps.has(`beforeshuffle-${newQueue.id}`)) {
+					return message.reply({
+						embeds: [
+							new MessageEmbed().setColor(ee.wrongcolor).setTitle(`${client.allEmojis.x} **There was no shuffle before!**`)
+						],
+					})
+				}
+				newQueue.songs = [newQueue.songs[0], ...client.maps.get(`beforeshuffle-${newQueue.id}`)]
+				client.maps.delete(`beforeshuffle-${newQueue.id}`);
+				message.reply({
+					embeds: [new MessageEmbed()
+					  .setColor(ee.color)
+					  .setTimestamp()
+					  .setTitle(`🔀 **__UN__ - Suffled ${newQueue.songs.length} Songs!**`)
+					  .setFooter(`💢 Action by: ${member.user.tag}`, member.user.displayAvatarURL({dynamic: true}))]
 				})
 			} catch (e) {
 				console.log(e.stack ? e.stack : e)
@@ -102,3 +115,4 @@ module.exports = {
  * Please mention Him / Milrato Development, when using this Code!
  * @INFO
  */
+

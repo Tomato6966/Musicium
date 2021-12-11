@@ -10,7 +10,7 @@ const voice = require("@discordjs/voice");
 const DisTube = require("distube").default;
 const https = require('https-proxy-agent');
 const client = new Discord.Client({
-    //fetchAllMembers: false,
+    fetchAllMembers: false,
     //restTimeOffset: 0,
     //restWsBridgetimeout: 100,
     shards: "auto",
@@ -19,6 +19,7 @@ const client = new Discord.Client({
       parse: [ ],
       repliedUser: false,
     },
+    failIfNotExists: false,
     partials: ['MESSAGE', 'CHANNEL', 'REACTION'],
     intents: [ 
         Discord.Intents.FLAGS.GUILDS,
@@ -47,8 +48,8 @@ const client = new Discord.Client({
 });
 //BOT CODED BY: Tomato#6966
 //DO NOT SHARE WITHOUT CREDITS!
-//const proxy = 'http://123.123.123.123:8080';
-//const agent = https(proxy);
+const proxy = 'http://123.123.123.123:8080';
+const agent = https(proxy);
 const { SpotifyPlugin } = require("@distube/spotify");
 const { SoundCloudPlugin } = require("@distube/soundcloud");
 let spotifyoptions = {
@@ -71,17 +72,17 @@ client.distube = new DisTube(client, {
   //emitAddListWhenCreatingQueue: false,
   searchSongs: 0,
   youtubeCookie: config.youtubeCookie,     //Comment this line if you dont want to use a youtube Cookie 
-  nsfw: true, //Set it to false if u want to disable nsfw songs
+  nsfw: false, //Set it to false if u want to disable nsfw songs
   emptyCooldown: 25,
   ytdlOptions: {
-    //requestOptions: {
-    //  agent //ONLY USE ONE IF YOU KNOW WHAT YOU DO!
-    //},
+    requestOptions: {
+      agent
+    },
     highWaterMark: 1024 * 1024 * 64,
     quality: "highestaudio",
     format: "audioonly",
     liveBuffer: 60000,
-    dlChunkSize: 1024 * 1024 * 64,
+    dlChunkSize: 1024 * 1024 * 4,
   },
   youtubeDL: true,
   updateYouTubeDL: true,
@@ -98,12 +99,13 @@ client.slashCommands = new Discord.Collection();
 client.aliases = new Discord.Collection();
 client.categories = require("fs").readdirSync(`./commands`);
 client.allEmojis = require("./botconfig/emojis.json");
+client.maps = new Map();
 
 client.setMaxListeners(100); require('events').defaultMaxListeners = 100;
 
 client.settings = new Enmap({ name: "settings",dataDir: "./databases/settings"});
 client.infos = new Enmap({ name: "infos", dataDir: "./databases/infos"});
-
+client.autoresume = new Enmap({ name: "autoresume", dataDir: "./databases/infos"});
 
 //Require the Handlers                  Add the antiCrash file too, if its enabled
 ["events", "commands", "slashCommands", settings.antiCrash ? "antiCrash" : null, "distubeEvent"]

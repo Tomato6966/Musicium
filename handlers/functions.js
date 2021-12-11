@@ -30,7 +30,6 @@ const {
 
 module.exports.formatDate = formatDate;
 module.exports.customplaylistembed = customplaylistembed;
-module.exports.lyricsEmbed = lyricsEmbed;
 module.exports.check_if_dj = check_if_dj;
 
 function check_if_dj(client, member, song) {
@@ -80,27 +79,6 @@ function customplaylistembed(lyrics, song) {
     }
 }
 
-function lyricsEmbed(lyrics, song) {
-    try {
-        let embeds = [];
-        let k = 1000;
-        for (let i = 0; i < lyrics.length; i += 1000) {
-            const current = lyrics.slice(i, k);
-            k += 1000;
-            const embed = new Discord.MessageEmbed()
-                .setTitle("Lyrics - " + song.name)
-                .setURL(song.url)
-                .setThumbnail(song.thumbnail)
-                .setFooter(`Song Requested by: ${song.user.tag}`, song.user.displayAvatarURL({dynamic: true}))
-                .setColor(ee.color)
-                .setDescription(current)
-            embeds.push(embed);
-        }
-        return embeds;
-    } catch (error) {
-        console.log(error)
-    }
-}
   module.exports.replacemsg = replacedefaultmessages
   /**
    * 
@@ -134,7 +112,6 @@ function lyricsEmbed(lyrics, song) {
         .replace(/%{errormessage}%/gi, options && options.error && options.error.message ? options.error.message : options && options.error ? options.error : "%{errormessage}%")
         .replace(/%{errorstack}%/gi, options && options.error && options.error.stack ? options.error.stack : options && options.error && options.error.message ? options.error.message : options && options.error ? options.error : "%{errorstack}%")
         .replace(/%{error}%/gi, options && options.error ? options.error : "%{error}%")
-  
   }
   
   /**
@@ -516,13 +493,13 @@ function onCoolDown(message, command) {
   function createBar(total, current, size = 25, line = "▬", slider = "🔷") {
     try {
       if (!total) throw "MISSING MAX TIME";
-      if (!current) return `**[${mover}${line.repeat(size - 1)}]**`;
+      if (!current) return `**[${slider}${line.repeat(size - 1)}]**`;
       let bar = current > total 
           ? [line.repeat(size / 2 * 2), (current / total) * 100] 
           : [line.repeat(Math.round(size / 2 * (current / total))).replace(/.$/, slider) 
             + line.repeat(size - Math.round(size * (current / total)) + 1), current / total];
-      if (!String(bar).includes(mover)) {
-        return `**[${mover}${line.repeat(size - 1)}]**`;
+      if (!String(bar).includes(slider)) {
+        return `**[${slider}${line.repeat(size - 1)}]**`;
       } else{
         return `**[${bar[0]}]**`;
       }

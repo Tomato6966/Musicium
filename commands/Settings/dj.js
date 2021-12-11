@@ -57,9 +57,6 @@ module.exports = {
           ],
         });
       }
-      client.settings.ensure(guild.id, {
-        djroles: []
-      });
       if (add_remove == "add") {
         if (client.settings.get(guild.id, "djroles").includes(Role.id)) {
           return message.reply({

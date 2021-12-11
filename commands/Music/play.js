@@ -44,14 +44,13 @@ module.exports = {
 				embeds: [
 					new MessageEmbed().setColor(ee.wrongcolor).setTitle(`${client.allEmojis.x} **Please join ${guild.me.voice.channel ? "__my__" : "a"} VoiceChannel First!**`)
 				],
-
 			})
 			if (channel.userLimit != 0 && channel.full)
 				return message.reply({
 					embeds: [new MessageEmbed()
 						.setColor(ee.wrongcolor)
 						.setFooter(ee.footertext, ee.footericon)
-						.setTitle(`<:declined:780403017160982538> Your Voice Channel is full, I can't join!`)
+						.setTitle(`${client.allEmojis.x} Your Voice Channel is full, I can't join!`)
 					],
 				});
 			if (channel.guild.me.voice.channel && channel.guild.me.voice.channel.id != channel.id) {
@@ -59,7 +58,7 @@ module.exports = {
 					embeds: [new MessageEmbed()
 						.setColor(ee.wrongcolor)
 						.setFooter(ee.footertext, ee.footericon)
-						.setTitle(`<:declined:780403017160982538> I am already connected somewhere else`)
+						.setTitle(`${client.allEmojis.x} I am already connected somewhere else`)
 					],
 				});
 			}

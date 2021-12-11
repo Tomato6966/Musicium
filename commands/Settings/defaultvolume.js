@@ -19,16 +19,6 @@ module.exports = {
       //things u can directly access in an interaction!
       const {
         member,
-        channelId,
-        guildId,
-        applicationId,
-        commandName,
-        deferred,
-        replied,
-        ephemeral,
-        options,
-        id,
-        createdTimestamp
       } = message;
       const {
         guild
@@ -45,10 +35,6 @@ module.exports = {
         })
       }
       let volume = Number(args[0]);
-      client.settings.ensure(guild.id, {
-        defaultvolume: 50
-      });
-
       if (!volume || (volume > 150 || volume < 1)) {
         return message.reply({
           embeds: [

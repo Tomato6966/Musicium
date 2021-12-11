@@ -25,11 +25,6 @@ module.exports = {
       const {
         guild
       } = member;
-      client.settings.ensure(guild.id, {
-        defaultvolume: 50,
-        defaultautoplay: false,
-        defaultfilters: [`bassboost6`, `clear`]
-      });
       if (args.some(a => !filters[a])) {
         return message.reply({
           embeds: [

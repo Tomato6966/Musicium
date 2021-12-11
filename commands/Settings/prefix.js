@@ -20,16 +20,6 @@ module.exports = {
       //things u can directly access in an interaction!
       const {
         member,
-        channelId,
-        guildId,
-        applicationId,
-        commandName,
-        deferred,
-        replied,
-        ephemeral,
-        options,
-        id,
-        createdTimestamp
       } = message;
       const {
         guild
@@ -46,9 +36,6 @@ module.exports = {
         })
       }
       let newPrefix = args[0];
-      client.settings.ensure(guild.id, {
-        prefix: config.prefix
-      });
 
       client.settings.set(guild.id, newPrefix, "prefix");
       return message.reply({

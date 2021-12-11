@@ -75,6 +75,7 @@ module.exports = {
 						],
 					});
 				}
+				client.maps.set(`beforeshuffle-${newQueue.id}`, newQueue.songs.map(track => track).slice(1));
 				await newQueue.shuffle();
 				message.reply({
 					embeds: [new MessageEmbed()

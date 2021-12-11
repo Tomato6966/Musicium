@@ -45,7 +45,6 @@ module.exports = {
 				embeds: [
 					new MessageEmbed().setColor(ee.wrongcolor).setTitle(`${client.allEmojis.x} **Please join ${guild.me.voice.channel ? "__my__" : "a"} VoiceChannel First!**`)
 				],
-
 			})
 			if (channel.guild.me.voice.channel && channel.guild.me.voice.channel.id != channel.id) {
 				return message.reply({
