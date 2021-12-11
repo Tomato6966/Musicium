@@ -1,8 +1,8 @@
 # Musicium
 
 
-***
 
+***
 
 ### [**DISCORD SUPPORT SERVER INVITE**](https://discord.gg/milrato)
 
@@ -53,12 +53,7 @@
 
 - `node .` to start the Bot
 
-<br/>
-<br/>
-
 ***
-
-<br/>
 
 ## Slash Commands Information
 
@@ -70,8 +65,6 @@
 
 > If u want to create "normal" Slash commands create the files just in `./slashCommands`
 
-<br/>
-  
 ***
 
 ## [Discord Server 😎](https://discord.gg/milrato) | [Website](https://milrato.dev)
