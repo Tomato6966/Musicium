@@ -1,7 +1,7 @@
 # Musicium
 
 *An advanced Discord Music Bot with a Dashboard, using distube.js.org having an interactive button & menu system and many features!*
-**Supported Features:** *Spotify • YouTube • SoundCloud • Live Stream • Audio Filtering • DJ Roles • Autoplay • Autoresume • Dashboard + Live Queue • ...*
+**Supported Features:** *Spotify • YouTube • SoundCloud • Live Stream • Audio Filtering • DJ Roles • Autoplay • Autoresume • Dashboard • ...*
 
 ***
 
