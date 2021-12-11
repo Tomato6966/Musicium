@@ -21,5 +21,42 @@
     "passport-discord": "^0.1.4",
     "session": "^0.1.0",
     "url": "^0.11.0"
-  }
+  },
+  "name": "musicium_r8_dashboard",
+  "description": "An advanced Discord Music Bot with a Dashboard, using distube.js.org having an interactive button & menu system and many features! Supported Features: Spotify • YouTube • SoundCloud • Live Stream • Audio Filtering • DJ Roles • Autoplay • Autoresume • Dashboard + Live Queue • ...",
+  "version": "8.1.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "node index.js",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tomato6966/Musicium.git"
+  },
+  "keywords": [
+    "discord",
+    "music",
+    "bot",
+    "spotify",
+    "youtube",
+    "soundcloud",
+    "discordjs",
+    "discordbot",
+    "distube",
+    "bassboost",
+    "noapi",
+    "filters",
+    "nightcore",
+    "yt",
+    "radio",
+    "radiostations"
+  ],
+  "author": "Tomato#6966",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Tomato6966/Musicium/issues"
+  },
+  "homepage": "https://github.com/Tomato6966/Musicium#readme"
 }
