@@ -2,17 +2,16 @@ const {
 	MessageEmbed,
 	Message
 } = require("discord.js");
-const config = require(`../../botconfig/config.json`);
+const config = require("../../botconfig/config.json");
 const ee = require("../../botconfig/embed.json");
 const settings = require("../../botconfig/settings.json");
 const {
-	lyricsEmbed,
 	check_if_dj
-} = require("../../handlers/functions");
+} = require("../../handlers/functions")
 module.exports = {
-	name: "lyrics", //the command name for the Slash Command
-	description: "Shows the Lyrics of the current Song", //the command description for Slash Command Overview
-	cooldown: 25,
+	name: "unshuffle", //the command name for the Slash Command
+	description: "UN-Shuffles (Mixes) The Queue", //the command description for Slash Command Overview
+	cooldown: 10,
 	requiredroles: [], //Only allow specific Users with a Role to execute a Command [OPTIONAL]
 	alloweduserids: [], //Only allow specific Users to execute a Command [OPTIONAL]
 	run: async (client, interaction) => {
@@ -62,14 +61,25 @@ module.exports = {
 					],
 					ephemeral: true
 				})
-				
-				return interaction.reply({
+				if (check_if_dj(client, member, newQueue.songs[0])) {
+					return interaction.reply({
+						embeds: [new MessageEmbed()
+							.setColor(ee.wrongcolor)
+							.setFooter(ee.footertext, ee.footericon)
+							.setTitle(`${client.allEmojis.x} **You are not a DJ and not the Song Requester!**`)
+							.setDescription(`**DJ-ROLES:**\n> ${check_if_dj(client, member, newQueue.songs[0])}`)
+						],
+						ephemeral: true
+					});
+				}
+				newQueue.songs = [newQueue.songs[0], ...client.maps.get(`beforeshuffle-${newQueue.id}`)]
+				client.maps.delete(`beforeshuffle-${newQueue.id}`);
+				interaction.reply({
 					embeds: [new MessageEmbed()
-						.setColor(ee.wrongcolor)
-						.setFooter(ee.footertext, ee.footericon)
-						.setTitle(`${client.allEmojis.x} Lyrics are disabled!`)
-						.setDescription(`**Due to legal Reasons, Lyrics are disabled and won't work for an unknown amount of time!** :cry:`)
-					],
+					  .setColor(ee.color)
+					  .setTimestamp()
+					  .setTitle(`🔀 **__UN__ - Suffled ${newQueue.songs.length} Songs!**`)
+					  .setFooter(`💢 Action by: ${member.user.tag}`, member.user.displayAvatarURL({dynamic: true}))]
 				})
 			} catch (e) {
 				console.log(e.stack ? e.stack : e)
