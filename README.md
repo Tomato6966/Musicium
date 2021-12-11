@@ -49,7 +49,7 @@
 
 - in `./dashboard/settings.json` Adjust the parameters!
 
-- `npm install` to Install the depedences ||If you get **PYTHON ERRORS** Try this: `npm install --python=python2.7`||
+- `npm install` to Install the depedences If you get **PYTHON ERRORS** Try this: `npm install --python=python2.7`
 
 - `node .` to start the Bot
 
