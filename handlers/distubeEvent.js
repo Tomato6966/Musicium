@@ -1007,7 +1007,7 @@ module.exports = (client) => {
            */
           var autoresumeinterval = setInterval(async () => {
             var newQueue = client.distube.getQueue(queue.id);
-            if (client.settings.get(newQueue.id, `autoresume`)) {
+            if (newQueue && newQueue.id && client.settings.get(newQueue.id, `autoresume`)) {
               const makeTrackData = track => {
                 return {
                   memberId: track.member.id, 
