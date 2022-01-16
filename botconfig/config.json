@@ -1,12 +1,12 @@
 {
-  "token": "Discord-Bot-Token-goes-here!",
-  "prefix": "k!",
+  "token": "ODg3MDA1MjQ2NTQ5ODAzMDg5.YT92Ag.IwhM0WAOYH8HatwQK70QLuokGOg",
+  "prefix": ">",
   "ksoftapi": "NEEDED_FOR_LYRICS",
-  "youtubeCookie": "",
+  "youtubeCookie": "CONSENT=YES+yt.421341741.sk+FX+635; PREF=tz=Europe.Prague&f6=40000000; VISITOR_INFO1_LIVE=j6lNlV1FhU8; SID=GAjNasrYm1QreAou-IcNlVO9cHVI0owYNOmYKlh8GbF9X600zJSuZsBjGfriFLhiG2dz6g.; __Secure-1PSID=GAjNasrYm1QreAou-IcNlVO9cHVI0owYNOmYKlh8GbF9X600roS7gWMKWAONUjBOpXh8GQ.; __Secure-3PSID=GAjNasrYm1QreAou-IcNlVO9cHVI0owYNOmYKlh8GbF9X600F3XV78mJt74U34bJpI8G-A.; HSID=A3ScObvy5vgAHh32N; SSID=AhczdSSISW4hXDh3V; APISID=wDasMfWzeyNVqcDr/A9ZmVky7Jp98GM8ks; SAPISID=aYclgBr9tT-qLhSZ/ALReQvxqq-HnBVqHe; __Secure-1PAPISID=aYc…TkwSFV4UzNqUlNPUjFLRll1WG9vODFvRzI0SUpnVEM4d0dGbG1oRV96UFJrZ0lEaEFacFVYUm1uSWExTGJxYzctbXJ3WlVFbmVJNlBTUE1MbmpTSFhtYWNKTlc2NWpyN2FjUkY0UERPMHFqTTFKQk1R; SIDCC=AJi4QfE4F8d-xRQqvoWWjA_Rp-dPhmybGEZjtneyLqsWFZGbd0qKz6KNQ7gSfydXyMRIbKCMvEE; __Secure-3PSIDCC=AJi4QfFYk7jJHBfd9RcoFxnc0dIsjwJpn9jT6bXVjRPAsn96VzHKqE8O3Q1L7e5mPeOWPZ2NCPc; YSC=-RHewgQj0aA; CONSISTENCY=AGDxDeM2SjnTeBSr_cmoD2aIbd2NGtG0VPstd4KcYA_SoKoBiNrMDDrMWfwGO-wGEHWYX0zxCnf54Ta2WJ0ywIFJjAy81VKGmVMQeFASlFu5d1Jg_4ilWhnSQKS3oPT8q1MdjBlj14PrjEuLqN24YplE",
   "spotify_api": {
-        "enabled": false, "_COMMENT_": "Set it to false, if you want to scrape, when on true you can get spotify playlists with 100+ Tracks",
-        "clientSecret": "",
-        "clientId": ""
+        "enabled": true, "_COMMENT_": "Set it to false, if you want to scrape, when on true you can get spotify playlists with 100+ Tracks",
+        "clientSecret": "6d79ea8127cd4a5aa5cd9db2f569f6af",
+        "clientId": "b6448d167fea40839a290933f39d6544"
   },
   "loadSlashsGlobal": true, "_COMMENT_": "Set it to true, when your Slash Commands are ready, false loads instant true loads slow but stable! (GLOBAL/GUILD COMMANDS, DISCORD DOCS!)"
 }
