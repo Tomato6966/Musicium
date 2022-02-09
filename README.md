@@ -5,7 +5,7 @@
 
 ***
 
-### [**DISCORD SUPPORT SERVER INVITE**](https://discord.gg/milrato)
+### [**DISCORD SUPPORT SERVER INVITE**](https://discord.gg/dcdev)
 
 > 🦾 [Replit Hosting Tutorial](https://www.youtube.com/watch?v=Mv4QbxSv59M)
 
