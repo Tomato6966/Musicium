@@ -323,9 +323,19 @@ module.exports = client => {
     /**
      * @START THE WEBSITE
      */
-    //START THE WEBSITE ON THE DEFAULT PORT (80)
+    if (settings.config.https.enabled) {
+    const key = fs.readFileSync(settings.config.https.paths.privkey, 'utf-8')
+    const cert = fs.readFileSync(settings.config.https.paths.fullchain, 'utf-8')
+    const ca = fs.readFileSync(settings.config.https.paths.chain, 'utf-8')
+    var httpsOptions = { key: key, cert: cert, ca: ca }
+    const https = require(`https`).createServer(httpsOptions, app);
+    https.listen(settings.config.https.port, () => {
+      console.log(`[${settings.website.domain}]: HTTPs-Website running on ${settings.config.https.port} port.`)
+    });
+  } else {
     const http = require(`http`).createServer(app);
     http.listen(settings.config.http.port, () => {
-        console.log(`[${settings.website.domain}]: HTTP-Website running on ${settings.config.http.port} port.`)
-    });
+      console.log(`[${settings.website.domain}] HTTP-Website running on ${settings.config.http.port} port.`)
+    })
+  }
 }
