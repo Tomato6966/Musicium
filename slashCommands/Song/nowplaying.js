@@ -9,7 +9,7 @@ const {
 	check_if_dj
 } = require("../../handlers/functions")
 module.exports = {
-	name: "grab", //the command name for the Slash Command
+	name: "nowplaying", //the command name for the Slash Command
 	description: "Shows the current Playing Song", //the command description for Slash Command Overview
 	cooldown: 2,
 	requiredroles: [], //Only allow specific Users with a Role to execute a Command [OPTIONAL]
