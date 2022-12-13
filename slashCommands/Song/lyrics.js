@@ -2,7 +2,14 @@ const {
 	MessageEmbed,
 	Message
 } = require("discord.js");
+const {
+    KSoftClient
+} = require('@ksoft/api');
+const { TrackUtils } = require("erela.js");
+const lyricsFinder = require("lyrics-finder");
+const _ = require("lodash");
 const config = require(`../../botconfig/config.json`);
+const ksoft = new KSoftClient(config.ksoftapi);
 const ee = require("../../botconfig/embed.json");
 const settings = require("../../botconfig/settings.json");
 const {
@@ -12,10 +19,10 @@ const {
 module.exports = {
 	name: "lyrics", //the command name for the Slash Command
 	description: "Shows the Lyrics of the current Song", //the command description for Slash Command Overview
-	cooldown: 25,
+	cooldown: 5,
 	requiredroles: [], //Only allow specific Users with a Role to execute a Command [OPTIONAL]
 	alloweduserids: [], //Only allow specific Users to execute a Command [OPTIONAL]
-	run: async (client, interaction) => {
+	run: async (client, interaction,message) => {
 		try {
 			//things u can directly access in an interaction!
 			const {
@@ -54,6 +61,7 @@ module.exports = {
 					ephemeral: true
 				});
 			}
+			
 			try {
 				let newQueue = client.distube.getQueue(guildId);
 				if (!newQueue || !newQueue.songs || newQueue.songs.length == 0) return interaction.reply({
@@ -63,17 +71,39 @@ module.exports = {
 					ephemeral: true
 				})
 				
-				return interaction.reply({
-					embeds: [new MessageEmbed()
-						.setColor(ee.wrongcolor)
-						.setFooter(ee.footertext, ee.footericon)
-						.setTitle(`${client.allEmojis.x} Lyrics are disabled!`)
-						.setDescription(`**Due to legal Reasons, Lyrics are disabled and won't work for an unknown amount of time!** :cry:`)
-					],
-				})
-			} catch (e) {
+			
+				
+        let SongTitle = newQueue.songs[0].name;
+         SongTitle = SongTitle.replace(
+      /lyrics|lyric|lyrical|official music video|\(official music video\)|audio|official|official video|official video hd|official hd video|offical video music|\(offical video music\)|extended|hd|(\[.+\])/gi,
+      ""
+    );
+
+    let lyrics = await lyricsFinder(SongTitle);
+    if (!lyrics)
+         return interaction.reply(`**No lyrics found for -** \`${SongTitle}\``)
+
+    lyrics = lyrics.split("\n"); //spliting into lines
+    let SplitedLyrics = _.chunk(lyrics, 40); //45 lines each page
+
+    let Pages = SplitedLyrics.map((ly) => {
+      let em = new MessageEmbed()
+        .setAuthor(`Lyrics for: ${SongTitle}`)
+        .setColor(ee.wrongcolor)
+        .setDescription(ly.join("\n"));
+
+      // if (args.join(" ") !== SongTitle)
+      //   em.setThumbnail(player.queue.current.displayThumbnail());
+// console.log(Pages);	
+      return interaction.channel.send({embeds: [em]})
+    });
+	if (!Pages.length || Pages.length === 1)
+      return interaction.channel.send(Pages[0]);
+        else  return interaction.reply("hey");
+    }     
+    	catch (e) {
 				console.log(e.stack ? e.stack : e)
-				interaction.editReply({
+				interaction.channel.send({
 					content: `${client.allEmojis.x} | Error: `,
 					embeds: [
 						new MessageEmbed().setColor(ee.wrongcolor)
@@ -87,6 +117,10 @@ module.exports = {
 		}
 	}
 }
+
+    
+		
+
 /**
  * @INFO
  * Bot Coded by Tomato#6966 | https://github.com/Tomato6966/Discord-Js-Handler-Template
