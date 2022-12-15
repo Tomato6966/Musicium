@@ -71,7 +71,16 @@ module.exports = {
 					],
 
 				})
-        let SongTitle = newQueue.songs[0].name
+    let SongTitle = args.join(" ");
+    
+    if(SongTitle == "")
+    {
+      
+       SongTitle = newQueue.songs[0].name
+    }
+   
+				
+       
 				 SongTitle = SongTitle.replace(
       /(Lyrics)|lyrics|lyric|()|lyrical|official music video|\(official music video\)|audio|official|official video|official video hd|official hd video|offical video music|\(offical video music\)|extended|hd|(\[.+\])/gi,
       ""
@@ -81,7 +90,7 @@ module.exports = {
     if (!lyrics)
       
         return message.reply(
-        `**No lyrics found for -** \`${SongTitle}\``
+        `**No lyrics found for -** \`${SongTitle}\` Want to try again use -lyrics songname without anything extra`
       );
     lyrics = lyrics.split("\n"); //spliting into lines
     let SplitedLyrics = _.chunk(lyrics, 40); //45 lines each page
